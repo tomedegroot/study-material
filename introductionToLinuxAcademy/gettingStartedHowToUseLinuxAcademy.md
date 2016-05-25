@@ -25,3 +25,6 @@ Tool to plan for getting a certification
 
 Complete environment for a specific course/exercise
 
+#Connecting to the server via SSH
+
+`passwd` change password
