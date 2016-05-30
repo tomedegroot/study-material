@@ -2,8 +2,8 @@
 [Course](https://linuxacademy.com/cp/modules/view/id/38)
 
 *Why LPI (=Linux Professional Institution)?*
-*Vendor Neutral
-*Excellent introduction to Linux
+* Vendor Neutral
+* Excellent introduction to Linux
 
 What is needed to pass?
 1. Working knowledge of computer hardware
