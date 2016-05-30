@@ -5,7 +5,7 @@
 * Vendor Neutral
 * Excellent introduction to Linux
 
-What is needed to pass?
+*What is needed to pass?*
 1.Working knowledge of computer hardware
 2.Understand the concepts of processes, programs and components of an OS
 3.Understanding of open source applications within the workplace and their relation with closed source equivalents
