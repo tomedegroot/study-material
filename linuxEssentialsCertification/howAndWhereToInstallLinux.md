@@ -11,4 +11,5 @@ Do this for root as wel, become root: `sudo -`
 * `cat ~/VNCHOWTO`
 * Reboot: `su -` `reboot`
 
-
+##Install Linux on VirtualBox##
+*Best practice: do a `yum upgrade` after installation
