@@ -12,4 +12,11 @@ Do this for root as wel, become root: `sudo -`
 * Reboot: `su -` `reboot`
 
 ##Install Linux on VirtualBox##
-*Best practice: do a `yum upgrade` after installation
+* Best practice: do a `yum upgrade` after installation
+
+###Guest Utility Packages###
+Up the performance of a virtual machine. Example: mouse behaviour is more intuitive. To install: 
+
+* `yum install kernel-dev`
+* `yum install gcc*`
+* In the VirtualBox Menu Devices->Insert Guest Additions Images
