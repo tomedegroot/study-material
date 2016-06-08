@@ -1,10 +1,10 @@
 #Major Open Source Applications#
 
 ##Major GUIS##
-*KDE (Suse)
-*LXDE (Leightweight version of KDE)
-*UNITY (Developed by Canonical for Ubuntu)
-*XFCE (Consume as few resources as possible)
+* KDE (Suse)
+* LXDE (Leightweight version of KDE)
+* UNITY (Developed by Canonical for Ubuntu)
+* XFCE (Consume as few resources as possible)
 
 ###Yum Package Manager###
 
