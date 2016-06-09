@@ -73,6 +73,7 @@ Assembly    = Computer low level. Very compact and efficient programs. Extremely
 Linux uses packages to install programs and library.
 
 Package contains the following information:
+
 1. Dependency Information
 2. Version information
 3. Architecture information
@@ -81,6 +82,7 @@ Package contains the following information:
 Package tools software keeps a database of information about the installed applications uncluding the locations of the files that were placed on the Linux file system.
 
 Two common package systems:
+
 1. RPM (YUM for CLI, YUMEX for GUI)
 2. Debian 
 
