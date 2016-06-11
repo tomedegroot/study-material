@@ -90,7 +90,7 @@ A distro has it's own package system. You can use it out of the box.
 
 The package systems have online distro's to download the packages.
 
-##Hands-on: APT, dpkg##
+##Hands-on: APT##
 
 Location of the list of repositories:
 */etc/apt/sources.list*
@@ -109,3 +109,17 @@ Only add repositories that you trust!
 
 Note: `apt-get autoremove [packageName]` is the best way to completely remove a package. If you only use apt-get remove, you can still see parts of the package are installed if you use the `which` command
 
+###Upgrade###
+`apt-get upgrade` -> get upgrade information and confirm to upgrade
+ckageName  
+`apt-get dist-upgrade` -> upgrade kernel and distribution
+
+##Hands-on: dpkg##
+dpkg allows to install Debian-based files (*.deb). Why?
+1. An application is not available on a repo
+
+`dpkg -i fileName` -> this does not solve dependencies for you. However it will flag in your system that these depencies are required. You can then do:  
+`apt-get update && apt-get -f upgrade` -> -f is for fix  
+`dpkg --get-selections` -> get installed packages  
+`dpkg --remove packageName` -> remove a package, but NOT the config files  
+`dpkg --purge packageName` -> purge the config files
