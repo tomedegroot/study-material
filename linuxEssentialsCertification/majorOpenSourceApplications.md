@@ -102,10 +102,10 @@ Only add repositories that you trust!
 
 ###Install & Remove packages###
 
-`apt-get install *packageName*` -> Install a package
-`apt-get remove *packageName*` -> Remove a package
-`apt-get purge *packageName*` -> Remove package and remove any configuration files (To purge means to clean). This will also show you packages that are no longer required and which can be removed via apt-get autoremove.
-`apt-get autoremove [*packageName*]` -> Remove unnecessary packages
+`apt-get install *packageName*` -> Install a package  
+`apt-get remove *packageName*` -> Remove a package  
+`apt-get purge *packageName*` -> Remove package and remove any configuration files (To purge means to clean). This will also show you packages that are no longer required and which can be removed via apt-get autoremove.  
+`apt-get autoremove [*packageName*]` -> Remove unnecessary packages  
 
 Note: `apt-get autoremove [*packageName*]` is the best way to completely remove a package. If you only use apt-get remove, you can still see parts of the package are installed if you use the `which` command
 
