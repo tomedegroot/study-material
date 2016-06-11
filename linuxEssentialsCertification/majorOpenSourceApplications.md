@@ -97,8 +97,8 @@ Location of the list of repositories:
 Only add repositories that you trust!
 
 ###Update package list###
-`apt-get update` -> Updates the local cache (package list) with information on the newest packages.
-`apt-get cache search` -> Search the cache
+`apt-get update` -> Updates the local cache (package list) with information on the newest packages.  
+`apt-get cache search` -> Search the cache  
 
 ###Install & Remove packages###
 
