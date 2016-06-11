@@ -89,3 +89,23 @@ Two common package systems:
 A distro has it's own package system. You can use it out of the box.
 
 The package systems have online distro's to download the packages.
+
+##Hands-on: APT, dpkg##
+
+Location of the list of repositories:
+*/etc/apt/sources.list*
+Only add repositories that you trust!
+
+###Update package list###
+`apt-get update` -> Updates the local cache (package list) with information on the newest packages.
+`apt-get cache search` -> Search the cache
+
+###Install & Remove packages###
+
+`apt-get install *packageName*` -> Install a package
+`apt-get remove *packageName*` -> Remove a package
+`apt-get purge *packageName*` -> Remove package and remove any configuration files (To purge means to clean). This will also show you packages that are no longer required and which can be removed via apt-get autoremove.
+`apt-get autoremove [*packageName*]` -> Remove unnecessary packages
+
+Note: `apt-get autoremove [*packageName*]` is the best way to completely remove a package. If you only use apt-get remove, you can still see parts of the package are installed if you use the `which` command
+
