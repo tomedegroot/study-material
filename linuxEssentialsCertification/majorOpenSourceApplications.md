@@ -109,3 +109,30 @@ Only add repositories that you trust!
 
 Note: `apt-get autoremove [packageName]` is the best way to completely remove a package. If you only use apt-get remove, you can still see parts of the package are installed if you use the `which` command
 
+##Hands-on: YUM, rpm##
+
+###Background###
+
+####RPM####
+
+Red Hat introduced RPM in 1995. RPM is now the package management system used for packaging in the Linux Standard Base (LSB). The rpm command options are grouped into three subgroups for:
+
+1. Querying and verifying packages
+2. Installing, upgrading, and removing packages
+3. Performing miscellaneous functions
+
+We will focus on the first two sets of command options in this tutorial. You will find information about the miscellaneous functions in the man pages for RPM.
+
+We should also note that rpm is the command name for the main command used with RPM, while .rpm is the extension used for RPM files. So "an rpm" or "the xxx rpm" will generally refer to an RPM file, while rpm will usually refer to the command.
+
+####YUM####
+
+YUM adds automatic updates and package management, including dependency management, to RPM systems. In addition to understanding the installed packages on a system, YUM is like the Debian Advanced Packaging Tool (APT) in that it works with repositories, which are collections of packages and are typically accessible over a network connection.
+
+###Remove a package###
+
+`which` -> See where an application is installed
+`yum remove packageName` -> Remove package
+
+###Install a package###
+
