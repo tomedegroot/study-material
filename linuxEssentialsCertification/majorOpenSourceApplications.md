@@ -137,23 +137,23 @@ YUM adds automatic updates and package management, including dependency manageme
 -h -> shows the progress
 -v -> verbose
 
-`whereis` -> locates the bin source and manual page for a command
-`rpm -q packageName` -> query the package, filename = applicationName.Version-BuildNumber.Architecture
-`rpm -qi packageName` -> -i for information
-`rpm -e packageName` -> Remove a package via RPM
+`whereis` -> locates the bin source and manual page for a command  
+`rpm -q packageName` -> query the package, filename = applicationName.Version-BuildNumber.Architecture  
+`rpm -qi packageName` -> -i for information  
+`rpm -e packageName` -> Remove a package via RPM  
 
 ###Hands-on: YUM###
 
 Like apt, yum gets the packages from repos and resolves dependencies.
 Repo config is in */etc/yum.repos.d*
 
-`yum update` -> upgrade off all your system software (!different from APT)
-`yum update packageName` -> upgrade a specific package
-`yum search packageName` -> search for a package
+`yum update` -> upgrade off all your system software (!different from APT)  
+`yum update packageName` -> upgrade a specific package  
+`yum search packageName` -> search for a package  
 
 Tip: sometimes a package is called differently in a different OS family (example: apache & httpd). Seach with `yum search` | grep '[A|apache]' to find the corresponding package for a different OS family.
 
-`yum deplist packageName` -> list dependencies
-`yum remove packageName` -> remove a package
-`yum clean packages` -> removes any cached packages (no longer needed)
-`yum clean all` -> remove everything from the cache. [info](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/sec-Working_with_Yum_Cache.html#tabl-Yum-clean_options)
+`yum deplist packageName` -> list dependencies  
+`yum remove packageName` -> remove a package  
+`yum clean packages` -> removes any cached packages (no longer needed)  
+`yum clean all` -> remove everything from the [cache](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/sec-Working_with_Yum_Cache.html#tabl-Yum-clean_options)  
