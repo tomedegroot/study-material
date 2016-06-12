@@ -151,7 +151,7 @@ Repo config is in */etc/yum.repos.d*
 `yum update packageName` -> upgrade a specific package  
 `yum search packageName` -> search for a package  
 
-Tip: sometimes a package is called differently in a different OS family (example: apache & httpd). Seach with `yum search` | grep '[A|apache]' to find the corresponding package for a different OS family.
+Tip: sometimes a package is called differently in a different OS family (example: apache & httpd). Seach with `yum search` | grep '[A|a]pache' to find the corresponding package for a different OS family.
 
 `yum deplist packageName` -> list dependencies  
 `yum remove packageName` -> remove a package  
