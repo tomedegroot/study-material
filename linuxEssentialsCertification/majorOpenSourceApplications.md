@@ -129,10 +129,31 @@ We should also note that rpm is the command name for the main command used with 
 
 YUM adds automatic updates and package management, including dependency management, to RPM systems. In addition to understanding the installed packages on a system, YUM is like the Debian Advanced Packaging Tool (APT) in that it works with repositories, which are collections of packages and are typically accessible over a network connection.
 
-###Remove a package###
+###Hands-on: RPM###
 
-`which` -> See where an application is installed
-`yum remove packageName` -> Remove package
+`rpm -ihv packageFile`
 
-###Install a package###
+-i -> install
+-h -> shows the progress
+-v -> verbose
 
+`whereis` -> locates the bin source and manual page for a command
+`rpm -q packageName` -> query the package, filename = applicationName.Version-BuildNumber.Architecture
+`rpm -qi packageName` -> -i for information
+`rpm -e packageName` -> Remove a package via RPM
+
+###Hands-on: YUM###
+
+Like apt, yum gets the packages from repos and resolves dependencies.
+Repo config is in */etc/yum.repos.d*
+
+`yum update` -> upgrade off all your system software (!different from APT)
+`yum update packageName` -> upgrade a specific package
+`yum search packageName` -> search for a package
+
+Tip: sometimes a package is called differently in a different OS family (example: apache & httpd). Seach with `yum search` | grep '[A|apache]' to find the corresponding package for a different OS family.
+
+`yum deplist packageName` -> list dependencies
+`yum remove packageName` -> remove a package
+`yum clean packages` -> removes any cached packages (no longer needed)
+`yum clean all` -> remove everything from the cache. [info](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/sec-Working_with_Yum_Cache.html#tabl-Yum-clean_options)
