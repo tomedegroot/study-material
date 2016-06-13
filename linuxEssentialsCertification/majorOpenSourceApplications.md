@@ -109,6 +109,7 @@ Only add repositories that you trust!
 
 Note: `apt-get autoremove [packageName]` is the best way to completely remove a package. If you only use apt-get remove, you can still see parts of the package are installed if you use the `which` command
 
+<<<<<<< HEAD
 ###Upgrade###
 `apt-get upgrade` -> get upgrade information and confirm to upgrade
 ckageName  
@@ -123,3 +124,53 @@ dpkg allows to install Debian-based files (*.deb). Why?
 `dpkg --get-selections` -> get installed packages  
 `dpkg --remove packageName` -> remove a package, but NOT the config files  
 `dpkg --purge packageName` -> purge the config files
+=======
+##Hands-on: YUM, rpm##
+
+###Background###
+
+####RPM####
+
+Red Hat introduced RPM in 1995. RPM is now the package management system used for packaging in the Linux Standard Base (LSB). The rpm command options are grouped into three subgroups for:
+
+1. Querying and verifying packages
+2. Installing, upgrading, and removing packages
+3. Performing miscellaneous functions
+
+We will focus on the first two sets of command options in this tutorial. You will find information about the miscellaneous functions in the man pages for RPM.
+
+We should also note that rpm is the command name for the main command used with RPM, while .rpm is the extension used for RPM files. So "an rpm" or "the xxx rpm" will generally refer to an RPM file, while rpm will usually refer to the command.
+
+####YUM####
+
+YUM adds automatic updates and package management, including dependency management, to RPM systems. In addition to understanding the installed packages on a system, YUM is like the Debian Advanced Packaging Tool (APT) in that it works with repositories, which are collections of packages and are typically accessible over a network connection.
+
+###Hands-on: RPM###
+
+`rpm -ihv packageFile`
+
+-i -> install
+-h -> shows the progress
+-v -> verbose
+
+`whereis` -> locates the bin source and manual page for a command  
+`rpm -q packageName` -> query the package, filename = applicationName.Version-BuildNumber.Architecture  
+`rpm -qi packageName` -> -i for information  
+`rpm -e packageName` -> Remove a package via RPM  
+
+###Hands-on: YUM###
+
+Like apt, yum gets the packages from repos and resolves dependencies.
+Repo config is in */etc/yum.repos.d*
+
+`yum update` -> upgrade off all your system software (!different from APT)  
+`yum update packageName` -> upgrade a specific package  
+`yum search packageName` -> search for a package  
+
+Tip: sometimes a package is called differently in a different OS family (example: apache & httpd). Seach with `yum search` | grep '[A|a]pache' to find the corresponding package for a different OS family.
+
+`yum deplist packageName` -> list dependencies  
+`yum remove packageName` -> remove a package  
+`yum clean packages` -> removes any cached packages (no longer needed)  
+`yum clean all` -> remove everything from the [cache](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/sec-Working_with_Yum_Cache.html#tabl-Yum-clean_options)  
+>>>>>>> 275ed690a96a50a56d1a597bf11fbc7769e73490
