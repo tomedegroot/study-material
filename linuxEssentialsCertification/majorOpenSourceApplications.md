@@ -172,5 +172,4 @@ Tip: sometimes a package is called differently in a different OS family (example
 `yum deplist packageName` -> list dependencies  
 `yum remove packageName` -> remove a package  
 `yum clean packages` -> removes any cached packages (no longer needed)  
-`yum clean all` -> remove everything from the [cache](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/sec-Working_with_Yum_Cache.html#tabl-Yum-clean_options)  
->>>>>>> 275ed690a96a50a56d1a597bf11fbc7769e73490
+`yum clean all` -> remove everything from the [cache](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/sec-Working_with_Yum_Cache.html#tabl-Yum-clean_options)
