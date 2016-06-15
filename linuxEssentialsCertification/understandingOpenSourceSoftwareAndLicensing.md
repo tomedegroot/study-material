@@ -101,3 +101,16 @@ Major open source licenses are:
 Remember: if you modify software and want to distribute it, you need to know which license to use.
 
 One distro has many applications and comes with many different licenses.
+
+##Open Source Business Models##
+
+How can a company make a profit if it's product is available for free on the internet?
+
+1. Services and support (Training, game is free but the server is not, etc.)
+2. Dual licensing: one free product and one paid product with more features.
+3. Multiple products: open source product is free, but other product lines are not.
+4. Open source drivers: a driver is not open sourced by a vendor since it would reveal details about the product the company doesn't want to share it.
+5. Bounties, company builds a feature for which is a bounty set by someone else.
+6. Donations
+
+Open Source licensing can be complex, but it affects how software evolves over time.
