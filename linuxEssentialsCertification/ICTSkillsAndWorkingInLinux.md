@@ -20,7 +20,7 @@ How to access the command line:
 
 ##Industry uses of Linux, Cloud Computing and Virtualization##
 
-Industry uses:
+###Industry uses###
 
 1. Web Servers
 2. Mobile app servers
@@ -29,3 +29,14 @@ Industry uses:
   1. Google Apps
   2. Dropbox
   3. Evernote
+
+###Virtualization###
+
+1. Virtualization is the creation of a virtual OS using the hypervisor.
+2. Virtualised OS (guest) lives upon the host.
+3. Virtualisation software for the desktop:
+  1. VirtualBox (Open Source, all platforms)
+  2. VMWare (For desktop and servers to run own clouds)
+  3. KVM / QEMU (Open Source)
+  4. XEN (Open Source)
+
