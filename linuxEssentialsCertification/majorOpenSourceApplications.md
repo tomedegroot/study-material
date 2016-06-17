@@ -109,7 +109,6 @@ Only add repositories that you trust!
 
 Note: `apt-get autoremove [packageName]` is the best way to completely remove a package. If you only use apt-get remove, you can still see parts of the package are installed if you use the `which` command
 
-<<<<<<< HEAD
 ###Upgrade###
 `apt-get upgrade` -> get upgrade information and confirm to upgrade
 ckageName  
@@ -124,7 +123,7 @@ dpkg allows to install Debian-based files (*.deb). Why?
 `dpkg --get-selections` -> get installed packages  
 `dpkg --remove packageName` -> remove a package, but NOT the config files  
 `dpkg --purge packageName` -> purge the config files
-=======
+
 ##Hands-on: YUM, rpm##
 
 ###Background###
