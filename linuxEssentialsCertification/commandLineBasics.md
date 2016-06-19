@@ -58,7 +58,7 @@ To make an environment variable persistent (so use it again after the current se
 
 ##`uname` (Unix Name)##
 
-Give information about the system. Flags:
+`uname` -> Give information about the system. Flags:
 
 1. `-s` -> kernel name
 2. `-n` -> host name (node name)
@@ -69,3 +69,35 @@ Give information about the system. Flags:
 7. `-i` -> hardware platform (e.g. x86_64)
 8. `-o` -> operating system
 9. `-a` -> Give all information add once (`uname -a | sed 's/ /\n/g'` for nice formatting)
+
+##Command line history##
+
+The *~/.bash_history* file shows the your command history. With arrow up you can cycle through the history.
+
+`export HISTFILESIZE=9999` -> Up the history file size of the ~/.bash_history* file to 9999. The default size is 1000.
+
+##`cd dirpath`##
+
+Change working dir to dirpath. `cd` without arguments take you to home dir.
+
+##Shell config files##
+
+A login shell is created at boot or when you log in from a remote machine. The terminal of the GUI is not a login shell. The type of shell dictates what config files are used to setup the environment of the shell. [More info](http://stackoverflow.com/questions/415403/whats-the-difference-between-bashrc-bash-profile-and-environment)
+
+These config files are shell scripts with commands that configure the shell with aliases, functions and variables. Examples:
+
+System wide:
+* */etc/profile* -> (login shell)
+* */etc/bashrc* -> (non-login)
+
+User specific:
+* *~/.bash_profile* -> (login shell)
+* *~/.bashrc* -> (non-login)
+
+You can find this in `man bash`
+
+you'll find most people end up telling their *.bash_profile* to also read *.bashrc* with something like:
+
+`[[ -r ~/.bashrc ]] && . ~/.bashrc`
+
+Example: one can edit the $PATH variable in these config files.
