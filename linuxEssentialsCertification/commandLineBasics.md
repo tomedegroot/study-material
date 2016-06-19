@@ -101,3 +101,46 @@ you'll find most people end up telling their *.bash_profile* to also read *.bash
 `[[ -r ~/.bashrc ]] && . ~/.bashrc`
 
 Example: one can edit the $PATH variable in these config files.
+
+##Variables##
+
+1. Variable = a placeholder for another value
+2. Environment = a set of variables that are used in configuring computing environmemts. Environment holds current directory and $PATH
+3. User defined and system defined variables:
+  1. User defined -> defined by the user
+  2. System defined
+
+Example: *~* stands for home directory. With `cd ~` bash looks up the $HOME variable and changes dir to that location.
+
+Common environment variables:
+
+1. BASH and SHELL -> */bin/bash*
+2. CPU -> spec to your system
+3. DISPLAY -> the local video card monitor
+4. ENV -> */etc/bash.bashrc*
+5. EUID -> UID number of current user
+6. HISTFILE -> *~/.bash_history*
+7. HISTSIZE -> 1000
+8. HOME -> current users home directory
+9. HOST and HOSTNAME -> systems assigned hostname
+10. LOGNAME -> username of current user
+11. MAIL -> Path to mailbox: */var/spool/mail/username* OR */var/mail/username*
+12. OLDPWD -> prior current dir
+13. OSTYPE -> Linux
+14. PATH -> distribution dependant. Where to look for files and commands
+15. PSI -> distribution dependent
+16. PWD -> depends on current dir within
+17. USER and USERNAME -> username of the current user
+
+`env` -> get all environment variables.  
+`set` -> get environment variables.  
+`echo $KEY` get value of variable.  
+
+`KEY=VALUE` -> set $KEY to VALUE for the current session
+`PATH=$PATH:/var/opt/` -> append to VALUE.
+
+To make a change to a variable available outside the current session, use `export KEY` **without the dollar sign!**
+
+To make a system persistent after reboots, change the value in a bash config files, such as ~/.bash_profile
+
+
