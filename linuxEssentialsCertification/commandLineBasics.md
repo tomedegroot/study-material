@@ -55,3 +55,17 @@ To make an environment variable persistent (so use it again after the current se
 12. `netstat` -> shows the status of the network
 13. `route` -> view and manipulate the routing table
 14. `ifconfig` -> see and modify  configuration set to a network card. Newer versions of Linux use `ip addr`
+
+##`uname` (Unix Name)##
+
+Give information about the system. Flags:
+
+1. `-s` -> kernel name
+2. `-n` -> host name (node name)
+3. `-r` -> kernel release number
+4. `-v` -> kernel version number
+5. `-m` -> machine hardware name
+6. `-p` -> processor type (e.g. x86_64)
+7. `-i` -> hardware platform (e.g. x86_64)
+8. `-o` -> operating system
+9. `-a` -> Give all information add once (`uname -a | sed 's/ /\n/g'` for nice formatting)
