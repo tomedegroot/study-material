@@ -176,3 +176,26 @@ What is in the backticks and the backticks itself will be substituted with outpu
 
 `echo "Did you know that there are `wc -w < testfile1` number of words in testfile1?"`
 
+##Formatting Commands##
+
+Three steps of operation of a Linux command:
+
+1. Computer waits for user input.
+2. User selects a command via keyboard or mouse.
+3. Computer executes
+
+* First word is a command, the rest are parameters.
+* In general commands are in lowercase (remember, unlike MS command prompt, bash is case sensitive).
+* Command and parameters are separated by either one or more spaces.
+* With the backslash `\` token the prompt goes to the next line. Then press enter to end input of the command
+* 
+
+##Working with options##
+
+Parameters can be divided in two types:
+1. Parameters **with** a dash `-` are called options. Example `ls -al`
+2. Parameters **without** a dash are called arguments
+
+In general formatting commands look like:
+
+`command options arguments`
