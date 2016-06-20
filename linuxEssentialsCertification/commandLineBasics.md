@@ -143,4 +143,36 @@ To make a change to a variable available outside the current session, use `expor
 
 To make a system persistent after reboots, change the value in a bash config files, such as ~/.bash_profile
 
+##Globbing##
+
+The process of *expanding* a non-specific filename containing a wildcard characterto a set of specific filenames that exists.
+
+Globbing means global command
+
+List of characters for expanding:
+
+* `*` Zero or more characters. Example: `ls *.txt`
+* `?` One character. Example: `ls test?` for test1 or `ls test??` for test12
+* `[ab]` a **or** b. Example: `ls [ab]*.txt`. [] is a more specific type of `?` expansion and only works for a single character. So touch [fF]ile.txt does not work. Therefor use:
+* `{a,B}` a or b. Example `touch {f,F}ile.txt`
+* `{1..20}` range of 1,2,3,4..20. Example `touch fotos-{2000-2010}`
+
+##Quoting and backticks##
+
+###Double quotes###
+Substitutes value of variables and commands.  
+Example: `echo "Username is $USER"` will print current username
+
+Exception: escaping (or negating the special character '$') with the backslash `\` character.
+Example: echo "The cheeseburger costs \$5.00"
+
+###Single quotes###
+Preserves the literal meaning of each character of a given string, thus turning of the special meaning.  
+Example: `echo 'Username is $USER'` will print the literal Username is $USER
+
+###Command Substition with the backtick `####
+
+What is in the backticks and the backticks itself will be substituted with output from the command in the backticks:
+
+`echo "Did you know that there are `wc -w < testfile1` number of words in testfile1?"`
 
