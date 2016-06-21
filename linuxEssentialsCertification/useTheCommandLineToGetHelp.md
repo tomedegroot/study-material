@@ -93,3 +93,30 @@ Keys to control info:
 11. `Q` -> Exit
 
 '*' is a link
+
+###README, Config files, RPM, `locate`, `find`, `whereis`, */usr/share/doc/*
+
+####README####
+
+README for unzipped source files are usually in:
+
+1. */usr/doc/packagename*
+2. */usr/share/doc/packagename*
+3. */usr/share/doc/packages/packagename*
+
+Sometimes the format is PostScript, PDF or HTML instead of plain text
+
+####Config Files####
+
+Can be found in: */etc*
+
+####RPM####
+
+`rpm -ql packagename | grep doc` -> shows where documentation is
+
+####`locate`, `find` `whereis`
+
+1. `find /usr/share/doc -name "*passwd*"' -> find in /usr/share/doc anything with name *passwd*
+2. locate passwd
+3. whereis passwd 
+
