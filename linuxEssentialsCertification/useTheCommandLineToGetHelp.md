@@ -71,3 +71,25 @@ Move multiple files to one dir: `mv testfile1 testfile2 testdir`
 8. `?pattern` -> search backword for `pattern`
 9. `n` or `/` -> repeats previous search
 10. `q` -> quits`
+
+###`info`###
+
+Newer information system than `man`. Most notable: support for hyperlinks.
+
+`info keyword`
+
+Keys to control info:
+
+1. `?` -> displays help info
+2. `N` -> Moves to next node in series or level
+3. `P` -> Moves back in a series or level
+4. `U` -> Moves up one level in the hierarchy
+5. `Arrow Keys` -> move around the screen
+6. `Page Up` or `DEL` -> scroll up within a node
+7. `Page Down or `SPACE` -> scroll down within a node
+8. `Enter` -> Move to selected node
+9. `L` -> Display last info page you read
+10. `T` -> Display the top page for a topic
+11. `Q` -> Exit
+
+'*' is a link
