@@ -74,3 +74,26 @@ Linux Disk File System is responsible for the reliability of storing data on a h
 3. Reiser = Also uses journaling, but completely different internal structure that ext2. This allow larger file sizes, such as 8 TB and max volume of 16 TB. And it is faster.
 4. ext4 = Updated version ext3. Supports files up to 16 TB and volumes of up to 1 Exabyte. Maximum of  billion files on a system. Also uses checksums to check the journal file.
 
+##Files, Dirs##
+
+For navigation:
+1. `pwd` -> print working dir
+2. `cd [dir]` -> change working dir to dir. 
+  1. Without `[dir]` argument ->  go to ~
+  2. `.` -> current dir
+  3. `..` -> up one dir
+  4. `../..` -> up two dir
+3. `ls` -> list content of dir
+  1. `-a` -> show all files, including hidden files
+  2. `-l` -> long, give type and rights on files
+  3. `-R` -> Recursive, pipe to `more` to be able to read better
+ 
+##Hidden files and dirs##
+
+Files or dir that is prefixed with a '.' is hidden. The hidden files are only shown by the ls with `ls -a`
+
+##Home##
+
+Configs in the home folder take precedence over system wide configs. The user has complete control of his home dir. 
+
+The FHS says that home is a site specific file system, but suggests */home/username*
