@@ -1,4 +1,6 @@
-#The Linux File System#
+#Using dirs and listing files#
+
+##The Linux File System##
 
 File system is used to control how data is stored and retrieved on a storage device.
 
@@ -97,3 +99,10 @@ Files or dir that is prefixed with a '.' is hidden. The hidden files are only sh
 Configs in the home folder take precedence over system wide configs. The user has complete control of his home dir. 
 
 The FHS says that home is a site specific file system, but suggests */home/username*
+
+##Absolute and relative paths##
+
+Relative from the working dir.
+Absolute from the root path, prefix with the root dir (/)
+
+
