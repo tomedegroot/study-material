@@ -105,4 +105,33 @@ The FHS says that home is a site specific file system, but suggests */home/usern
 Relative from the working dir.
 Absolute from the root path, prefix with the root dir (/)
 
+##Case Sensitivity##
 
+Linux is case sensitive for:
+1. Commands
+2. Filenames
+3. Dirnames
+
+##Globbing and Quoting##
+
+What is you don't know the exact file name : globbing. Use a wildcard symbol that stands for one or more characters. Globbing is a form of expansion. The certain characters expand:
+
+`*` -> zero or more characters.
+`?` -> one character
+`[a-z]` -> one time the characters a through z
+
+On quoting:
+1. " The double quote. Protects eveything enclosed, except for:
+  1.$
+  2.' -> [this means itside the double quotes, a single quotes gets its literal value again.](http://unix.stackexchange.com/a/169511)
+  3. "
+  4. \
+Use the doule quotes when you want only variables and command substition: echo $(date)
+
+2. ' The single quote protects everything enclosed by it, this turn OFF special meaning of character.
+
+3. \ The backslash
+  1. Escape special meaning of ' and ": with the backslash it becomes literal again.
+  2. Escape special meaning:`echo "\$PATH"`
+
+The following is not mandatory for the exam, but it is handy. Note that some of these only works in [printf](http://stackoverflow.com/a/8467449)
