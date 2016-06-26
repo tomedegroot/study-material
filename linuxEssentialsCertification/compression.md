@@ -1,4 +1,4 @@
-#Files, Dirs#
+#Compression#
 
 ##Archiving files on the command line##
 
