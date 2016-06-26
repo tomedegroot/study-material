@@ -134,4 +134,19 @@ Use the doule quotes when you want only variables and command substition: echo $
   1. Escape special meaning of ' and ": with the backslash it becomes literal again.
   2. Escape special meaning:`echo "\$PATH"`
 
-The following is not mandatory for the exam, but it is handy. Note that some of these only works in [printf](http://stackoverflow.com/a/8467449)
+The following is not mandatory for the exam, but it is handy. Note these only work with `echo -e` or with `printf`:
+
+1. `\a` -> alert (bell)
+2. `\b` -> backspace
+3. `\e` -> an escape character
+4. `\f` -> form feed
+5. `\n` -> new line
+6. `\r` -> carriage return
+7. `\t` -> horizontal tab
+8. `\v` -> vertical tab
+9. `\\` -> backslash
+10. `\'` -> single quote
+11. `\nnn` -> the eight bit character whose value is the octal value nnn (one to three digits) in [ASCII](http://www.asciitable.com/)
+12. `\xHH` -> the eight bit character whose value is the hexadecimal value HH
+
+You can also use the backslash to continue inputting the command on the next line
