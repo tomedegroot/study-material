@@ -23,3 +23,23 @@ Some example commands:
   4. `cut -d" " -f2-5 file1.txt` -> give me the fields 2-5
   5. `4. `cut -d" " -f2- file1.txt` -> give me the fields from field 2
 7. `wc` -> word count
+
+##Command Line Pipes##
+
+File descriptors:
+0. stdin -> standard input(0)
+1. stdout -> standard output(1)
+2. stderr -> standard error(2)
+
+INPUT(stdin 0) --------->COMMAND-------------->OUTPUT(stdout 1)
+                                       |
+                                       |
+                                       |
+                                 ERROR(stderr 2)
+
+Piping vi `|` -> Make stdout of one command the stdin of the next command
+
+1. `find . -type f | grep 1.txt`
+2. `cut -d" " -f 3 file6.txt | cut -c2` -> from field 3 of everyline, get the second column (which is a character)
+3. `wc -w file6.txt | cut -d" "  -f1` -> only get the word count and don't get the filename which word count normally gives you
+
