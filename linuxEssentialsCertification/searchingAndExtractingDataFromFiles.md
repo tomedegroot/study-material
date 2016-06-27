@@ -48,7 +48,9 @@ Piping via `|` -> Make stdout of one command the stdin of the next command
 `COMMAND > FILENAMEORANOTHERCOMMAND` -> shorthand for `COMMAND 1> FILEORANOTHERCOMMAND`
 1. `tail /var/log/messages > logtemp.txt` -> stdout is redirected to the file (so it is not on the screen).
 2. `cat nonexistentfile.txt 2> myerrors.txt` -> stderr is redirected to myerrors.txt
-3. `cat nonexistentfile.txt 2>> myerrors.txt` -> stderr is appended to myerrors.txt
+3. `>>` ->  append file descriptor
+4. `cat nonexistentfile.txt 2>> myerrors.txt` -> stderr is appended to myerrors.txt
+5. `COMMAND 1> file1 2> file2` -> stdout to file1 and stderr to file2 example: mount 1> mountfile 2> mounterror
 
-5.30
+6. `COMMAND < stdin` -> redirect stdin
 
