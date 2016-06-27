@@ -13,7 +13,7 @@ Some example commands:
 5. `sort sort.txt`
   1. `-r` -> reverse
   2. `-k` -> sort by key (or column). Example `sort k2 sort.txt` -> Sort sort.txt with the second column
-  3. `n` -> numberical
+  3. `n` -> numerical
 6. `cut` -> print selected part of a line
   1. `-c5-9 file.txt` -> return character 5-9
   2. `cut -c2,4,6 file.txt` -> return  the 2, 4 and 6th char  
