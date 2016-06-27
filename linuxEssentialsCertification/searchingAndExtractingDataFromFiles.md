@@ -37,9 +37,18 @@ INPUT(stdin 0) --------->COMMAND-------------->OUTPUT(stdout 1)
                                        |
                                  ERROR(stderr 2)
 
-Piping vi `|` -> Make stdout of one command the stdin of the next command
+Piping via `|` -> Make stdout of one command the stdin of the next command
 
 1. `find . -type f | grep 1.txt`
 2. `cut -d" " -f 3 file6.txt | cut -c2` -> from field 3 of everyline, get the second column (which is a character)
 3. `wc -w file6.txt | cut -d" "  -f1` -> only get the word count and don't get the filename which word count normally gives you
+
+##I/O Redirection##
+
+`COMMAND > FILENAMEORANOTHERCOMMAND` -> shorthand for `COMMAND 1> FILEORANOTHERCOMMAND`
+1. `tail /var/log/messages > logtemp.txt` -> stdout is redirected to the file (so it is not on the screen).
+2. `cat nonexistentfile.txt 2> myerrors.txt` -> stderr is redirected to myerrors.txt
+3. `cat nonexistentfile.txt 2>> myerrors.txt` -> stderr is appended to myerrors.txt
+
+5.30
 
