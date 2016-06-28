@@ -54,3 +54,18 @@ Piping via `|` -> Make stdout of one command the stdin of the next command
 
 6. `COMMAND < stdin` -> redirect stdin
 
+##Regex##
+
+`grep` does not support extended regex(ERE) by default. Use the `E` flag to enable this. If you don't have the -E flag, it uses the default basic regex (BRE). [Differences between BRE and ERE](http://www.regular-expressions.info/posix.html)
+
+Regex:
+
+1. `*` -> Matches any char -> file*
+2. `.` -> Matches any single char
+3. `?` -> Matches zero or one of the proceeding chars -> f?le
+4. `^` -> Matches expression at the beginning -> ^file
+5. `$` -> Matches expression at the end -> file$
+6. `[nnn]` -> Matches any char between the braces (brackets) -> [abc]
+7. `[^nnn]` -> Matches any expression that does **not** contain a char from the braces -> [^abc] will not match a,b or c
+8. [n-n] -> matches any single char
+9. [1-10] -> matches between 1 and, or 0
