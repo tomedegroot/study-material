@@ -11,17 +11,18 @@ Diifferent modes (is in the bottom line):
 1. Normal mode -> after opening a file
 2. Insert mode -> edit the text file.`i`,`INSERT`,`s`,`o`, or `a`
 3. Command mode:
+  Deleting:
   1. `dw` -> delete word after cursor **and the space after the word**
   2. `de` -> delete word after cursor
   3. `dd` -> delete entire line
-
+  Yanking(copying):
   4. `yw` -> yank (copy) entire word *and the space after the word**
   5. `ye` -> yank (copy) entire word
   6. `yy` -> yank (copy) entire line
-
+  Paste:
   7. `p`  -> paste what was just deleted or yanked
+  Moving:
   8. `/` -> search for a term, this will highlight the term
-
   9. `w` -> move to next word
   10. `b` -> move to previous word
   11. `nG` -> move to the nth line of file
