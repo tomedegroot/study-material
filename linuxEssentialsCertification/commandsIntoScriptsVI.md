@@ -43,5 +43,26 @@ Scripts need an interperteter (*/bin/bash*). The script has access to:
 2. Arguments:
   1. `$1` -> First Argument
   2. `$2` -> Second Argument
-  3. `$?` -> Exit code/Status of previous statement (0 for success, non-zero for an error)
+  3. `$?` -> Exit code/Status of previous statement (0 for success, non-zero for an error)  
+  4. `$@` -> Iterate over arguments
 
+Important to know:
+1. `#!` -> shebang, what program to run
+2. `*/bin/bash* -> Bourne Again Shell`, [advised](http://stackoverflow.com/a/10383546) to use `#! /usr/bin/env bash`. env searches the $PATH to find the application to run the script, so your script becomes more portable.
+3. `Variables` -> pass variables or create arguments to pass to scripts
+4. `echo` -> print/echo's what tell echo to print to screen
+5. `Exit [exitCode]` -> exit and return the exit code
+
+Example of a shell script:
+
+#! /usr/bin/env bash
+
+FLAGLOCATION='flag'
+
+```
+if [ -r $FLAGLOCATION ]; then
+  echo 'flag is readable'
+else
+  echo 'flag is not readable'
+fi
+```
