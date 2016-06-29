@@ -53,13 +53,21 @@ Important to know:
 4. `echo` -> print/echo's what tell echo to print to screen
 5. `Exit [exitCode]` -> exit and return the exit code
 
-Example of a shell script:
+##If conditional:##
+
+```
+if *condition*
+*then*
+	*command*
+*fi*
+```	
+
+Example of a shell script with *if*:
 
 ```
 #! /usr/bin/env bash
 
 FLAGLOCATION='flag'
-
 
 if [ -r $FLAGLOCATION ]; then
   echo 'flag is readable'
@@ -67,3 +75,54 @@ else
   echo 'flag is not readable'
 fi
 ```
+
+Options for `test FILE`:
+
+1. `-d` -> dir exists
+2. `-e` -> file exists
+3. `-f` -> file exists and regular file
+4. `-G` -> file exists and owned by group
+5. `-h or -L` file exists and is symbolic link
+6. `-O` -> file exists and owned by specific UID
+7. `-r` -> file exists and is readable
+8. `-w` -> file exists and writable
+9. `-x` -> file exists and executable
+
+##while##
+
+Example of `while`:
+```
+while *condition*
+*do*
+	*command*
+*done*
+
+##until##
+Opposite of while: loop as long as condition is **false**
+
+Example of `until`:
+```
+until *condition*
+*do*
+	*command*
+*done*
+```
+
+##for##
+Loop specifc number of times
+
+Structure of `for`:
+```
+for i in sequence
+*do*
+        *command*
+*done*
+```
+Three ways of creating a sequence with `seq`:
+1. Specify a single value. Sequence starts at 1, increments by 1 and end at specified value.
+2. Specify two values. Seq starts at first value, incerements by 1 and end at second value
+3. Specify three value. Seq starts at first, increments by second, end at third
+
+*NOTE*: 
+1. You have to put `for i in $(seq 5 15)` so the output of the seq command is used in the for construct. Without the command subsitution via $(), you actually create a sequence with 3 values: seq, 5 and 15.
+2. You can use backticks insteasd of $(). ``for i in `seq 5 15``` is the same as `for i in $(seq 5 15)`
