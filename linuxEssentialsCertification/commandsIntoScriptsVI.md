@@ -46,7 +46,7 @@ Scripts need an interperteter (*/bin/bash*). The script has access to:
   3. `$?` -> Exit code/Status of previous statement (0 for success, non-zero for an error)  
   4. `$@` -> Iterate over arguments
 
-Important to know:
+Important to know:  
 1. `#!` -> shebang, what program to run
 2. `*/bin/bash* -> Bourne Again Shell`, [advised](http://stackoverflow.com/a/10383546) to use `#! /usr/bin/env bash`. env searches the $PATH to find the application to run the script, so your script becomes more portable.
 3. `Variables` -> pass variables or create arguments to pass to scripts
@@ -126,3 +126,7 @@ Three ways of creating a sequence with `seq`:
 *NOTE*: 
 1. You have to put `for i in $(seq 5 15)` so the output of the seq command is used in the for construct. Without the command subsitution via $(), you actually create a sequence with 3 values: seq, 5 and 15.
 2. You can use backticks instead of $() for command substition. ``for i in `seq 5 15` `` is the same as `for i in $(seq 5 15)`
+3. Quickly give owner, group and everyone execute permission via `chmod +x file`. `chmod -x` or `chmod +w` works as well. Remember:  
+  1. `1` is bit for execute
+  2. `2` is bit for writing
+  3. `4` is bit for read
