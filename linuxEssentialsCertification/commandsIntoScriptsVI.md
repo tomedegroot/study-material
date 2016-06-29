@@ -23,23 +23,24 @@ Diifferent modes (is in the bottom line):
   8. `/` -> search for a term, this will highlight the term
 
   9. `w` -> move to next word
- 10. `b` -> move to previous word
- 11. `nG` -> move to the nth line of file
- 12. `G` -> move to last line of file
+  10. `b` -> move to previous word
+  11. `nG` -> move to the nth line of file
+  12. `G` -> move to last line of file
 4. Command **line** mode via `:` -> Enter commands
   1. `w [nameOfFile]` -> write out to file that was opened or to [nameOfFile]
   2. `q` -> quit
   3. `!` -> several meaning:
     1. It forces a command, such as `:q!` to force quiting even though changes have not been saved
     2. It work as a toggle for certain commands, so `:set cursorline` `:set nocursorline` to `:set cursorline!`
-  4. `:noh` -> remove highlight
-  5. `:set number`
-
+  4. `:noh` -> remove highlight (e.g. after search)
+  5. `:set number` -> line numbers
+  6. `:scriptnames` -> get all the .vim files that Vim loaded, including .vimrc (Add user settings to *$HOME/vimrc*)
 ##Basic Shell Scripting##
 
-Scripts need an interpertreter. The script has access to:
+Scripts need an interperteter (*/bin/bash*). The script has access to:
 1. Variables, e.g. $USER
 2. Arguments:
   1. `$1` -> First Argument
   2. `$2` -> Second Argument
   3. `$?` -> Exit code/Status of previous statement (0 for success, non-zero for an error)
+
