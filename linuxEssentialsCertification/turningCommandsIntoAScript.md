@@ -34,3 +34,12 @@ Diifferent modes (is in the bottom line):
     2. It work as a toggle for certain commands, so `:set cursorline` `:set nocursorline` to `:set cursorline!`
   4. `:noh` -> remove highlight
   5. `:set number`
+
+##Basic Shell Scripting##
+
+Scripts need an interpertreter. The script has access to:
+1. Variables, e.g. $USER
+2. Arguments:
+  1. `$1` -> First Argument
+  2. `$2` -> Second Argument
+  3. `$?` -> Exit code/Status of previous statement (0 for success, non-zero for an error)
