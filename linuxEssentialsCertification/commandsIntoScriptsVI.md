@@ -125,4 +125,4 @@ Three ways of creating a sequence with `seq`:
 
 *NOTE*: 
 1. You have to put `for i in $(seq 5 15)` so the output of the seq command is used in the for construct. Without the command subsitution via $(), you actually create a sequence with 3 values: seq, 5 and 15.
-2. You can use backticks insteasd of $(). ``for i in `seq 5 15``` is the same as `for i in $(seq 5 15)`
+2. You can use backticks instead of $() for command substition. ``for i in `seq 5 15` `` is the same as `for i in $(seq 5 15)`
