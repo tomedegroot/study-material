@@ -55,11 +55,12 @@ Important to know:
 
 Example of a shell script:
 
+```
 #! /usr/bin/env bash
 
 FLAGLOCATION='flag'
 
-```
+
 if [ -r $FLAGLOCATION ]; then
   echo 'flag is readable'
 else
