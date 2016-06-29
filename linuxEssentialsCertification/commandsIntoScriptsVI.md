@@ -62,7 +62,7 @@ Important to know:
 2. `*/bin/bash* -> Bourne Again Shell`, [advised](http://stackoverflow.com/a/10383546) to use `#! /usr/bin/env bash`. env searches the $PATH to find the application to run the script, so your script becomes more portable.
 3. `Variables` -> pass variables or create arguments to pass to scripts
 4. `echo` -> print/echo's what tell echo to print to screen
-5. `Exit [exitCode]` -> exit and return the exit code
+5. `exit [exitCode]` -> exit and return the exit code
 
 ##If conditional:##
 
