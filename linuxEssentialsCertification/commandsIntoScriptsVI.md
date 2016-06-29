@@ -57,6 +57,7 @@ Scripts need an interperteter (*/bin/bash*). The script has access to:
   4. `$@` -> Iterate over arguments
 
 Important to know:
+
 1. `#!` -> shebang, what program to run
 2. `*/bin/bash* -> Bourne Again Shell`, [advised](http://stackoverflow.com/a/10383546) to use `#! /usr/bin/env bash`. env searches the $PATH to find the application to run the script, so your script becomes more portable.
 3. `Variables` -> pass variables or create arguments to pass to scripts
