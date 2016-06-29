@@ -8,26 +8,10 @@
 ##Vi##
 
 Diifferent modes (is in the bottom line):
+
 1. Normal mode -> after opening a file
 2. Insert mode -> edit the text file.`i`,`INSERT`,`s`,`o`, or `a`
-3. Command mode:  
-  Deleting:  
-  1. `dw` -> delete word after cursor **and the space after the word**
-  2. `de` -> delete word after cursor
-  3. `dd` -> delete entire line  
-  Yanking(copying):  
-  4. `yw` -> yank (copy) entire word *and the space after the word**
-  5. `ye` -> yank (copy) entire word
-  6. `yy` -> yank (copy) entire line  
-  Paste:  
-  7. `p`  -> paste what was just deleted or yanked  
-  Moving:  
-  8. `/` -> search for a term, this will highlight the term  
-  9. `w` -> move to next word  
-  10. `b` -> move to previous word  
-  11. `nG` -> move to the nth line of file  
-  12. `G` -> move to last line of file  
-4. Command **line** mode via `:` -> Enter commands
+3. Command **line** mode via `:` -> Enter commands
   1. `w [nameOfFile]` -> write out to file that was opened or to [nameOfFile]
   2. `q` -> quit
   3. `!` -> several meanings:
@@ -36,6 +20,32 @@ Diifferent modes (is in the bottom line):
   4. `:noh` -> remove highlight (e.g. after search)
   5. `:set number` -> line numbers
   6. `:scriptnames` -> get all the .vim files that Vim loaded, including .vimrc (Add user settings to *$HOME/vimrc*)
+4. Command mode, default mode to quickly navigate via shortkeys:
+ 
+Deleting:
+   
+  1. `dw` -> delete word after cursor **and the space after the word**
+  2. `de` -> delete word after cursor
+  3. `dd` -> delete entire line
+ 
+Yanking(copying):
+ 
+  1. `yw` -> yank (copy) entire word *and the space after the word**
+  2. `ye` -> yank (copy) entire word
+  3. `yy` -> yank (copy) entire line
+   
+Paste:
+
+  1. `p`  -> paste what was just deleted or yanked
+
+Moving:
+   
+ 1. `/` -> search for a term, this will highlight the term
+ 2. `w` -> move to next word
+ 3. `b` -> move to previous word
+ 4. `nG` -> move to the nth line of file
+ 5. `G` -> move to last line of file
+
 ##Basic Shell Scripting##
 
 Scripts need an interperteter (*/bin/bash*). The script has access to:
@@ -46,7 +56,7 @@ Scripts need an interperteter (*/bin/bash*). The script has access to:
   3. `$?` -> Exit code/Status of previous statement (0 for success, non-zero for an error)  
   4. `$@` -> Iterate over arguments
 
-Important to know:  
+Important to know:
 1. `#!` -> shebang, what program to run
 2. `*/bin/bash* -> Bourne Again Shell`, [advised](http://stackoverflow.com/a/10383546) to use `#! /usr/bin/env bash`. env searches the $PATH to find the application to run the script, so your script becomes more portable.
 3. `Variables` -> pass variables or create arguments to pass to scripts
