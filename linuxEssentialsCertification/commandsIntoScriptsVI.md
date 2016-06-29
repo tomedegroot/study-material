@@ -96,7 +96,7 @@ while *condition*
 *do*
 	*command*
 *done*
-
+```
 ##until##
 Opposite of while: loop as long as condition is **false**
 
