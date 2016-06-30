@@ -174,7 +174,7 @@ Example: `echo 'Username is $USER'` will print the literal Username is $USER
 
 What is in the backticks and the backticks itself will be substituted with output from the command in the backticks:
 
-`echo "Did you know that there are `wc -w < testfile1` number of words in testfile1?"`
+`echo "Did you know that there are `wc -w < testfile1` number of words in testfile1?"` one can also use `$()` for command substitution
 
 ##Formatting Commands##
 
@@ -199,3 +199,8 @@ Parameters can be divided in two types:
 In general formatting commands look like:
 
 `command options arguments`
+
+##`!!` and `background`
+
+1. `!!` -> subsitute for the last command entered. Handy for `sudo !!`
+2. `COMMAND&` -> run a command in the background. `disown` to remove a job from the current shell.
