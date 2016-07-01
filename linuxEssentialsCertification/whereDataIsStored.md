@@ -49,4 +49,22 @@ You can also use top to find a program that has a high and increasing memory usa
 
 Use `free` to generate a report on the memory. Use -h to get human readable output in MB's
 
-##syslog, klog and dmesg##
+##syslog, klog and dmesg (or logging in general)##
+
+Logfiles hold information notes. Mostly in */var/log*
+
+Some main log files/dirs:
+
+1. */var/log/boot.log* -> info for later part of the boot process.
+2. */var/log/secure* -> info for security on a system, such as root actions
+
+Log rotation happens at lots of servers at night. The oldest log file is deleted and the newest log files is renamed with a date or number in the new name.
+
+##syslog,klog##
+
+Syslog is a daemon to write logs for user space programs. Sometimes referred to as syslogd.
+Klog is a daemon that writes the logs for the kernel. Sometimes reffered to as klogd.
+
+The log daemon accepts messages from other programs sending messages. It will sort through the messages and log them to the correct file.
+
+The kernel ring buffer is a kind of log file for the kernel stored in memory. It's content is changed as the computer is runnig. Use `dmesg` for accessing information in the kernel ring buffer.
