@@ -108,3 +108,88 @@ Converting a decimal number to a binary number could be part of the exam. Best t
 6. -> 4
 7. -> 2
 8. -> 1
+
+Some IP addresses are reserved:
+
+1. The last octet in an IP address cannot be a 0. This is reserved as the address of the network segment itself.
+2. The last octet in an IP address cannot be 255. This number is meant as the broadcoast address.
+
+On the internet, which is a network, every IP address must be unique. IPv4 only has 255^4 unique addresses. Therefor IPv6 is created:
+
+1. IPv4: 32 bit IP scheme
+2. IPv6 128 bit IP scheme. IPv6 is composed of four character hexadecimal number separated by colins. For example:
+
+FE80:0000:0000:0000:0202:B3FF:FE1E:8329
+
+Must Linux distro's support both IPv4 and IPv6.
+
+###Network Address Translation (NAT)###
+
+We use a NAT router that creates 'private' IP address space on our LAN with multiple devices and computers but the outside, 'the router' has only 1 public IP address in which the internal network gets translated through:
+
+		   Public Internet
+		         |
+		   Public Network
+(NAT Router) Public IP 72.23.130.135 & Private IP 192.168.0.1
+			 |
+			LAN
+       |				|
+PC1 192.168.0.10		PC2 192.168.0.15
+
+This enables you to be on a private network and still use a public network such as the internet. Private IP address ranges are necessary to facilitate this:
+
+1. 10.0.0.0 - 10.255.255.255 (Class A)
+2. 172.16.0.0 - 172.31.255.255 (Class B)
+3. 192.168.0.0 - 192.168.255.255 (Class C) 
+
+These are non-routable addresses. They are translated via NAT through a public IP address.
+
+Subnet Mask
+
+IP addresses are divided into two parts:
+1. Network Address
+2. Node Address
+
+Every system within a network must have the same number in the network portion of the address. However, they have to have a unique node portion. How much of the IP address belongs to the network portion and how much belongs to the network and the node portion is determined by the subnet mask.
+
+Example: 255.255.255.0
+
+Every 255 in a subnet mask octet identifies a portion of a IP address that is used for the network portion.
+
+Address classes:
+
+1. Class A:
+  1. First octet between 1 and 126
+  2. First octet is the network address
+  3. Last three octets is the node address
+  4. Default subnet mask class A 255.0.0.0
+  5. Class A allows 126 total possible networks
+  6. Class A can offer 16.7 million possible node addresses.
+
+2. Class B:
+  1. First octet between 128 and 192
+  2. First two octets are the network address
+  3. Last two octets are the node address
+  4. Default subnet mask class B 255.255.0.0
+  5. Class B allows 16,384 total possible networks
+  6. Class B can offer 65,534 possible node addresses.
+
+3. Class C:
+  1. First octet between 192 and 223 
+  2. First three octets are the network address
+  3. Last octet is the node address
+  4. Default subnet mask class B 255.255.255.0
+  5. Class C allows 2,097,152 total possible networks
+  6. Class C can offer 254 possible node addresses.
+
+So these classes and aspects help you to determine how you could setup a private network.
+
+Subnetmask can be notated using shorthand:
+
+192.168.1.1/24 indicates that 24 bits are used for the subnet mask
+192.168.1.1 255.255.255.0
+
+Partial Subnet:
+1. You do not have to use the default subnet. Example: A class A address could use only part of the octet fot the address such as 255.255.252.0. This means that the first 6 bits in the 3rd octet are used for the network portion of the address.
+2. However, for PC3 to speak with PC2 and PC1 we need a router, because it is a different subnet. Without this route, PC3 (using subnet mask 255.255.252.0) can not communicate to the other host using 255.255.255
+
