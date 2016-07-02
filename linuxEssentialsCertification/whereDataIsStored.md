@@ -68,3 +68,10 @@ Klog is a daemon that writes the logs for the kernel. Sometimes reffered to as k
 The log daemon accepts messages from other programs sending messages. It will sort through the messages and log them to the correct file.
 
 The kernel ring buffer is a kind of log file for the kernel stored in memory. It's content is changed as the computer is runnig. Use `dmesg` for accessing information in the kernel ring buffer.
+
+##*/lib*, */usr/lib*,*/etc*,*/var/log*##
+
+1. */lib* linked library files used by binaries in */bin and */usr/bin* Libraries needed for the boot process are also in this dir.
+2. */usr/lib* linked library files used by binaries in */bin and */usr/bin*
+3. */etc* Config files for the Linux OS
+4. */var/log* Log files for Linux OS
