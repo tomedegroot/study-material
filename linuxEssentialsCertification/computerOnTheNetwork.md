@@ -193,3 +193,27 @@ Partial Subnet:
 1. You do not have to use the default subnet. Example: A class A address could use only part of the octet fot the address such as 255.255.252.0. This means that the first 6 bits in the 3rd octet are used for the network portion of the address.
 2. However, for PC3 to speak with PC2 and PC1 we need a router, because it is a different subnet. Without this route, PC3 (using subnet mask 255.255.252.0) can not communicate to the other host using 255.255.255
 
+##Domain Name Service (DNS) & Default Gateway (aka Network Router)##
+
+Domain names have to be translated to an IP Address. DNS Servers do this.
+
+The IP protocol was designed with routers in mind. In order to have different subnets communicate with one another, a router is necessary. When an ip address is not available in the own network (subnet), the IP protocol will redirect the the packet through the default gateway. This is usually the router. The router will use routing protocols to further redirect the packet.
+
+`dig` -> find an IP address for a domain name. Could also use `nslookup`
+
+See picture 1 to see how routing happens between subnets.
+
+There are two networks:
+1. 192.168.1.0
+2. 10.10.30.0
+
+The router has two network interface cards for the two networks. Mostly routers use 1 or 254 for the node segment of the addres, so in this example:
+
+1. 192.168.1.254
+2. 10.10.30.254
+
+By looking at the subnet mask, the router can determine that the packet needs to go to the 10.10.30.0 network.
+
+Therefor, the router can connect you to the internet **and** to other local network segments via subnetting.
+
+##Network Configuration##
