@@ -8,6 +8,10 @@
     2. Example of tar of files: `tar -cf folder1tar.tar file1.txt file3.txt`
   2. `-xf` (extracts file) Example: `tar -xf folder1tar.tar`
   3. `-tf` (list files) Example: `tar -tf file.tar`. Add -v for more verbose output
+    1. `tar -xf folder1.tar folder1/file1.txt -C . --strip-components=1` 
+    2. folder1/file1.txt in the above example specifies one file to extract. 
+    3. `-C` -> Choose dir to extract to
+    4. `--strip-components=1` -> strips components of the path name in the archive, in this case folder1
 
 ##Compression##
 
