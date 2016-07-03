@@ -47,3 +47,7 @@ How to become root?
   4. `-q` -> number of logged on users
   5. `-a` -> all info at once
 3. `last [USER=current-user]` -> shows recent activity of a user
+
+###System Users###
+
+System user accounts are not used for users to login, but are used by the services that are running on our system. The system user's id is always lower than 1000. 
