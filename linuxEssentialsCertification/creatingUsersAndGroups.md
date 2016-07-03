@@ -8,3 +8,41 @@ Humans use user names to login. The Linux system (processes, file permissions) u
 
 1. `id USER` -> get info on a user
 2. `groups USER` -> see of which groups a user is a member
+
+##User Commands##
+
+Some utilities to manage users:
+
+`adduser USERNAME` -> add user with default values. See default values for new user in */etc/default/useradd*
+  1. `-d` -> get the default values from */etc/default/useradd*
+  2. `-c` -> comment, useful to state the user's real name
+  3. `-e` -> expire date for the account
+  4. `-f` -> number of days after a password expires until the account is disabled
+  5. `-g` -> specify user's defaul group
+  6. `-G` -> additional groups for the user
+  7. `-M` -> no home dir
+  8. `-m` -> set home's dir
+  9. `-p` -> specify the encrypted password. Better to create without a password and then use `passwd USERNAME` to prevent the password showing up in the processes. By default a password is not created and the account is locked. You can see this with `passwd -S USERNAME`
+  10. `-r` -> create a system user, thus user id with low number
+  11. `-s` -> specify the default shell for the user
+  12. `-u` -> numerical value of the user's ID
+2. */etc/login.defs* -> config for shadow password. Has values for the system of adding users.
+3. */etc/skeleton* -> default values to be copied to a new user's home dir
+
+Example of adding a user:
+`useradd -c "Stephen Smith" -m -s "/bin/bash" ssmith`
+
+`passwd [OPTIONS] USERNAME` -> set or change a password for a user
+  1. `-S` -> get status of password
+  2. `-l` -> lock an account
+  3. `-u` -> unlock an account
+  4. `-d` -> delete a password. **not recommended**, possible to login without a password
+  5. `--stdin` -> read the password from stdin, example: echo "testPassword" |  passwd --stdin user3
+  6. `w` -> warning prior to password expiration
+
+`usermod [OPTIONS] USERNAME` -> manage existing users
+  1. `-c` -> modify password's file comment on the user (usually the user's real name)
+  2. Multiple options the same as in `useradd`
+
+`userdel USERNAME` -> deletes a user, **but** not the user's home dir
+  1. `-r` -> deletes the home dir and mail spool of the user with it
