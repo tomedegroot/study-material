@@ -16,6 +16,7 @@ Some example commands:
   1. `-r` -> reverse
   2. `-k` -> sort by key (or column). Example `sort k2 sort.txt` -> Sort sort.txt with the second column
   3. `n` -> numerical
+  4. `last | sort -k5,5M -k6,6n` sort monthyly by the 5th colum first, then numerical by the 6th column ([info](http://unix.stackexchange.com/questions/78925/how-to-sort-by-multiple-columns))
 6. `cut` -> print selected part of a line
   1. `-c5-9 file.txt` -> return character 5-9
   2. `cut -c2,4,6 file.txt` -> return  the 2, 4 and 6th char  
