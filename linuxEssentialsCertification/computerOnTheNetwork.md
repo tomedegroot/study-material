@@ -217,3 +217,63 @@ By looking at the subnet mask, the router can determine that the packet needs to
 Therefor, the router can connect you to the internet **and** to other local network segments via subnetting.
 
 ##Network Configuration##
+
+A few important network tools:
+
+1. `ping` -> Testing of connectivity of a remote network device
+2. `dig` -> Allows us to loopup IP address for DNS names (also: `nslookup`)
+3. `netstat` -> List network connections, routing info, NIC info
+4. `route` -> Current route/net settings
+5. `traceroute` -> Traces the route a packet takes
+6. `ifconfig` -> Current network settings
+7. `ip addr` -> Current IP address and network settings
+
+*/etc/resolv.cong/* -> This is where DNS Server info is stored
+
+`route` -> default location the pc is going to use to reach the outside network
+
+Each network interface has its own startup script and config, for example:
+*/etc/sysconfig/network-scripts/ifcfg-eth0/*
+
+NOTE: network configs of the server lab machines, chances are it is no longer reachable. This is because of the network setup of the server lab.
+
+Example of */etc/sysconfig/network-scripts/ifcfg-eth0/*
+
+```
+TYPE=Ethernet
+BOOTPROTO=dhcp
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+NAME=eth0
+UUID=1e0c18a8-ae6f-4672-a141-baa83d251558
+DEVICE=eth0
+ONBOOT=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+```
+
+Example of how to get a static IP address:
+
+BOOTPROTO=static
+IPADDR=10.0.2.41
+NETMASK=255.255.255.0 (or: IPADDR=10.0.2.41/24 -> shorthand notation of the netmask)
+NETWORK=10.0.2.0 ->to specify the network segment
+
+1. `route` -> [info](http://www.thegeekstuff.com/2012/04/route-examples/)
+  1. `route add -net network_address netmask subnet_mask gw router_address` -> add a route
+  2. `route delete -net network_address netmask subnet_mask gw router_address`->delete a route
+
+2. `netstat` 
+  1. `-a` All listening and non-listening sockets
+  2. `-i` Stats of network interfaces
+  3. `-l` Listening sockets
+  4. `-s` Summary
+  5. `-r` Routing table -> same as `route`
+
+3. `traceroute` -> uses icmp echo response packet to see how a route is. Helps you to see at which router the route stops.
