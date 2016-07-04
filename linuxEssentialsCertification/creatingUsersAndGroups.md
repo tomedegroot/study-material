@@ -41,8 +41,23 @@ Example of adding a user:
   6. `w` -> warning prior to password expiration
 
 `usermod [OPTIONS] USERNAME` -> manage existing users
-  1. `-c` -> modify password's file comment on the user (usually the user's real name)
-  2. Multiple options the same as in `useradd`
+  1. `-a` -> add user to a group. Example: `usermod -a -G accounting tony`. Remember, after a user is added to a group, the user must [logout and login again](http://stackoverflow.com/questions/5054888/linux-why-cant-i-write-even-though-i-have-group-permissions) 
+  2. `-c` -> modify password's file (*/etc/passwd*) comment on the user (usually the user's real name)
+  3. Multiple options the same as in `useradd`
 
 `userdel USERNAME` -> deletes a user, **but** not the user's home dir
   1. `-r` -> deletes the home dir and mail spool of the user with it
+
+##Group Commands##
+
+Makes life as an administrator easier. If multiple users want to access the same files on a system, we can make that easier by using groups. We then only have to manage the group rights.
+
+*/etc/group* -> defines the groups. In this file, you can delete a user from a group.
+*/etc/gshadow* -> shadow file for the groups ([info on passwords for groups](http://meinit.nl/a-group-password-in-linux))
+
+1. `groupadd [OPTION] GROUPNAME`
+  1. `-g` -> specify group ID
+  2. `-p` -> specify password for a group
+  3. `-r` -> create system group
+2. `groupmod [OPTION] GROUPNAME`
+3. `groupdel GROUPNAME` -> delete a group
