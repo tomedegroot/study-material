@@ -1,4 +1,4 @@
-# Chapter 1- A Tutorial Introduction
+# Chapter 1 - A Tutorial Introduction
 
 **Goal: Show the elements of C in a real program**
 
