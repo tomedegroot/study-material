@@ -1,1 +1,1 @@
-# Used for sharing notes
+# Used for sharing study material
