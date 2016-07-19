@@ -2,7 +2,7 @@
 
 **Goal: Show the elements of C in a real program**
 
-## p.6) Example hello.c:
+## p.6) 1.1 Getting Started. hello.c:
 
 ```
 #include <stdio.h>
@@ -35,7 +35,7 @@ A sequance of characters between double quotes is called:
 
 `\n` -> escape sequance, in this case for newline. See section 2.3(p.38) for a complete list of escape sequances.
 
-## p.8) Example: temperatures.c:
+## p.8) 1.2 Variables and Arithmetic Expressions. temperatures.c:
 
 ```
 #include <stdio.h>
@@ -55,7 +55,7 @@ int main()
 
         fahr = lower;
     
-        while(fahr<upper) {
+        while(fahr <= upper) {
                 celsius = 5  * (fahr-32) / 9;
                 printf("%d\t%d\n", fahr, celsius);
                 fahr = fahr + step;
@@ -100,3 +100,63 @@ lower = 0;
 upper = 300;
 step = 20; 
 ```
+
+while-loop: the conditional is tested and if the true the statements of the loop are executed:
+```
+while(fahr <= upper) {
+                //celsius = 5  * (fahr-32) / 9;
+                celsius = (5.0/9.0)  * (fahr-32);
+                //printf("%d\t%d\n", fahr, celsius);
+		printf("%6d\t%6d\n", fahr, celsius);
+                fahr = fahr + step;
+        }
+```
+1. `printf(string, arguments...)` -> the string contains placeholders for the other arguments and the placeholder shows in what form it needs to be printed. So the %d and the argument must match by place and type. 
+2. `printf("%d\t%d\n", fahr, celsius);` -> Right justify the numbers in the field
+
+Integers get truncated to zero. So don't get the fractional part of the result. To get that:
+
+```
+#include <stdio.h>
+
+/* print Fahrenheit-Celsius table for fahr = 0, 20 ..., 300 */
+
+/* Formula for conversion: C = (5/9) * (F-32) */
+
+int main()
+{
+        float fahr, celsius;
+        int lower, upper, step;
+
+        lower = 0;      /* lower limit of temperature table */
+        upper = 300;    /* upper limit */
+        step = 20;      /* step size */
+
+        fahr = lower;
+
+        while(fahr <= upper) {
+                //celsius = 5  * (fahr-32) / 9;
+                celsius = (5.0/9.0)  * (fahr-32.0);
+                //printf("%f\t%f\n", fahr, celsius);
+                printf("%3.0f\t%6.1f\n", fahr, celsius);
+                fahr = fahr + step;
+        }
+
+        return 0;
+
+}
+```
+
+Remember:
+
+1. A decimal point in a constant (e.g. 5.0 and 9.0) indicate it is a float
+2. If arithmetic operator has only integer operands -> result is an integer (possible truncated) (thats why `celsius = (5/9)  * (fahr-32);` doesn't work. The result `5/9` is <1 and gets truncated to 0)
+3. If arithmetic operator has an integer and a floating point -> integer is converted to a float and the result is a float.
+4. So even though the compiler convers an int to a float for you, for readibility it is better to make it a float explicitly
+5. Formatting options for the placeholders of the first argument `printf()`:
+  1. `%d` -> print as decimal integer
+  2. `%6d` -> print as decimal integer at  least 6 characters wide
+  3. `%f` -> print as floating point
+  4. `%6f` -> print as floating point at least 6 characters wide
+  5. `%.2f` -> print as floating point, 2 characters after decimal point
+  6. `%6.2f` -> print as floating point, 6 characters wide, 2 characters after decimal point
