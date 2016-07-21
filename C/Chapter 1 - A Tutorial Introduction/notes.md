@@ -160,3 +160,40 @@ Remember:
   4. `%6f` -> print as floating point at least 6 characters wide
   5. `%.2f` -> print as floating point, 2 characters after decimal point
   6. `%6.2f` -> print as floating point, 6 characters wide, 2 characters after decimal point
+
+## p.13)  1.3 The for statement
+
+Genereal syntax:
+
+```
+for (init; conditionIfTrueIterate; increment) {
+	bodyStatements
+}
+```
+
+Example of the temperature program with for loop:
+
+```
+#include <stdio.h>
+
+/* Print Fahrenheit-Celsius Table */
+
+int main()
+{
+        int fahr;
+
+        printf("Fahrentheit\tCelsius\n");
+
+        for (fahr = 0; fahr <= 300; fahr = fahr + 20) {
+                printf("%10d\t%7.1f\n", fahr, (5.0/9.0) * (fahr-32));
+        }
+
+        return 0;
+}
+```
+
+General rule: In any context where it is permissible to use the value of a variable of some type, you can use a more complicated expression of that type. See the last argument of printf() for an exmaple: `printf("%10d\t%7.1f\n", fahr, (5.0/9.0) * (fahr-32));` () 
+
+Note: an expression is a type of statement.
+
+The for loop is a generalization of the while loop. Base your decision on whether to use a `for` or `while` loop on what seems clearer. The `for` loop is more appropiate (clearer) when the initialization and increment are single statements that are logically related, since it's more compact than while and it keeps all the control statements in one line.
