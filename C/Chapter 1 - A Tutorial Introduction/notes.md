@@ -20,8 +20,14 @@ Compile by running `cc hello.c`
 
 A C program consists of:
 1. functions
-  1. statements: specify the computing operations
-2. variables store valuse during the computation
+  1. statements: specify the computing operations. There are [3])(http://farside.ph.utexas.edu/teaching/329/lectures/node11.html):
+    1. expression statements. This is an expression followed by a semicolon. This causes the expression to be evaluated. An [expression]((http://www.c4learn.com/c-programming/c-expression/)) is:
+      1. Any legal combination of characters that represent a value.
+      2. Every expression consists of at least one operand and can have one or more operators(such as *addition operator* + or the *assignment operator* = ).
+      3. Operands are values and Operators are symbols that represent particular actions.
+    2. compound statements
+    3. control statement (branching and looping)
+2. variables store values during the computation
 
 `main()` -> computation starts with executing this function.  
 
@@ -247,6 +253,54 @@ The integer corresponds with the [ASCII table](http://www.ascii-code.com/)
 Lookup: how does conversion between int and char happens?
 
 
-## p.16) 1.5.1 Character Input and Output
+## p.16) 1.5.1 File copying
 
+```
+#include <stdio.h>
 
+/* copy input to output; 1stversion */
+
+int main()
+{
+        int c;
+
+        c = getchar();
+        while (c != EOF) {
+                putchar(c);
+                c = getchar();
+        }   
+
+        return 0;
+
+}
+```
+
+`getchar()` returns EOF to mark the end of a file. EOF is a symbolic constant definied in the standard library. That is also why the variable c must be of type integer: it must be suitable for storing the value of EOF as well.
+
+In C, any assignment such as `c = getchar()` is an expression with a value (that is the value of the leftside after assignment). *This means that an assigment can appear as part of a larger expression*. Therefor, the following is possible:
+
+```
+#include <stdio.h>
+
+/* copy input to output; 2nd version */
+
+int main()
+{
+
+        int c;
+
+        while((c = getchar()) != EOF) {
+                putchar(c);
+        }   
+        return 0;
+}
+```
+
+The while gets a character, assigns it to c and then tests whether c is then end-of-file signal. The parentheses around `c = getchar()` is necassary, because the *relation operator* `!=` has precendence over the *assignment operator* `=`. So:
+
+`c = getchar() != EOF` is equivalent to:
+`c = (getchar() != EOF)`
+
+The `getchar() != EOF evaluates to `bool`. `bool` gets [converted](http://stackoverflow.com/questions/4276207/is-c-c-bool-type-always-guaranteed-to-be-0-or-1-when-typecasted-to-int) to the `int` 0 or 1 when it is assigned to c. Check the ASCII table: both 0 and 1 are not seen on tty with `putchar()`;
+
+Notice you have to press enter every time. This is because the terminal will buffer all input [until enter is pressed](http://stackoverflow.com/questions/1798511/how-to-avoid-press-enter-with-any-getchar). To fix this weird behaviour, I have made *copyInputToOutputV2-2.c*
