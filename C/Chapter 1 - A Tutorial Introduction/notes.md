@@ -197,3 +197,56 @@ General rule: In any context where it is permissible to use the value of a varia
 Note: an expression is a type of statement.
 
 The for loop is a generalization of the while loop. Base your decision on whether to use a `for` or `while` loop on what seems clearer. The `for` loop is more appropiate (clearer) when the initialization and increment are single statements that are logically related, since it's more compact than while and it keeps all the control statements in one line.
+
+## p.14) 1.4 Symbolic Constants
+
+Symbolic constant: `#define name replacement`
+Any occurence of *name* wil be replaced by *replacement*
+Example: `#define LOWER 0`
+
+Why use them? In our program, it's hard to understand what the numbers 0(lower limit), 300(uppet limit), and 20(step) actually do. Deal with these magic numbers by giving them a symbolic name via a symbolic constant.
+
+The compiler changes the symbolic constant for the associated replacement. Therefor, it is a [preprocessor statement](http://www.cprogrammingexpert.com/C/Tutorial/fundamentals/symbolic_constant_c_programming_language.aspx). Preprocessor statements start with a `#` and the convention is to write preprocessor constants in UPPERCASE. A symbolic constant is not a variable, so there is no variable declaration, so there is no semicolin at the end of `#define` line.
+
+Adaption of temperatures table with symbolic constants:
+
+```
+#include <stdio.h>
+
+#define LOWER 0 /* lower limit of table */
+#define UPPER 300 /* upper limit of table */
+#define STEP 20 /* step size */
+
+/* Print Fahrenheit-Celsius Table */
+int main()
+{
+        int fahr;
+
+        printf("Fahrentheit\tCelsius\n");
+
+        for (fahr = LOWER; fahr <= UPPER; fahr = fahr + STEP) {
+                printf("%10d\t%7.1f\n", fahr, (5.0/9.0) * (fahr-32));
+        }
+
+        return 0;
+}
+```
+## p.15) 1.5 Character Input and Output
+
+The standard library deals with text input and output as a stream of characters. A *text stream* is a sequance of character divided into lines; each line consists of zero or more characters followd by a newline character.
+
+1. `c = getchar()` -> read next input character.
+2. `putchar(c)` -> prints a character each time it is called.
+
+In C chars are unsigned integers. Unsigned [means](https://nl.wikipedia.org/wiki/Integer_(informatica)) it doesn't contain a + or -, thus it is positive. [Extra info](http://stackoverflow.com/questions/247873/signed-versus-unsigned-integers)
+
+The integer corresponds with the [ASCII table](http://www.ascii-code.com/)
+
+`getchar()` [returns an unsigned char converted to an int](http://stackoverflow.com/questions/7119470/int-c-getchar)
+
+Lookup: how does conversion between int and char happens?
+
+
+## p.16) 1.5.1 Character Input and Output
+
+
