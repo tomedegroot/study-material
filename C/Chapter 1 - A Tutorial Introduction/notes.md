@@ -383,3 +383,46 @@ int main()
 
 A character written within *single quotes* represents an integer value equal to the numerical value of the character in the machines character set. This is called a *character constant* Example:
 `'A'` is an integer with the value 65 in an ASCII character set ([see ASCII](http://www.asciitable.com/)). We prefer to write 'A' because the meaning is obvious and it gets a different value in a different character set. Be careful: **don't use double quotes**, double quotes make it a string constant (or string literal).
+
+### p.20) 1.5.4 Word Counting
+
+```
+#include <stdio.h>
+
+#define IN  1   /* inside a word */
+#define OUT 2   /* outside a word */
+
+/* count lines, words and characters in input */
+
+int c, nl, nw, nc, state;
+
+int main()
+{
+        state = OUT;
+    
+        nl = nw = nc = 0;
+
+        while ((c = getchar()) != EOF){
+    
+                ++nc;
+
+                if (c == '\n') {
+                        ++nl;
+                }   
+
+                if (c == '\n' || c == '\t' || c == ' ') {
+                        state = OUT;
+                } else if (state == OUT) {
+                        ++nw;
+                        state = IN; 
+                }   
+        }   
+
+        printf("New lines:%d\nWords:%d\nCharacters:%d\n", nl, nw, nc);
+    
+}
+```
+
+`nl = nw = nc = 0;` -> sets all three variables to zero. This is because an assignment is an expression and assignemnts associations are from right to left.
+`||` -> OR operator
+`&&` -> AND operator. AND precedes over OR
