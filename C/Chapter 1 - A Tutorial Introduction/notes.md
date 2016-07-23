@@ -426,3 +426,55 @@ int main()
 `nl = nw = nc = 0;` -> sets all three variables to zero. This is because an assignment is an expression and assignemnts associations are from right to left.
 `||` -> OR operator
 `&&` -> AND operator. AND precedes over OR
+
+### p.22) 1.6 Arrays
+
+```
+#include <stdio.h>
+
+/* count digits, white space and others */
+
+int main()
+{
+        int c, i, nwhite, nother;
+        int ndigit[10];
+
+        nwhite = nother = 0;
+
+        for (i = 0; i < 10; ++i)
+                ndigit[i] = 0;
+
+        while((c = getchar()) != EOF)
+        {   
+                if (c >= '0' && c <= '9')
+                        ++ndigit[c - '0'];
+
+                else if (c == '\n' || c == '\t' || c == ' ')
+                        ++nwhite;
+                else
+                        ++nother;
+        }   
+            
+        printf("digits:");
+
+        for (i = 0; i < 10; ++i)
+                printf(" %d", ndigit[i]);
+            
+        printf(" whites: %d others: %d\n", nwhite, nother);
+
+        return 0;
+
+}
+```
+
+`int ndigit[10];` -> declares ndigit to be an array of 10 integers. The invidual elements are referenced by an *array subscript*, in c these subscripts start with 0.
+`int myArray[10] = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };` -> another way of declaring an array. [More ways](http://stackoverflow.com/a/201116)
+
+```
+if (c >= '0' && c <= '9')
+	++ndigit[c - '0'];
+```
+
+This part of the program tests if the character is a digit and increments by referencing via the right subscript (`c - '0'`). This only works if the digits 0..9 are placed consecutively in the character set. chars are identical to ints in arithmetic expressions. So `c - '0'` is an integer expressions.
+
+
