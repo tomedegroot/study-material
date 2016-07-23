@@ -253,7 +253,7 @@ The integer corresponds with the [ASCII table](http://www.ascii-code.com/)
 Lookup: how does conversion between int and char happens?
 
 
-## p.16) 1.5.1 File copying
+### p.16) 1.5.1 File copying
 
 ```
 #include <stdio.h>
@@ -303,4 +303,83 @@ The while gets a character, assigns it to c and then tests whether c is then end
 
 The `getchar() != EOF evaluates to `bool`. `bool` gets [converted](http://stackoverflow.com/questions/4276207/is-c-c-bool-type-always-guaranteed-to-be-0-or-1-when-typecasted-to-int) to the `int` 0 or 1 when it is assigned to c. Check the ASCII table: both 0 and 1 are not seen on tty with `putchar()`;
 
-Notice you have to press enter every time. This is because the terminal will buffer all input [until enter is pressed](http://stackoverflow.com/questions/1798511/how-to-avoid-press-enter-with-any-getchar). To fix this weird behaviour, I have made *copyInputToOutputV2-2.c*
+Extra info: [Original version of C didn't have the boolean type.](https://www.le.ac.uk/users/rjm1/cotter/page_37.htm). It represented booleans with `0` being **false**, every other numeric value is **true**. So in the older versions, `getchar()) != EOF` resulted directly in either 0 or 1.
+
+
+
+Notice you have to press `enter` every time. This is because the terminal will buffer all input [until enter is pressed](http://stackoverflow.com/questions/1798511/how-to-avoid-press-enter-with-any-getchar). To fix this weird behaviour, I have made *copyInputToOutputV2-2.c*
+
+### p.17) 1.5.2 Character Counting
+
+Program to count characters:
+
+```
+#include <stdio.h>
+
+/* Count characters in input; 1st version  */
+
+int main()
+{
+        long nc = 0;
+
+        while (getchar() != EOF) {
+                ++nc;
+        }   
+
+        printf("%ld\n", nc);
+}
+```
+
+`++` -> increment by one. Can be poth prefix and postfix, but as will be explained in Chapter 2, it has different meaning. 
+ 
+We use the long type here, because long take [at least 4 bytes and can store larger values than int](http://www.tutorialspoint.com/cprogramming/c_data_types.htm)
+
+`%ld` -> tells printf that the corresponding argument is a long integer
+
+The program could have been written with a for loop and a double(a double takes 8 bytes for storage) for the character counter:
+
+```	
+#include <stdio.h>
+
+int main()
+{
+
+        double nc; 
+
+        for (nc = 0; getchar() != EOF; nc++)
+		;
+    
+        printf("%.0f\n", nc);
+}
+```
+
+C requires that the for loop has a body. The isolated semicolon called a null statement is there to satisfy that requirement.
+
+Note: the while and for loop test at the top of the loop before proceeding with the body. This enusres that the programs deals intelligently when there is a zero-length input.
+
+### p.19) 1.5.3 Line Counting
+
+Count input lines. Remember: an input text stream appears as a sequence of lines, each terminated by a newsline (`\n`)
+
+
+```
+#include <stdio.h>
+
+/* Count lines */
+
+int main()
+{
+        int c, nl; 
+
+        nl = 0;
+
+        while ((c = getchar()) != EOF )
+        {   
+                if (c == '\n')
+                        ++nl;
+        }   
+}
+```
+
+A character written within *single quotes* represents an integer value equal to the numerical value of the character in the machines character set. This is called a *character constant* Example:
+`'A'` is an integer with the value 65 in an ASCII character set ([see ASCII](http://www.asciitable.com/)). We prefer to write 'A' because the meaning is obvious and it gets a different value in a different character set. Be careful: **don't use double quotes**, double quotes make it a string constant (or string literal).
