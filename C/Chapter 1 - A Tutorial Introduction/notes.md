@@ -488,4 +488,96 @@ On MAC printing the ESC character (ASCII: 27) switches the terminal to the alter
 
  ### p.24) 1.7 Functions
 
+A function encapsulates a piece of computation. With a **proper** function, it doesn't matter to the client *how* it is done, only matters *what* is done. In C many small computations will be in its own function, just because it **clarifies** a piece of code.
+
+The standard library contains a function pow(x, y) that computes base x to the y'th power, but for practice we make one ourselves. Ours is only suitable for small positive integers for power:
+
+```
+#include <stdio.h>
+
+/* test power function */
+int power(int base, int n); 
+
+int main()
+{
+        int i;
+
+        for (i = 0; i < 10; ++i)
+                printf("%d %d %d\n", i, power(2,i), power(-3, i));
+        return 0;
+}
+
+/* power: raise base to the n-th power; n >= 0 */
+
+int power(int base, int n)
+{
+        int i, p;
+            
+        p = 1;
+            
+        for (i = 1; i <= n; ++i)
+                p = p * base;
+            
+        return p;
+}
+```
+
+1. Function needs to be declared before it is invoked. (see also point 6)
+2. *parameter* is used for a variable named in the parenthesized list, an *argument* is used for the value in the call.
+3. Params to a function are local in scope.
+4. Any expression may follow from return.
+5. If no expression after return, causes to only return control, but not a useful value.
+6. On line 4 is a *function prototype*. The function prototype has to agree with the definition and usages of the function, otherwise -> error.
+
+A program that converts fahrenheit to celsius using a function:
+
+```
+#include <stdio.h>
+
+#define LOWER 0
+#define UPPER 300
+#define STEP 20
+
+/* function to convert fahrenheit to celsius */
+float convertftoc(int fahrenheit);
+
+int main()
+{
+
+int i;
+
+printf("fahrenheit\tcelsius\n");
+
+for (i = LOWER; i <= UPPER; i = i + STEP)
+        printf("%10d\t%7.1f\n", i, convertftoc(i));
+
+return 0;
+}
+
+float convertftoc(int fahrenheit)
+{
+        return (5.0/9.0) * (fahrenheit - 32);
+}
+```
+
+### p. 27 1.8 Arguments - Call by Value
+
+In C all arguments are passed by value. However, it is possible to let a function access a variable directly: the caller must then provide a pointer to the variable.  
+**Exception for arrays**: arrays are passed as a pointer to the memory location. By subscripting the value, functions can access the values of an array. (see 1.9)
+
+So, since arguments are passed by value, the power function could have been written as follows:
+```
+/* power: raise base to the n-th power; n >= 0 */
+int power(int base, int n)
+{
+        int p = 1;
+    
+        for (; n > 0; --n)
+                p = p * base;
+    
+        return p;
+}
+```
+### p. 28 1.9 Character Arrays
+
 

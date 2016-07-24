@@ -1,6 +1,10 @@
 #Vi#
 
-Diifferent modes (is in the bottom line):
+Reference material:
+  1. [Vimgifs](https://vimgifs.com/)
+  2. [Vimwikia](http://vim.wikia.com/wiki/Vim_Tips_Wiki)
+
+Different modes (is in the bottom line):
 
 1. Normal mode -> after opening a file
 2. Insert mode -> edit the text file.`i`,`INSERT`,`s`,`o`, or `a`
@@ -38,3 +42,17 @@ Moving:
  3. `b` -> move to previous word
  4. `nG` -> move to the nth line of file
  5. `G` -> move to last line of file
+
+Selecting:
+
+  1. 'v' -> enter visual select. Move with Arrows or use nG to move to a line.
+
+Group alteration
+  1. '>' or '<' -> (un)indent a group selection
+
+Replace:
+
+  1. '%s/search/replace/g' -> search an replace global
+
+  [More options](http://vim.wikia.com/wiki/Search_and_replace)
+  
