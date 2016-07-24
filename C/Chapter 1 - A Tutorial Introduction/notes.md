@@ -477,4 +477,15 @@ if (c >= '0' && c <= '9')
 
 This part of the program tests if the character is a digit and increments by referencing via the right subscript (`c - '0'`). This only works if the digits 0..9 are placed consecutively in the character set. chars are identical to ints in arithmetic expressions. So `c - '0'` is an integer expressions.
 
+Notes on exercise 1-14: If you print the ESC sequance literally, the terminal switches to the VT100 Alternate Character Set mode. From [wikipedia](https://en.wikipedia.org/wiki/Box-drawing_character):
+
+```
+Unix, CP/M, BBS[edit]
+On many Unix systems and early dial-up bulletin board systems the only common standard for box-drawing characters was the VT100 alternate character set. The escape sequence Esc ( 0 switched the codes for lower-case ASCII letters to draw this set, and the sequence Esc ( B switched back:
+```
+
+On MAC printing the ESC character (ASCII: 27) switches the terminal to the alternate character set, replacing all the lower case characters with drawing characters. So do not print the ESC key. To witch to to the normal mode again, type `reset` or `tput rmacs` [source](http://superuser.com/questions/197764/reset-garbled-terminal-window-on-os-x)
+
+ ### p.24) 1.7 Functions
+
 
