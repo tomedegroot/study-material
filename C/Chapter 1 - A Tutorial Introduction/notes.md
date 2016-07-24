@@ -589,9 +589,9 @@ while (*another line*)
 *print longest line*
 
 Steps:
-1. Write a function which reads the next line, saves into a character string and returns the length. -> getLine function
-2. Write a function to copy a line into the longest line variable -> copy function
-3. Write the while loop to control the program.
+1. Write a function which reads the next line, saves into a character string and returns the length. -> getLine function  
+2. Write a function to copy a line into the longest line variable -> copy function  
+3. Write the while loop to control the program.  
 
 ```
 #include <stdio.h>
