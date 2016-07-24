@@ -588,7 +588,7 @@ while (*another line*)
     *save length*
 *print longest line*
 
-Steps:
+Steps:  
 1. Write a function which reads the next line, saves into a character string and returns the length. -> getLine function  
 2. Write a function to copy a line into the longest line variable -> copy function  
 3. Write the while loop to control the program.  
@@ -649,3 +649,7 @@ void copy(char from[], char to[])
 }
 ```
 
+1. `int` is  the default return type, so in the function getLine it could have been omitted.
+2. `\0`, the *null character* is used to mark the end of an array.
+
+In exercise 1-16, a program is written which, if the line exceeds the max length, as much as possible of the line is shown and the total length of the line is shown. Amend the function to make it more clear with more variables and using the while loop.
