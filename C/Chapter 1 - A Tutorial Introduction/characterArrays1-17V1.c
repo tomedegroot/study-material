@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define MAXLINE 1000
 
-int getLine(char line[], max);
+int getLine(char line[], int maxLine);
 
 int main()
 {
@@ -10,14 +10,15 @@ int main()
 	
 	while ((lineLength = getLine(line, MAXLINE)) != 0){
 		if (lineLength > 80)
-			printf("%s", line);
+			printf("%d: %s", lineLength, line);
 	}
 
 	return 0;
 }
 
-int getLine(char line[], maxLine) 
+int getLine(char line[], int maxLine) 
 {	
+	int c;	
 	int lineLength = 0;
 	int charSubscript = 0;	
 
