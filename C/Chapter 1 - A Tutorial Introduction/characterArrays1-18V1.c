@@ -10,8 +10,11 @@ int main()
 	char line[MAXLINE];
 	
 	while ((lineLength = getLine(line, MAXLINE)) != 0){
+		if (lineLength == 1 && line[0] == '\n')
+            		continue;
+
 		sanitizeLine(line, lineLength);	
-		printf("%d: %si", lineLength, line);
+		printf("%d: %s", lineLength, line);
 	}
 
 	return 0;
@@ -20,14 +23,16 @@ int main()
 /* Remove trailing blanks and tabs from each line of input and set it to char line[] */
 void sanitizeLine(char line[], int lineLength)
 {
-	int newLineAtEnd = 0;
+	/*
+	 * Remember: subscripts in array start from zero, so the line length is one higher than the last subscript of content.
+	 * The last subscript of the char[] is the '\0' char, which indicates the end of the string (terminator) and doesn't count for the length of the contet.
+	 * This means that the lineLength indicates the place of the line terminator. (lineLength - 1 = last content subscript, lineLength itself is the '\0' subscript)
+	 */	
 	
-	/* Skip the string terminator '\0' */
-	lineLength--;
-
-	/* Skip the newline indicator if it is there */
-	if (line[lineLength - 1] == '\n'){
-		lineLength--;
+	// If the line ends with a newline, than it should be in the sanitized line as well	
+	int newLineAtEnd = 0;
+	if (line[lineLength-1] == '\n'){
+		lineLength--; // strip the newline
 		newLineAtEnd = 1;	
 	}
 
@@ -36,11 +41,12 @@ void sanitizeLine(char line[], int lineLength)
 	} 
 
 	if (newLineAtEnd){
-		line[lineLength - 1] = '\n';
+		line[lineLength] = '\n';
 		lineLength++;
 	}
 
-	line[lineLength - 1] = '\0';
+	// Mark the end of the string
+	line[lineLength] = '\0';
 
 	return;
 }
