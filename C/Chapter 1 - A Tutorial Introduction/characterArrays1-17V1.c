@@ -45,3 +45,5 @@ int getLine(char line[], int maxLine)
 
 	return lineLength;
 }
+
+INVALID OUTPUT: WIP

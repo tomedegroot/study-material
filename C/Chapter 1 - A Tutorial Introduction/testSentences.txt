@@ -3,3 +3,4 @@ En dit is ook een zin
 En dit is een nog veel langere zin
 Deze lijn heeft meer dan 80 karakters. Deze lijn heeft meer dan 80 karakters. Deze lijn heeft meer dan 80 karakters.
 Deze lijn heeft 80 karakters. Deze lijn heeft 80 karakters. Deze lijn heeft 80.
+Deze lijn heeft trailing spaces en tabs   			
