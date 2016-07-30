@@ -3,6 +3,7 @@
 #define MAX_LINE 1000
 
 int getLine(char line[]);
+void reverseLine(char line[]);
 
 int main()
 {
@@ -12,8 +13,20 @@ int main()
 	while((length = getLine(line)) > 0)
 	{	
 		// reverse should come here
-		printf("%d: %s", length, line);
+		printf("%d: %d: %s", reverseLine(line), length, line);
 	}
+}
+
+/* Reverse a line*/
+void reverseLine(char line[])
+{
+	int length;
+
+	for (length = 0; line[length] != '\0'; ++length)
+		;
+	
+	
+
 }
 
 /* Read from stdin and return in line */
