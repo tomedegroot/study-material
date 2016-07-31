@@ -25,7 +25,10 @@ int main()
 		printf("\nLongest sentence (%d characters)is: %s\n", max, longest);
 }
 
-/* getLine: read a line into s, return length*/
+/* 
+ * getLine: read a line into s, return length
+ * see for another version the anwser in The C Answer Book
+ */
 int getLine(char s[], int maxline)
 {
 	int c, length, characterCount;
