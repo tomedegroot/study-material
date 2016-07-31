@@ -649,7 +649,16 @@ void copy(char from[], char to[])
 }
 ```
 
-1. `int` is  the default return type, so in the function getLine it could have been omitted.
+1. `int` is  the default return type, so in the function getLine it could have been omitted, but it's bad practice.
 2. `\0`, the *null character* is used to mark the end of an array.
 
 In exercise 1-16, a program is written which, if the line exceeds the max length, as much as possible of the line is shown and the total length of the line is shown. Amend the function to make it more clear with more variables and using the while loop.
+
+### p. 31 1.10 External Variables and Scop
+
+*Local* variables are *automatic* variables come and go with each function invocation. If they are not explicitly set, they will contain garbage.
+
+Aspects of *external* variables:
+1. Can be used to communicate data between functions instead of an argument list
+2. Remain permanently in existence
+3. Must be defined exactly once outside of any function. Either explicit with the term *extern* or implicit if it is outside any function
