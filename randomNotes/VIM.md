@@ -21,38 +21,54 @@ Different modes (is in the bottom line):
  
 Deleting:
    
-  1. `dw` -> delete word after cursor **and the space after the word**
-  2. `de` -> delete word after cursor
-  3. `dd` -> delete entire line
+1. `dw` -> delete word after cursor **and the space after the word**
+2. `de` -> delete word after cursor
+3. `dd` -> delete entire line
  
 Yanking(copying):
  
-  1. `yw` -> yank (copy) entire word *and the space after the word**
-  2. `ye` -> yank (copy) entire word
-  3. `yy` -> yank (copy) entire line
+1. `yw` -> yank (copy) entire word *and the space after the word**
+2. `ye` -> yank (copy) entire word
+3. `yy` -> yank (copy) entire line
    
 Paste:
 
-  1. `p`  -> paste what was just deleted or yanked
+1. `p`  -> paste what was just deleted or yanked
 
 Moving:
    
- 1. `/` -> search for a term, this will highlight the term
- 2. `w` -> move to next word
- 3. `b` -> move to previous word
- 4. `nG` -> move to the nth line of file
- 5. `G` -> move to last line of file
+1. `/` -> search for a term, this will highlight the term
+2. `w` -> move to next word
+3. `b` -> move to previous word
+4. `nG` -> move to the nth line of file
+5. `G` -> move to last line of file
+6. `$G` -> move to end of line
 
 Selecting:
 
-  1. 'v' -> enter visual select. Move with Arrows or use nG to move to a line.
+1. 'v' -> enter visual select. Move with Arrows or use nG to move to a line.
 
 Group alteration
-  1. '>' or '<' -> (un)indent a group selection
+1. '>' or '<' -> (un)indent a group selection
 
 Replace:
 
-  1. '%s/search/replace/g' -> search an replace global
+1. '%s/search/replace/g' -> search an replace global 
+2. [More options](http://vim.wikia.com/wiki/Search_and_replace)
+ 
+Help:
 
-  [More options](http://vim.wikia.com/wiki/Search_and_replace)
-  
+1. Go to help `:help`
+2. Use `CRTL+]` to go to a section
+
+Multiple files:
+
+1. Split screen:
+  1. `CRTL` + `W` + `S`(Upper case) -> horizontal splitting
+  2. `CRTL` + `W` + `v` -> vertical splitting
+  3. `CRTL` + `W` + `q` -> close a window
+  4. `CRTL` + `W`, `CRTL` + `W` -> switch between windows
+2. `:edit file` -> edit file
+3. `:sp file` -> horizontal split and open file
+4. `:vsp file` -> vertical split for a file
+5. `:echo @%` -> see the file that is being edited
