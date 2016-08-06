@@ -649,7 +649,102 @@ void copy(char from[], char to[])
 }
 ```
 
-1. `int` is  the default return type, so in the function getLine it could have been omitted.
+1. `int` is  the default return type, so in the function getLine it could have been omitted, but it's bad practice.
 2. `\0`, the *null character* is used to mark the end of an array.
 
 In exercise 1-16, a program is written which, if the line exceeds the max length, as much as possible of the line is shown and the total length of the line is shown. Amend the function to make it more clear with more variables and using the while loop.
+
+### p. 31 1.10 External Variables and Scop
+
+*Local* variables are *automatic* variables come and go with each function invocation. If they are not explicitly set, they will contain garbage.
+
+Aspects of *external* variables:
+1. Can be used to communicate data between functions instead of an argument list
+2. Remain permanently in existence
+3. Must be defined exactly once outside of any function. 
+4. Before a function can use the external variable, it must name the variable. This can be doen with the *extern* keyword, but if the declaration of the external variable occurs in the **source file**, the *extern* keyword can be omitted.
+
+Example:
+
+```
+#include <stdio.h>
+
+#define MAX_LINE 1000 // To prevent memory overflow
+
+char line[MAX_LINE]; // Current line
+char max_line[MAX_LINE]; // Max line
+
+int max_length = 0; // Length of max line
+
+int getLine();
+void copy();
+
+/* Goal of program: Count the length of lines from stdin and output the length and content of the longest line */
+
+// Loop over lines and if it is longer than the current max line, store the length in max_length and content in max_line
+int main()
+{
+	extern char max_line[];
+	
+	int length;
+	extern int max_length;
+		
+	
+		
+	while((length = getLine()) != 0){
+		if (length > max_length) {
+			copy();
+			max_length = length;
+		}
+	}	
+	
+	printf("%d: %s", max_length, max_line);
+}	
+
+// Get the next line, store it and return the length
+int getLine()
+{
+	char c;
+	extern char line[];
+
+	int length = 0;
+	int charsAssigned = 0; // Keep track of the charsAssigned to prevent a memory overflow
+
+	while((c = getchar()) != '\n' && c != EOF){
+		++length;
+		
+		if (charsAssigned < MAX_LINE - 1){
+			line[charsAssigned] = c;
+			++charsAssigned;
+		}
+	}
+
+	if (c == '\n') {
+		++length;
+
+		if (charsAssigned < MAX_LINE -1){
+			line[charsAssigned] = c;
+			++charsAssigned;
+		}
+	}
+
+	line[charsAssigned] = '\0';
+	return length;
+}
+
+// copy 
+void copy(){
+	extern char line[], maxline[];
+	
+	int i = 0;
+	while((max_line[i] = line[i]) != '\0')
+		++i;
+}
+```
+
+Note:
+1. In older version of C, if a function takes no arguments, it should be written with `void` in the argument list at the the declaratio, so: `int getLine(void)`
+
+The second version of the program with the external variables *is inferior* to the first version without the external variables for two reasons:
+1. External variables are always there, even if you don't need them anymore.
+2. It is not easy to see which functions manipulate the external variables. If a function only manipulates the variables it gets as parameters, it is easy to see which variables it manipulates.

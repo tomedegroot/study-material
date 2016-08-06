@@ -1,6 +1,6 @@
-Dit is een zin
-
-
+Dit is een zin.
+Dit		is 				een zin met willekeurige			tabs.
+Dit    is      een    zin    met        willekeurige            spaties.
 
 
 En dit is ook een zin
