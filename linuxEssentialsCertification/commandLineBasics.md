@@ -154,8 +154,9 @@ List of characters for expanding:
 * `*` Zero or more characters. Example: `ls *.txt`
 * `?` One character. Example: `ls test?` for test1 or `ls test??` for test12
 * `[ab]` a **or** b. Example: `ls [ab]*.txt`. [] is a more specific type of `?` expansion and only works for a single character. So touch [fF]ile.txt does not work. Therefor use:
-* `{a,B}` a or b. Example `touch {f,F}ile.txt`
+* `{a,A}` a or A. Example `touch {f,F}ile.txt`
 * `{1..20}` range of 1,2,3,4..20. Example `touch fotos-{2000-2010}`
+* [more info](http://tldp.org/LDP/GNU-Linux-Tools-Summary/html/x11655.htm)
 
 ##Quoting and backticks##
 
