@@ -33,6 +33,6 @@
   3. Not installed by default on CentOS
 The `tar` command archives, it does not compress. **However with options `tar` can also compress via gzip and bzip2:**
 
-1. gzip: `tar -zcf file.tar.gz or file.tgz`
-2. bzip2: `tar -jcf file.tar.bz2 or file.tb2`
+1. gzip: `tar -zxf file.tar.gz or file.tgz` x for extract
+2. bzip2: `tar -jcf file.tar.bz2 or file.tb2` c for create
 
