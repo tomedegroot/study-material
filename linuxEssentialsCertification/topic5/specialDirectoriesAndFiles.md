@@ -17,8 +17,8 @@ A symbolic link links to another file name, hard link points to the inode (conte
 Special dirs and files:
 
 1. */var* -> contains files that change often such as mail, logs etc.
-2. */tmp -> contains temporary files that **do** get deleted on  reboot.
-3. */var/tmp -> contains files that **do not** get deleted on reboot.
+2. */tmp* -> contains temporary files that **do** get deleted on  reboot.
+3. */var/tmp* -> contains files that **do not** get deleted on reboot.
 
 The */tmp* and */var/tmp* folder have special rules concerning permissions. 
 
