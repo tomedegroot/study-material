@@ -11,7 +11,7 @@ Humans use user names to login. The Linux system (processes, file permissions) u
 
 ##User Commands##
 
-Some utilities to manage users:
+Some utilities to manage users ([usedadd and adduser](http://askubuntu.com/questions/345974/what-is-the-difference-between-adduser-and-useradd)):
 
 `adduser USERNAME` -> add user with default values. See default values for new user in */etc/default/useradd*
   1. `-d` -> get the default values from */etc/default/useradd*
@@ -30,7 +30,7 @@ Some utilities to manage users:
 3. */etc/skeleton* -> default values to be copied to a new user's home dir
 
 Example of adding a user:
-`useradd -c "Stephen Smith" -m -s "/bin/bash" ssmith`
+`adduser -c "Stephen Smith" -m -s "/bin/bash" ssmith`
 
 `passwd [OPTIONS] USERNAME` -> set or change a password for a user
   1. `-S` -> get status of password
