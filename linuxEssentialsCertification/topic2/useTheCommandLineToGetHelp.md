@@ -18,6 +18,8 @@ The manual sections:
 8. System administration commands (for programs run mostly or exclusively as root)
 9. Kernel routines
 
+`man man` -> get these sections
+
 ###man usage###
 
 Use man by via `man [keyword]` where `keyword` is a command, config file or other keyword we wanat help with. This takes you directly to the correct section.  
