@@ -49,6 +49,11 @@ Example of adding a user:
 `userdel USERNAME` -> deletes a user, **but** not the user's home dir
   1. `-r` -> deletes the home dir and mail spool of the user with it
 
+###Handy tools relating to users:###
+
+  1. `finger [USER=current-user]` -> Get info on user
+  2. `id [USER=current-user]` -> Get user id
+
 ##Group Commands##
 
 Makes life as an administrator easier. If multiple users want to access the same files on a system, we can make that easier by using groups. We then only have to manage the group rights.
