@@ -31,6 +31,6 @@ Set permissions on a file:
 2. `chmod ugo+w filename` -> adds write permission to the user, group and other (off course the minus (-) sign also works)
 Before changing the permissions of a file, you need to be **user owner** or **root**. 
 
-Changing ownership. This can [only be done by **root**.](http://superuser.com/questions/697608/chown-operation-not-permitted)
+Changing ownership. This can [only be done by root.](http://superuser.com/questions/697608/chown-operation-not-permitted)
 `chown username:groupname filename` or `chown username.groupname filename`
 `chown username: filename` works as well. In that case user is username and the group is also username
