@@ -11,7 +11,7 @@ Humans use user names to login. The Linux system (processes, file permissions) u
 
 ##User Commands##
 
-Some utilities to manage users ([usedadd and adduser](http://askubuntu.com/questions/345974/what-is-the-difference-between-adduser-and-useradd)):
+Some utilities to manage users ([useradd and adduser](http://askubuntu.com/questions/345974/what-is-the-difference-between-adduser-and-useradd)):
 
 `adduser USERNAME` -> add user with default values. See default values for new user in */etc/default/useradd*
   1. `-d` -> get the default values from */etc/default/useradd*
