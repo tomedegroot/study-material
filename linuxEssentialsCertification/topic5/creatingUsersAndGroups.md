@@ -8,6 +8,7 @@ Humans use user names to login. The Linux system (processes, file permissions) u
 
 1. `id USER` -> get info on a user
 2. `groups USER` -> see of which groups a user is a member
+3. */etc/passwd* -> see all the users with info
 
 ##User Commands##
 
