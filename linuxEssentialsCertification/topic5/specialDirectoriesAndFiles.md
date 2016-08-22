@@ -49,6 +49,6 @@ In other words, if you have write access to a dir, but not the file in the dir (
   2. [info](http://www.linuxnix.com/suid-set-suid-linuxunix/)
   3. */usr/bin/passwd* example file with setuid 
 
-`ls file` -> x for user is set SUID, second x for GUID and the third for the sticky bit. 
+`ls file` -> x for user is replaced for s for SUID, x for group is replaced for s for GUID and the third x is replaced with t for the sticky bit. 
 
 
