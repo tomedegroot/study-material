@@ -35,7 +35,16 @@ After this, when you do `ls -l` The last symbol of the permission string is a 't
 
 You can set the sticky bit via a fourth octet before the regular octets in `chmod`:
 `chmod 0777 sticky` -> sticky bit is off
-`chmod 1777 sticky` -> sticky bit is on
+`chmod 1777 sticky` -> sticky bit is on.
+
+##SUID##
+
+1. `SUID` -> set owner user id upon execution. 
+  1.`chmod u+s file1.txt` 
+  2. [info](http://www.linuxnix.com/suid-set-suid-linuxunix/)
+  3. */usr/bin/passwd* example file with setuid 
+
+`ls file` -> x for user is set SUID, second x for GUID and the third for the sticky bit. 
 
 REMEMBER:
 Without the sticky bit set, any user with write and execute permissions for the directory can rename or delete contained files, regardless of the file's owner.
