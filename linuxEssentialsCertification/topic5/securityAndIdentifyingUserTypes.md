@@ -25,8 +25,9 @@ Where are the Linux account stored within the Linux File System?
 
 Recommended to not edit these files directly, but to use the user management tools (next lessons). Basic operations can be done with:
 
-1. pwck -> verify integrity of password files
-2. pwconv -> convert to and from shadow passwords and groups
+1. `SUID` -> set owner user id upon execution. `chmod u+s file1.txt` [info](http://www.linuxnix.com/suid-set-suid-linuxunix/)
+2. pwck -> verify integrity of password files
+3. pwconv -> convert to and from shadow passwords and groups
 
 ###Root###
 
