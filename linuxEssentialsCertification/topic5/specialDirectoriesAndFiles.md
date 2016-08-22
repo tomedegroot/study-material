@@ -37,6 +37,11 @@ You can set the sticky bit via a fourth octet before the regular octets in `chmo
 `chmod 0777 sticky` -> sticky bit is off
 `chmod 1777 sticky` -> sticky bit is on.
 
+REMEMBER:
+Without the sticky bit set, any user with write and execute permissions for the directory can rename or delete contained files, regardless of the file's owner.
+
+In other words, if you have write access to a dir, but not the file in the dir (*/dir/file*), then you can still the delete the file since you have write access to the dir
+
 ##SUID##
 
 1. `SUID` -> set owner user id upon execution. 
@@ -46,7 +51,4 @@ You can set the sticky bit via a fourth octet before the regular octets in `chmo
 
 `ls file` -> x for user is set SUID, second x for GUID and the third for the sticky bit. 
 
-REMEMBER:
-Without the sticky bit set, any user with write and execute permissions for the directory can rename or delete contained files, regardless of the file's owner.
 
-In other words, if you have write access to a dir, but not the file in the dir (*/dir/file*), then you can still the delete the file since you have write access to the dir
