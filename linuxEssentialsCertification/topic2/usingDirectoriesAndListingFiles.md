@@ -18,17 +18,19 @@ In reality there are more disk file systems. These disk file systems are impleme
 Linux has the file system hierarchy standard (FHS). This means:
 1. Hierarchy to structure data. At the top is root(/).
 2. Linux systems have standard where the root dir has certain sub dirs in a certain order.
+3. [See the logic of the dirs and files](http://www.pathname.com/fhs/pub/fhs-2.3.html)
 
 In FHS one can expect amongst others the following under */*:
 
-1. /bin -> contains binaries such as cp and rm
-2. /boot -> contains boot loader files necessary for booting
-3. /dev -> files that represent hardware
+1. /bin -> contains essential binaries that need to be available in single user mode for all users such, e.g. cp, rm
+2. /sbin -> binaries needed by the system for booting, e.g. init mount
+3. /boot -> contains boot loader files necessary for booting
+4. /dev -> files that represent hardware
   1. Character orientated device files: devices that receive or send characters sequentially (such as printers and mice)
   2. Block orientated device files: device that manage data in blocks, such as your hard drive or your usb-drive.
 
 Remember: when you interact with hardware you do that via the interface /dev/particularDevice represents.
-4. /etc -> text based Config files and services running on our system.
+5. /etc -> text based Config files and services running on our system.
   1. /etc/aliases -> Contains a table to redirect all local users
   2. /etc/exports -> Configured file systems to be exported to remove NFS clients
   3. /etc/fstab -> List partitions and file systems that will be automatically mounted
@@ -43,26 +45,45 @@ Remember: when you interact with hardware you do that via the interface /dev/par
   12. /etc/shadow -> Contains encrupted passwords for user accounts
   13. /etc/resolv.conf -> Contains DNS server and domain suffix
   14. /etc/X11 -> Contains X Window config files
-5. /home -> Contains subdirs that are the home dirs for the users, for example: /home/tom
-6. /lib -> Contains code libs used by programs
-7. /media -> Used by some distro's to mount external devices
-8. /mnt -> Used by some distro's to mount external devices
-9. /opt -> Optional, files for programs you can install manually
-10. /proc -> Interface for accessing processes
-11. /root -> Root user's home dir
-12. /sbin -> Similiar to bin, this contains **system** management files. Example ifconfig, init, shutdown etc.
-13. /srv -> Services(Apache) save their files here
-14. /sys -> Contains information on the hardware in our system
-15. /tmp -> Contains temporary files
-16. /usr -> Contains application files. Anything in here is [non-required](http://unix.stackexchange.com/questions/5915/difference-between-bin-and-usr-bin) for linux
+6. /home -> Contains subdirs that are the home dirs for the users, for example: /home/tom
+7. /lib -> Contains code libs used by programs
+8. /media -> Used by some distro's to mount external devices
+9. /mnt -> Used by some distro's to mount external devices
+10. /opt -> Optional, files for programs you can install manually
+11. /proc -> Interface for accessing processes
+12. /root -> Root user's home dir
+13. /sbin -> Similiar to bin, this contains **system** management files. Example ifconfig, init, shutdown etc.
+14. /srv -> Services(Apache) save their files here
+15. /sys -> Contains information on the hardware in our system
+16. /tmp -> Contains temporary files
+17. /usr -> Contains application files. Anything in here is [non-required](http://unix.stackexchange.com/questions/5915/difference-between-bin-and-usr-bin) for linux
 
-  1. /usr/bin -> Binaries
-  2. /usr/lib -> Libraries
-  3. /usr/lib64 -> 64 bit libraries
-  4. /usr/local -> Locally installed software
-  5. /usr/sbin -> System admin binaries
+  1. /usr/bin -> Binaries not needed in single user mode for all users
+  2. /usr/sbin -> Non-essential system binaries such as deamons as httpd
+  3. /usr/lib -> Libraries
+  4. /usr/lib64 -> 64 bit libraries
+  5. /usr/local -> Locally installed software e.g. not done via a package manager
   6. /usr/share -> Documentation
-17. /var -> Variable data such as log files
+18. /var -> Variable data such as log files
+
+###Most Important stuff on where stuff is stored###
+
+```
+/bin/       Essential command binaries that need to be available in single user mode;
+            for all users, e.g., cat, ls, cp
+
+/sbin/      Essential system binaries, e.g., init, ip, mount.
+
+/usr/bin/   Non-essential command binaries (not needed in single user mode); 
+            for all users
+
+/usr/sbin/  Non-essential system binaries, e.g. daemons for various network-services.
+
+/usr/local/ Tertiary hierarchy for local data, specific to this host e.g. stuff NOT installed by a package manager or part              of the distribution.
+            Typically has further subdirectories, e.g., bin/, lib/, share/
+```
+
+[source](http://superuser.com/a/325196)
 
 Linux Disk File System is responsible for the reliability of storing data on a hard drive and making it retrievable. Different formats:
 1. ext2 = Second Extended File System (1993), stores data in standard hierarchical way of dirs and files. Most widely used. Fast. Aspects:
