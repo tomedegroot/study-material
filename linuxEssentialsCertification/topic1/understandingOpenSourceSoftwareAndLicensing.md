@@ -26,7 +26,7 @@ Free Software Foundation (FSF)
   1. Freedom to use software for any purpose.
   2. Freedom to examin software.
   3. Freedom to redestribute software.
-  4. Freedom to redestribute your modified software.
+  4. Freedom to redestribute your modified software. (copyleft)
 
 With free software you have the right to alter software to make it do exactly what you want.
 
@@ -62,9 +62,10 @@ The GPL license falls under the OSI umbrella. Also other licenses that full unde
 8. PublicDomain
 9. PHP License
 
-* These licenses give you more freedom. Example: The MIT license lets alter free software and sell it.
+* These licenses give you more freedom. Example: The MIT license lets alter free software and sell it and not having to restribute it.
 * The FSF **only** supports the GPL license, OCI supports way more.
 * Philosophical difference between FSF and OCI is reflected in the GPL. Anything derived from a GPL work must be released under the GPL.
+* [More info on the difference between FSF and OSI](http://askubuntu.com/questions/78958/is-there-a-difference-between-free-software-and-open-source-software)
 
 In short:
 1. Free software code must always be available.
