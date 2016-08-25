@@ -33,7 +33,7 @@ Networking Basics:
 
 ###OSI model###
 
-The OSI model has 7 layers:
+The OSI model has 7 layers:  
 1. Physical -> Transmits electrical signals. This is the network card.  
 2. Data link -> Defines the rules and procedures for accessing the physical layer (1). Defines how hosts are identified and how hosts are accessed. Specifies how to verify the data received from the physical layer. Organises information from the upper layers into datagrams  
 3. Network -> Enables routing of data. How to determine next network point for a packet. The IP-protocal operates here.  
