@@ -34,13 +34,13 @@ Networking Basics:
 ###OSI model###
 
 The OSI model has 7 layers:
-1. Physical -> Transmits electrical signals. This is the network card.    
-2. Data link -> Defines the rules and procedures for accessing the physical layer (1). Defines how hosts are identified and how hosts are accessed. Specifies how to verify the data received from the physical layer. Organises information from the upper layers into datagrams
-3. Network -> Enables routing of data. How to determine next network point for a packet. The IP-protocal operates here.
-4. Transport -> Receives data from the upper layer and divides these into small transmittable chuncks (packets). This happens vica versa on the receiving hosts. TCP nd UDP operate on this layer.
-5. Session -> Establisihing and maintaing connections
-6. Presentation -> Responsible for ensuring the information is formatted correctly for the application
-7. Application -> The application using the network
+1. Physical -> Transmits electrical signals. This is the network card.  
+2. Data link -> Defines the rules and procedures for accessing the physical layer (1). Defines how hosts are identified and how hosts are accessed. Specifies how to verify the data received from the physical layer. Organises information from the upper layers into datagrams  
+3. Network -> Enables routing of data. How to determine next network point for a packet. The IP-protocal operates here.  
+4. Transport -> Receives data from the upper layer and divides these into small transmittable chuncks (packets). This happens vica versa on the receiving hosts. TCP and UDP operate on this layer.  
+5. Session -> Establisihing and maintaing connections.  
+6. Presentation -> Responsible for ensuring the information is formatted correctly for the application.  
+7. Application -> The application using the network.  
 
 Information flows from PC1' application to the physical layer to PC2'2 physical layer and then the application layer.
 
