@@ -39,4 +39,27 @@ Nano is much easier to use for people new to Linux
 
 #Navigating Linux & The File System
 
-6.14
+1. `rmdir LOCATION` -> remove an empty directory
+2. `rm [OPTIONS] LOCATION` -> remove a file
+  1. `-r` -> recursively
+3. `cp [OPTIONS]SOURCE DESTINATION` -> copy
+  1. `-r` -> recursively. Mandatory for copying dirs. This will also copy their content
+4. */etc/* -> is generally used for configuration files
+5. */var/* -> is generally used for files that frequently change, such as logging
+
+#Logs and more file management tools
+
+1. `tail [OPTIONS] file` -> show the last 10 lines of a file
+  1. `-n NUMBEROFLINES` -> show n last lines instead of 10
+  2. `-f` -> follow the files for new stuff being written to it
+2. */var/log/* -> contains log files. [Log files and their contents](http://www.thegeekstuff.com/2011/08/linux-var-log-files/)
+3. */var/log/secure* -> log for all the info related to authentication and authorization (On Ubuntu it's auth.log)
+5. Example combination of piping, 1 & 3: `tail -f /var/log/secure | grep fail | grep authentication`
+4. `cat cron secure > custom.log` -> add two files to a new file
+5. `less`
+  1. `b` -> backword one window
+  2. `space` -> forward one window
+  3. `/` -> search
+  4. Look up the help file with `less --help`
+
+
