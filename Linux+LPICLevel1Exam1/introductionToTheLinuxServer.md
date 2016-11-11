@@ -95,7 +95,7 @@ Extra:
 
 `dirname` -> strips the last component of a file name, thus giving you the directory
 
-Example: `DIR=$(dirname $(realpath ./file)) && echo $DIR` -> this echoes out the absolute path to the file
+Example: `DIR=$(dirname $(realpath ./file)) && echo $DIR` -> this echoes out the absolute path to the file after it's been stored in a variable
  
 Core:
 
