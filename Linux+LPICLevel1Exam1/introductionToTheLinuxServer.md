@@ -100,6 +100,7 @@ Example: `DIR=$(dirname $(realpath ./file)) && echo $DIR` -> this echoes out the
 Core:
 
 `touch FILE` -> create or update timestamp of a file
+
 `ls -l` -> list file permissions. This would output something like:
 
 -rw-rw-r--. 1 anthony anthony    0 Nov 11 09:46 myfile
