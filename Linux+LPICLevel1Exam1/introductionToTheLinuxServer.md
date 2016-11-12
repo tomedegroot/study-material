@@ -133,7 +133,9 @@ ugoa stands for:
 User
 Group
 Others
-All
+All (default)
+
+Without a letter, it defaults to All so `chmod +x FILE` grants execute permission to user, group AND others!
 
 The permission bits have different meaning for a folder:
 1. The read bit allows the affected user to list the files within the directory
@@ -153,4 +155,97 @@ The permission bits have different meaning for a folder:
 
 You can only `chown` if they have the target user and group privileges. This means that only root can change the file's ownership.
 
+#Cron Jobs
 
+A cron job is a scheduled task. 
+Cron is stateless.
+If a time occurs where a scheduled task should be executed and the computer is shut down, the task will not be executed.
+
+There is a system cron and a user cron
+
+##System cron
+
+`ls /etc | grep cron` gives the following output:
+
+anacrontab
+cron.d
+cron.daily
+cron.deny
+cron.hourly
+cron.monthly
+crontab
+cron.weekly
+
+###Structue of */etc/crontab*
+
+```
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+
+# For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+```
+
+**Asterix means  everything**, so the following line:
+
+`* * * * * root echo "hello world" > /tmp/hello.txt`
+Means on every minute, hour, day of the month, month on every day of the week it will execute the command.
+
+##/ Step values
+`*/5 * * * * root echo "hello world" > /tmp/hello.txt`
+Means divide all the possible 60 minutes by 5, so do it 12 times. (which is every 5 minutes)
+
+`*/2 */2 * * * root echo "hello world" > /tmp/hello.txt`
+*/2 means off all the 60 minutes, do it 30 times, so in intervals of 2 minutes 
+*/2 means off all the 24 hours, do it 12 times, so in intervals of 2 hours
+
+##Multiple values with range - or explicit stating ,
+
+`*/2 0-3 * * * root echo "hello world" > /tmp/hello.txt`
+*/2 means off all the 60 minutes, do it 30 times, so in intervals of 2 minutes 
+0-3 means between 0 and 3 am
+
+`*/2 1 1,15 * * root echo "hello world" > /tmp/hello.txt`
+*/2 means off all the 60 minutes, do it 30 times, so in intervals of 2 minutes 
+1 every 1 am
+1,15 every 1st and 15th day of the month
+
+## Simpler way of executing a script time based
+
+Copy the script (or a symlink) in the:
+1. cron.hourly
+2. cron.daily
+3. cron.weekly
+4. cron.monthly
+
+
+##*/etc/cron.d/*
+
+*/etc/cron.d/* follows the same format as */etc/crontab*, BUT:
+1. Files in */etc/cron.d/* do **not** get overwritten on upgrades, */etc/crontab* can be overwritten. Therefor it is better to use */etc/cron.d/*
+2. */etc/cron.d/* does not inherit environment variables from */etc/crontab*, you have to set it manually
+
+##*/var/log/cron*
+
+Holds a log of all the things cron is executing AND edits done via crontab
+
+## Users cron jobs
+
+Regular users can schedule their own cron jobs as longs as their name is **not** in the */etc/cron.deny* file.
+
+You can also remove */etc/cron.deny* and create a file */etc/cron.allow*. This would mean that by default all users have no acces to cron, unless their name is **in** */etc/cron.allow*
+
+The user's cron is in `/var/spool/cron/crontabs`, but they are **not** intended to be edited directly, use:
+
+`crontab` -> bin to edit a user's crontab, for example `crontab FILE` imports the cron task from the file and checks if it is the correct syntax 
+  1. `-l` -> list the user's crontab
+  2. `-e` -> edit the user's crontab via text editor
