@@ -282,3 +282,75 @@ Yum uses rpm to install a package
 Installing the latest versions is recommended for security 
 
 #A Look At System Resources With The Linux **Top** Command
+
+`top` -> display Linux processes
+
+Example output:
+
+```
+top - 11:53:19 up  2:33,  1 user,  load average: 0.00, 0.01, 0.05
+Tasks: 113 total,   2 running, 111 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem :  1015348 total,   369704 free,   121540 used,   524104 buff/cache
+KiB Swap:  2097148 total,  2097148 free,        0 used.   716064 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND                     
+  914 root      24   4  451620  36160   5368 S  0.3  3.6   0:24.55 aws                         
+    1 root      20   0  125832   6532   3924 S  0.0  0.6   0:04.54 systemd                     
+    2 root      20   0       0      0      0 S  0.0  0.0   0:00.00 kthreadd                    
+    3 root      20   0       0      0      0 S  0.0  0.0   0:00.00 ksoftirqd/0                 
+    5 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 kworker/0:0H                
+    7 root      rt   0       0      0      0 S  0.0  0.0   0:00.00 migration/0                 
+??? from here until ???END lines may have been inserted/deleted
+    8 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcu_bh                      
+    9 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcuob/0                     
+   10 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcuob/1                     
+   11 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcuob/2                     
+   12 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcuob/3                     
+   13 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcuob/4                     
+   14 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcuob/5                     
+   15 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcuob/6                     
+   16 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcuob/7                     
+   17 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcuob/8                 
+```
+
+Load average per minute, 5 minute and 15 minute.
+Load average is the % of CPU utilization of the time frame. So:
+
+0.00 0.00 .30 would mean 30% utilization over the past 15 minutes. If the number is 1 or goes above 1, it depends on many CPU's your system has. If:
+
+1. 1 CPU, than processes have to wait untill processing resources are available. Your system is bogging down.
+2. 2 CPU's, if:
+  1. The number is exactly 1, then 1 CPU is fully used
+  2. The number is exactly 2, then 2 CPU's are fully used
+
+`SHIFT + m`  -> resort on memory utilization
+`SHIFT + p` -> resort on cpu (processor) utilization
+
+NI = **Nice value** from -20 to 19 where 19 is the lowest priority value. This means that all processes with a lower value that 19 have more priority for using the CPU.
+
+Explanation on (StackOverflow)[http://askubuntu.com/a/656787]:
+
+```nice value is a user-space and priority PR is the process's actual priority that use by Linux kernel. In linux system priorities are 0 to 139 in which 0 to 99 for real time and 100 to 139 for users. nice value range is -20 to +19 where -20 is highest, 0 default and +19 is lowest. relation between nice value and priority is :
+
+PR = 20 + NI
+so , the value of PR = 20 + (-20 to +19) is 0 to 39 that maps 100 to 139.
+
+According to top manual:
+
+PR -- Priority The scheduling priority of the task. If you see 'rt' in this field, it means the task is running under 'real time' scheduling priority.
+NI is nice value of task. A negative nice value means higher priority, whereas a positive nice value means lower priority.Zero in this field simply means priority will not be adjusted in determining a task's dispatch-ability
+```
+For searching:
+`L` -> locate a certain string
+`o` -> filter on a column, example: `o COMMAND=http`. Press `o` again for a new filter
+`CRTL+o` -> see all filters
+`=` -> clear all the filters and brings you back to the start screen of top
+
+Manipulate proceses:
+`r` -> renice a value; give a new value for nice
+`k` -> kill a process with a (signal)[https://bash.cyberciti.biz/guide/Sending_signal_to_Processes]:
+  1. 9 (SIGKILL)-> force quit for when a process is hung
+  2. 15 (SIGTERM)-> nicer way of terminating a process
+
+
