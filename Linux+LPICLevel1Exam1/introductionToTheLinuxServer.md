@@ -249,3 +249,36 @@ The user's cron is in `/var/spool/cron/crontabs`, but they are **not** intended 
 `crontab` -> bin to edit a user's crontab, for example `crontab FILE` imports the cron task from the file and checks if it is the correct syntax 
   1. `-l` -> list the user's crontab
   2. `-e` -> edit the user's crontab via text editor
+
+#Introduction To Linux Package Managers
+
+2 package managers:
+
+1. Debian
+  1. dpkg: source file to install a package without a repository
+  2. apt-get: package manager (handles dependencies)
+2. RedHat: 
+ 1. rpm: source file to install a package without a repository 
+ 2. yum: package manager (handles dependencies), uses rpm to install a package
+
+**yum**
+
+Yum uses rpm to install a package
+
+*/etc/yum.repos.d* -> holds all the repo's
+
+`yum search KEYWORD` -> search all your repo's
+`yum update [PACKAGENAME]` -> download updates for PACKAGENAME or all packages if PACKAGENAME is omitted.
+
+**apt-get**
+
+`yum install` contacts the repo to get the most recent package. apt-get doen't do this, therefore, start with:
+
+`apt-get update` -> get the latest package info, e.g. resyncs with the repo's
+`apt-cache search PACKAGENAME` -> search the local cache of the repo's for a package
+
+`apt-get upgrade [PACKAGENAME]` -> download updates for PACKAGENAME or all packages if PACKAGENAME is omitted.
+
+Installing the latest versions is recommended for security 
+
+#A Look At System Resources With The Linux **Top** Command
