@@ -5,10 +5,29 @@
 `su` -> Substitute user. Without any ARGUMENTS substitute to root
 
 `useradd USER` -> add a user
+  1. `-d HOMEDIR` -> set the path for the homedir. The default is to append the LOGIN name to the BASE_DIR
+  2. `-m` -> create home. useradd will do this automatically, unless CREATE_HOME in */etc/login.defs* is set to no
 
-`passwd [USER]` -> set a password [FOR USER]
+The users are stored in the /etc/passwd file. Structure of the file:
 
-`userdel` -> remove user
+```
+smithj:x:561:561:Joe Smith:/home/smithj:/bin/bash
+```
+Each field in a passwd entry is separated with ":" colon characters, and are as follows:
+
+1. Username, up to 8 characters. Case-sensitive, usually all lowercase
+2. An "x" in the password field. Passwords are stored in the ``/etc/shadow'' file.
+3. Numeric user id. This is assigned by the ``adduser'' script. Unix uses this field, plus the following group field, to identify which files belong to the user.
+4. Numeric group id. Red Hat uses group id's in a fairly unique manner for enhanced file security. Usually the group id will match the user id.
+5. Full name of user. I'm not sure what the maximum length for this field is, but try to keep it reasonable (under 30 characters).
+6. User's home directory. Usually /home/username (eg. /home/smithj). All user's personal files, web pages, mail forwarding, etc. will be stored here.
+7. User's "shell account". Often set to ``/bin/bash'' to provide access to the bash shell (my personal favorite shell).
+
+`passwd [OPTIONS] [USER]` -> set a password [FOR USER]
+  1. `-l` -> lock a user's account
+  2. `-u` -> unlock a user's account
+
+`userdel USER` -> remove user
   1. `-r` -> remove the /home/USER dir as well
   Example: `userdel -r user`
 
@@ -45,7 +64,7 @@ In CentOS, all the users in the wheel group have sudo privilege. This differs pe
 `usermod [OPTIONS] USER` -> modify users
   1. `-G [groupname]` -> add user to group
 
-`groups USER` -> see the groups of which the USER is a member
+ is set to no`groups USER` -> see the groups of which the USER is a member
 
 `userdel [OPTIONS] USER` -> remove a user
   1.'-r' -> Delete a user's home dir
@@ -76,7 +95,7 @@ Core:
   2. `-f` -> follow the files for new stuff being written to it
 
 */var/log/* -> contains log files. [Log files and their contents](http://www.thegeekstuff.com/2011/08/linux-var-log-files/)
-*/var/log/secure* -> log for all the info related to authentication and authorization (On Ubuntu it's auth.log)
+*/var/log/secure* -> log for all the info related to authentication and authorization **(On Ubuntu it's */var/log/auth.log*)**
 Example combination of piping, 1 & 3: `tail -f /var/log/secure | grep fail | grep authentication`
 `cat cron secure > custom.log` -> add two files to a new file
 `less`
@@ -144,9 +163,9 @@ The permission bits have different meaning for a folder:
 4. The sticky bit states that files and directories within that directory may only be deleted or renamed by their owner (or root)
 
 `groupadd GROUPNAME` -> Add a group
-`usermod -g USER GROUPNAME` -> add a user to a group
-  1. `-g -a` -> append the new group to user's group. Without the -a, all the groups which are non-primary and non-listed will no longer have the user in the group.
-`groups USER` -> check the groups to which a user belongs
+`usermod -g GROUPNAME USER` -> set the users primary group
+  1. `-G -a GROUPNAME[,GROUPNAME]` -> append the new group to user's groups. These are supplementary groups. Without the -a option, the groups will not be appended and this will be the only supplementary groups. Example: `usermod -a -G lagroup1,lagroup2 jeff`
+`groups USER` -> check the groups to which a user belongs. This is read from the */etc/group* file. The user's secondary groups are also stored in this file
 
 `chown [OPTIONS] USER:GROUP FILE` -> change the owner and/or group of the file. The colon can also be a dot.
   1.`-R` Recursively
@@ -270,6 +289,8 @@ Yum uses rpm to install a package
 `yum search KEYWORD` -> search all your repo's
 `yum update [PACKAGENAME]` -> download updates for PACKAGENAME or all packages if PACKAGENAME is omitted.
 
+It is possible to (make a cache within yum)[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/sec-Working_with_Yum_Cache.html]
+
 **apt-get**
 
 `yum install` contacts the repo to get the most recent package. apt-get doen't do this, therefore, start with:
@@ -353,4 +374,28 @@ Manipulate proceses:
   1. 9 (SIGKILL)-> force quit for when a process is hung
   2. 15 (SIGTERM)-> nicer way of terminating a process
 
+#Finding Files in Linux
+
+##`locate`
+
+`locate` searches a database of all the files on the system. This database is updated through a system cron job
+
+`updatedb` -> update the database locate uses
+
+`locate PATTERN` -> locate a file
+
+##`find`
+
+find can search by a lot of different parameter types, such as:
+1. permission
+2. creation date
+3. path
+4. name
+5. text inside a file
+
+`find [PATH] [OPTIONS]` -> find a file. If no PATH is given, find defaults to current dir
+
+Example: `find /tmp -name '*.txt'`
+
+If you use an asterisk for the `-name` parameter, place it between single or double quotes or the shell will already expand the asterisk ((Exercise: Using FIND to Find and Manipulate Files)[https://linuxacademy.com/cp/exercises/view/id/144/module/1])
 
