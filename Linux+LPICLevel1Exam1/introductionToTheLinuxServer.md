@@ -16,7 +16,7 @@ smithj:x:561:561:Joe Smith:/home/smithj:/bin/bash
 Each field in a passwd entry is separated with ":" colon characters, and are as follows:
 
 1. Username, up to 8 characters. Case-sensitive, usually all lowercase
-2. An "x" in the password field. Passwords are stored in the ``/etc/shadow'' file.
+2. An "x" in the password field. Passwords are stored in the ``/etc/shadow`` file.
 3. Numeric user id. This is assigned by the ``adduser'' script. Unix uses this field, plus the following group field, to identify which files belong to the user.
 4. Numeric group id. Red Hat uses group id's in a fairly unique manner for enhanced file security. Usually the group id will match the user id.
 5. Full name of user. I'm not sure what the maximum length for this field is, but try to keep it reasonable (under 30 characters).
