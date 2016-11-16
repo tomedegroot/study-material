@@ -358,7 +358,7 @@ PR = 20 + NI
 so , the value of PR = 20 + (-20 to +19) is 0 to 39 that maps 100 to 139.
 
 According to top manual:
-
+```
 PR -- Priority The scheduling priority of the task. If you see 'rt' in this field, it means the task is running under 'real time' scheduling priority.
 NI is nice value of task. A negative nice value means higher priority, whereas a positive nice value means lower priority.Zero in this field simply means priority will not be adjusted in determining a task's dispatch-ability
 ```
