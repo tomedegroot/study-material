@@ -17,11 +17,11 @@ Each field in a passwd entry is separated with ":" colon characters, and are as 
 
 1. Username, up to 8 characters. Case-sensitive, usually all lowercase
 2. An "x" in the password field. Passwords are stored in the ``/etc/shadow`` file.
-3. Numeric user id. This is assigned by the ``adduser'' script. Unix uses this field, plus the following group field, to identify which files belong to the user.
+3. Numeric user id. This is assigned by the `adduser` script. Unix uses this field, plus the following group field, to identify which files belong to the user.
 4. Numeric group id. Red Hat uses group id's in a fairly unique manner for enhanced file security. Usually the group id will match the user id.
 5. Full name of user. I'm not sure what the maximum length for this field is, but try to keep it reasonable (under 30 characters).
 6. User's home directory. Usually /home/username (eg. /home/smithj). All user's personal files, web pages, mail forwarding, etc. will be stored here.
-7. User's "shell account". Often set to ``/bin/bash'' to provide access to the bash shell (my personal favorite shell).
+7. User's "shell account". Often set to `/bin/bash` to provide access to the bash shell (my personal favorite shell).
 
 `passwd [OPTIONS] [USER]` -> set a password [FOR USER]
   1. `-l` -> lock a user's account
@@ -55,8 +55,9 @@ Core:
 
 */etc/sudoers* -> file which contains the sudo policy
 See: 
-```## Allows people in group wheel to run all commands
-%wheel	ALL=(ALL)	ALL``` 
+`## Allows people in group wheel to run all commands
+%wheel	ALL=(ALL)	ALL`
+
 In CentOS, all the users in the wheel group have sudo privilege. This differs per distribution. In Ubuntu, this group is called sudo
 
 `visudo` -> command to alter the */etc/sudoers* file. visudo checks the **syntax** of */etc/sudoers* before overwriting it.
