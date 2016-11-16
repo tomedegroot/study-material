@@ -133,7 +133,7 @@ The first place (a dash in the example) shows the file types. Following possibli
   5. Symbolic link file(l)
   6. Socket file(s)
 
-(See an explaination of all the types)[https://www.linux.com/blog/file-types-linuxunix-explained-detail]
+[See an explaination of all the types](https://www.linux.com/blog/file-types-linuxunix-explained-detail)
 
 `chmod [OPTIONS] MODE FILE` -> Can only be done by the owner of root
 
@@ -289,7 +289,7 @@ Yum uses rpm to install a package
 `yum search KEYWORD` -> search all your repo's
 `yum update [PACKAGENAME]` -> download updates for PACKAGENAME or all packages if PACKAGENAME is omitted.
 
-It is possible to (make a cache within yum)[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/sec-Working_with_Yum_Cache.html]
+It is possible to [make a cache within yum](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/sec-Working_with_Yum_Cache.html)
 
 **apt-get**
 
@@ -350,7 +350,7 @@ Load average is the % of CPU utilization of the time frame. So:
 
 NI = **Nice value** from -20 to 19 where 19 is the lowest priority value. This means that all processes with a lower value that 19 have more priority for using the CPU.
 
-Explanation on (StackOverflow)[http://askubuntu.com/a/656787]:
+Explanation on [StackOverflow](http://askubuntu.com/a/656787):
 
 ```nice value is a user-space and priority PR is the process's actual priority that use by Linux kernel. In linux system priorities are 0 to 139 in which 0 to 99 for real time and 100 to 139 for users. nice value range is -20 to +19 where -20 is highest, 0 default and +19 is lowest. relation between nice value and priority is :
 
@@ -370,7 +370,7 @@ For searching:
 
 Manipulate proceses:
 `r` -> renice a value; give a new value for nice
-`k` -> kill a process with a (signal)[https://bash.cyberciti.biz/guide/Sending_signal_to_Processes]:
+`k` -> kill a process with a [signal](https://bash.cyberciti.biz/guide/Sending_signal_to_Processes):
   1. 9 (SIGKILL)-> force quit for when a process is hung
   2. 15 (SIGTERM)-> nicer way of terminating a process
 
@@ -397,5 +397,4 @@ find can search by a lot of different parameter types, such as:
 
 Example: `find /tmp -name '*.txt'`
 
-If you use an asterisk for the `-name` parameter, place it between single or double quotes or the shell will already expand the asterisk ((Exercise: Using FIND to Find and Manipulate Files)[https://linuxacademy.com/cp/exercises/view/id/144/module/1])
-
+If you use an asterisk for the `-name` parameter, place it between single or double quotes or the shell will already expand the asterisk ([Exercise: Using FIND to Find and Manipulate Files](https://linuxacademy.com/cp/exercises/view/id/144/module/1))
