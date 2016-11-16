@@ -13,7 +13,7 @@ If you cursor is on a word in vi, you can use:
 
 ##Core:
 
-(Ubuntu offical info)[https://help.ubuntu.com/community/AptGet/Howto]
+[Ubuntu offical info](https://help.ubuntu.com/community/AptGet/Howto)
 
 Package managers helps you manage your software by:
 1. Searching repositories
@@ -25,8 +25,6 @@ Package managers helps you manage your software by:
 
 `apt-cache search PACKAGENAME` -> The most relative search result is at the top. So with `apt-cache search apache2`, the apache2 package is at the top.
 `apt-get clean` -> remove all /deb packages from the package cache, which is in */var/cache/apt/archives/*. Only the lock file remains.
-`apt-get autoclean` -> This command removes .deb files for packages that are no longer installed on your system.
-`apt-get autoremove` -> autoremove is used to remove packages that were automatically installed to satisfy dependencies for other packages and are now no longer needed.
 
 `apt-get install PACKAGENAME` -> install a package
   1. `-s` simulate an installation. This wasy you can see the packages that would be installed without installing them. With the `-s` parameter any action can be simulated, so also others than installing
@@ -35,7 +33,7 @@ Package managers helps you manage your software by:
 
 `apt-get source SOURCENAME` -> download the source files to the current dir
 
-`apt-get upgrade` -> upgrade you packages to the newest version, but will never remove a package or install a package currently not installed  Extra info on major versions:
+`apt-get upgrade` -> upgrade you packages to the newest version, but will never remove a package or install a package currently not installed. This is because:
 
 ```
 Basically, versions from Ubuntu's main package sources will always stay the same save for some exceptions like Firefox.
@@ -47,19 +45,18 @@ This is why you always install php55 or php56
 
 `apt-get -f upgrade|install` -> fix unmet dependencies, even if done with dpkg
 
+`apt-get autoclean` -> This command removes .deb files for packages that are no longer installed on your system.
+`apt-get autoremove` -> autoremove is used to remove packages that were automatically installed to satisfy dependencies for other packages and are now no longer needed.
+
 #Apt-Cache Package Management
 
-Allows us to create a local repo of info of all the packages available on our repo's. Updating the cache via `apt-get update` is important beforing actually upgrading.
+Allows us to create a local repo of info of all the packages available on our repo's. Updating the cache via `apt-get update` is important beforing actually upgrading (see previous section on `apt-get`).
 
+`apt-cache pkgnames` -> get all the packagenames
+`apt-cache search PACKAGENAME` -> search for PACKAGENAME
 `apt-cache stats` -> get info on repo's.
 `apt-cache depends PACKAGENAME` -> get dependencies of PACKAGENAME
-`apt-cache pkgnames` -> get all the packagenames
-
-#A Look at dselect
-
-
 `apt-cache unmet` -> see all unmet dependencies within the local repo
-`apt-cache search PACKAGENAME` -> search for PACKAGENAME
 
 #DPKG Command Set
 
@@ -75,15 +72,15 @@ Packages for Debian-based system. First we need to get the package:
 `wget --no-check-certificate https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_1.6.0_amd64.deb` -> download to working dir
 
 `dpkg [OPTIONS...] ACTION`
-`dpkg -i PACKAGENAME` -> install a package
-
-You can use `apt-get -f install` -> fix unmet dependencies, even if done with dpkg
-
-Now, you should be able to use `dpkg -i PACKAGENAME` to install the package
 
 `dpkg --get-selections` -> get installed packages
-`dpkg -L dropbox` 
 `dpkg -L PACKAGENAME` -> list the files of the package installed on your system.
+
+`dpkg -i PACKAGENAME` -> install a package
+
+(You can use `apt-get -f install` -> fix unmet dependencies, even if done with dpkg)
+
+Now, you should be able to use `dpkg -i PACKAGENAME` to install the package
 
 `dpkg-reconfigure PACKAGENAME` -> reconfigure PACKAGENAME
 
