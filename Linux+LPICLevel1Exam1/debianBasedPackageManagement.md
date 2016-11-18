@@ -1,5 +1,7 @@
 #Apt-Get Command Set
 
+Advanced Packaging Tool
+
 ##Extra:
 
 `/` -> search keyword in man and vi:
@@ -31,7 +33,8 @@ Package managers helps you manage your software by:
   2. `-y` -> always return 'yes' to prompts
   3. `-q` -> omit progress information, keeps the screen clean
 
-`apt-get source SOURCENAME` -> download the source files to the current dir
+`apt-get download PACKAGENAME` -> download the package(.deb) to current dir
+`apt-get source PACKAGENAME` -> download the source files to the current dir
 
 `apt-get upgrade` -> upgrade you packages to the newest version, but will never remove a package or install a package currently not installed. This is because:
 
@@ -45,8 +48,11 @@ This is why you always install php55 or php56
 
 `apt-get -f upgrade|install` -> fix unmet dependencies, even if done with dpkg
 
-`apt-get autoclean` -> This command removes .deb files for packages that are no longer installed on your system.
+`apt-get autoclean` -> This command removes .deb files for packages that are no longer installed on your system from the cache
 `apt-get autoremove` -> autoremove is used to remove packages that were automatically installed to satisfy dependencies for other packages and are now no longer needed.
+
+`apt-get remove [OPTIONS] PACKAGENAME` -> remove a package
+  1. `--purge` -> remove config files
 
 #Apt-Cache Package Management
 
@@ -62,8 +68,8 @@ Allows us to create a local repo of info of all the packages available on our re
 
 ##Extra:
 
-`dpkg --info PACKAGENAME` -> get info on package.
-`dpkg --contents PACKAGENAME` -> see the owner, permissions and install location of the contents.
+`dpkg --info PACKAGEFILE` -> get info on package.
+`dpkg --contents PACKAGEFILE` -> see the owner, permissions and install location of the contents.
 
 ##Core:
 
