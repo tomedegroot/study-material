@@ -26,8 +26,11 @@ Package managers helps you manage your software by:
 ##Installing
 
 `apt-get update` -> update the repo info in apt cache. Good practice to always do this.
+
 `apt-get download PACKAGENAME` -> download the package(.deb) to current dir
+
 `apt-get source PACKAGENAME` -> download the source files to the current dir
+
 `apt-get install PACKAGENAME` -> install a package
   1. `-s` simulate an installation. This wasy you can see the packages that would be installed without installing them. With the `-s` parameter any action can be simulated, so also others than installing
   2. `-y` -> always return 'yes' to prompts
@@ -63,10 +66,16 @@ This is why for example you always install php55 or php56
 Allows us to create a local repo of info of all the packages available on our repo's. Updating the cache via `apt-get update` is important beforing actually upgrading (see previous section on `apt-get`).
 
 `apt-cache pkgnames` -> get all the packagenames
+
+
 `apt-cache search PACKAGENAME` -> The most relative search result is at the top. So with `apt-cache search apache2`, the apache2 package is at the top.
+
 `apt-cache stats` -> get info on repo's.
+
 `apt-cache depends PACKAGENAME` -> get dependencies of PACKAGENAME
+
 `apt-cache showpkgd PACKAGENAME` -> The available versions and reverse dependencies of each package listed are listed, as well as forward dependencies for each version.
+
 `apt-cache unmet` -> see all unmet dependencies within the local repo
 
 #DPKG Command Set
