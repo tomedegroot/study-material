@@ -26,12 +26,13 @@ Package managers helps you manage your software by:
 `apt-get update` -> update the repo info in apt cache
 
 `apt-cache search PACKAGENAME` -> The most relative search result is at the top. So with `apt-cache search apache2`, the apache2 package is at the top.
+`apt-cache showpkgd PACKAGENAME` -> The available versions and reverse dependencies of each package listed are listed, as well as forward dependencies for each version.
 `apt-get clean` -> remove all /deb packages from the package cache, which is in */var/cache/apt/archives/*. Only the lock file remains.
 
 `apt-get install PACKAGENAME` -> install a package
   1. `-s` simulate an installation. This wasy you can see the packages that would be installed without installing them. With the `-s` parameter any action can be simulated, so also others than installing
   2. `-y` -> always return 'yes' to prompts
-  3. `-q` -> omit progress information, keeps the screen clean
+  3. `-q` -> produces output suitable for logging, omitting progress indicators. More q's will produce more quiet up to a maximum of 2.
 
 `apt-get download PACKAGENAME` -> download the package(.deb) to current dir
 `apt-get source PACKAGENAME` -> download the source files to the current dir
@@ -46,7 +47,7 @@ This is why you always install php55 or php56
 
 `apt-get dist-upgrade` -> handles changing dependencies and might remove packages or install packages currently not installed
 
-`apt-get -f upgrade|install` -> fix unmet dependencies, even if done with dpkg
+`apt-get -f upgrade|install` -> fix unmet dependencies, even if the package which has a dependency issue is installed via dpkg
 
 `apt-get autoclean` -> This command removes .deb files for packages that are no longer installed on your system from the cache
 `apt-get autoremove` -> autoremove is used to remove packages that were automatically installed to satisfy dependencies for other packages and are now no longer needed.
