@@ -77,13 +77,13 @@ Packages for Debian-based system. First we need to get the package:
 
 `dpkg [OPTIONS...] ACTION`
 
-`dpkg --get-selections` -> get installed package
+`dpkg --get-selections` -> get installed packages
 
 `dpkg -L PACKAGENAME` -> list the files of the package installed on your system.
 `dpkg --info PACKAGEFILE` -> get info on package.
 `dpkg --contents PACKAGEFILE` -> see the owner, permissions and install location of the contents.
 
-`dpkg -i PACKAGENAME` -> install a package
+`dpkg -i PACKAGENAME` -> install a package, if a dependency error occurs, do:
 
 (You can use `apt-get -f install` -> fix unmet dependencies, even if done with dpkg)
 
