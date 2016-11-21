@@ -47,25 +47,31 @@ Example: nano-2.2.6-1.x86_64.rpm
 
 Convention: name-version-buildNumber-cpuArchitecture.rpm
 
-##Installing
-
-`rpm -i PACKAGE_FILE` -> install, will give a warning if the package is already installed
-  1. '-h' -> 
-##Remove
-
-`rpm -e PACKAGE_NAME` -> erase(=remove) a package
-  1. `-h`-> Print 50 hash marks (=#)as the package archive is unpacked.  Use with `-v|--verbose` for a nicer display.
- 
 ##Querying
 
 `rpm -q [select-options] [query-options]` -> get the full packagename, so `rpm -q nano` returns nano-2.2.6-1.x86_64.rpm
   1. `-i` -> Display  package information, including name, version, and description.
   2. `-l` -> List files of package
-  3. `-p = select-option`, example: `rpm -qlp PACKAGE_FILE` -> query and list files of package before installing
+  3. `-p = select-option`, example: `rpm -qlp PACKAGE_FILE` -> query and list files of package before installing (select option to use package file instead of package name)
   4. `-R` -> requirements, list dependencies
+  5. `-a` -> query all installed packages
 
-##Miscelaneous##
-`rpm --rebuilddb`
+##Installing
+
+`rpm -i PACKAGE_FILE` -> install, will give a warning if the package is already installed
+  1. '-h' -> print hash marks as package is installed
+
+If you miss dependencies, you will get a message. First fixt the missing dependency via:
+
+`yum install -y [dependency name]`
+
+##Remove
+
+`rpm -e PACKAGE_NAME` -> erase(=remove) a package
+  1. `-h`-> Print 50 hash marks (=#)as the package archive is unpacked.  Use with `-v|--verbose` for a nicer display.
+ 
+##Rebuilddb##
+`rpm --rebuilddb` -> This command rebuilds the RPM database from the installed packages, the file named Packages in the /var/lib/rpm directory.
 
 More advanced stuff:
 */usr/lib/rpm/rpmrc* -> rpm config file
@@ -117,3 +123,35 @@ Different from apt-get since:
 `yum remove PACKAGENAME`
 
 `yum clean all` -> clean the yum cache (*/etc/cache/yum*)
+
+#yumdownloader & rpm2cpio
+
+##yumdownloader
+
+With YUM we download and install te package. What if we just want to have the package? This way we can:
+
+- See the files in a package
+- Redistribute packages in our own network
+
+`yumdownloader [OPTIONS] PACKAGENAME`
+  1. `--resolve` -> download the .rpm **and the dependencies** @todo: get this to work
+
+
+##rpm2cpio
+
+cpio is a (file archiver utility used by rpm)[https://en.wikipedia.org/wiki/Cpio]
+
+rpm uses cpio and it is possible to extract the cpio from an rpm. With that you can use cpio to see the contents of an rpm
+
+`rpm2cpio PACKAGEFILE` -> extract the cpio from the .rpm
+
+cpio always reads from stdin by default, thus:
+
+`cpio [OPTIONS] < .cpio`
+  1. `-t` -> list the contents of the cpio
+  2. `--files .cpio` -> don't read from stdin, but read contents of the file
+
+So in one go for example:
+
+`rpm2cpio httpd-2.4.6-40.el7.centos.4.x86_64.rpm  | cpio -t`
+
