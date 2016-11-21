@@ -1,3 +1,4 @@
+??? from here until ???END lines may have been inserted/deleted
 #RPM Package Management
 
 Used for RedHat based system
@@ -68,5 +69,51 @@ Convention: name-version-buildNumber-cpuArchitecture.rpm
 
 More advanced stuff:
 */usr/lib/rpm/rpmrc* -> rpm config file
+*/usr/lib/rpm/rpm.log* -> log file of rpm
 
- */usr/lib/rpm/rpm.log* -> log file of rpm
+#YUM
+
+Yellowdog Updater Modified -> package manager.
+
+Different from apt-get since:
+1. Config is different
+2. It's rpm based
+
+##YUM config files
+
+*/etc/yum/**
+*/etc/yum.conf* -> add repos
+*/etc/yum.repos.d* -> add repos
+
+##Operating YUM
+
+###Updating
+
+`yum check-update` -> check if packages need to be updated`
+
+`yum update` -> If  run  without  any packages, update will update every currently installed package.  If one or more packages or package globs are specified,  yum will update only those packages. Will not delete obsolete packages by default.
+  1. `--obsoletes` -> delete obsolete packages. Same as `yum upgrade`. So in short: `yum update` will **not** delete obsolete packages, `yum upgrade` will
+
+###Searching and info
+
+`yum search PACKAGENAME`
+
+1. `yum list [OPTIONS] [PACAKGENAME]` -> list and status of package
+2. `yum list all [PACKAGENAME]` -> list all available and installed packages
+3. `yum list installed [PACKAGENAME]` -> list installed packages
+4. `yum list available [PACKAGENAME]` -> list available packages
+
+`yum info PACKAGENAME` -> get info on a package (name, version, install date)
+
+`yum deplist PACKAGENAME` -> get dependencies of packages
+
+###Installing
+
+`yum install PACKAGENAME` -> install
+  1. `--force` -> force installation. Use it when a dependency isn't available, but you still want to install it. **not recommended**
+
+###Removing & Cleaning
+
+`yum remove PACKAGENAME`
+
+`yum clean all` -> clean the yum cache (*/etc/cache/yum*)
