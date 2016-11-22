@@ -15,7 +15,7 @@ Check the man of rpm. The first option is the kind of action:
 2. Verify `-V`
 3. Install `-i`
 4. Upgrade `-U`
-5. Freshen `-F` -> same as upgrading, but only upgrades if a previous version is installed. This is handy if you have a bunch of rpm's and want to use those to update, but only if an older version is already installed.
+5. Freshen `-F` -> same as upgrading, but only upgrades if a previous version is installed. This is handy if you have a bunch of rpm's and want to use those to update, but only if an older version is already installed (so in a script, piping or redirecting)
 5. Remove `-e`
 
 And the second option is an option specific for that action or one of the general options, suc as `v` for verbose. See:
@@ -40,6 +40,8 @@ QUERYING AND VERIFYING PACKAGES:
 So `rpm -q -i PACKAGE_NAME` will query and get info, but `rpm -i PACKAGE_FILE` will install 
 
 `select-options` means the way to select a file. By default this is the PACKAGE_NAME (for example nano), but with `-p`  you can specify the PACKAGE_FILE. This makes it possible to query a package before installing it
+  1. `-p` -> specify package file
+  2. `-v` -> verbose information
 
 ##Packagename convention:
 
@@ -55,6 +57,7 @@ Convention: name-version-buildNumber-cpuArchitecture.rpm
   3. `-p = select-option`, example: `rpm -qlp PACKAGE_FILE` -> query and list files of package before installing (select option to use package file instead of package name)
   4. `-R` -> requirements, list dependencies
   5. `-a` -> query all installed packages
+  6. `-v` = select-option  -> see if a pacakge is installed
 
 ##Installing
 
@@ -93,13 +96,6 @@ Different from apt-get since:
 
 ##Operating YUM
 
-###Updating
-
-`yum check-update` -> check if packages need to be updated`
-
-`yum update` -> If  run  without  any packages, update will update every currently installed package.  If one or more packages or package globs are specified,  yum will update only those packages. Will not delete obsolete packages by default.
-  1. `--obsoletes` -> delete obsolete packages. Same as `yum upgrade`. So in short: `yum update` will **not** delete obsolete packages, `yum upgrade` will
-
 ###Searching and info
 
 `yum search PACKAGENAME`
@@ -113,14 +109,26 @@ Different from apt-get since:
 
 `yum deplist PACKAGENAME` -> get dependencies of packages
 
+If you want to list the contents of a package, use `rpm -ql PACKAGENAMErpm -ql PACKAGENAME`
+
 ###Installing
 
 `yum install PACKAGENAME` -> install
   1. `--force` -> force installation. Use it when a dependency isn't available, but you still want to install it. **not recommended**
 
-###Removing & Cleaning
+###Updating
+
+`yum check-update` -> check if packages need to be updated`
+
+`yum update` -> If  run  without  any packages, update will update every currently installed package.  If one or more packages or package globs are specified,  yum will update only those packages. Will not delete obsolete packages by default.
+  1. `--obsoletes` -> delete obsolete packages. Same as `yum upgrade`. So in short: `yum update` will **not** delete obsolete packages, `yum upgrade` will. Thus a yum upgradewill update the entire system @todo difference between update and upgrade
+###Removing
 
 `yum remove PACKAGENAME`
+
+`yum autoremove PACKAGENAME` -> works like `-clean_requirements_on_remove remove`; it removes all the config files as well
+
+###Cleaning
 
 `yum clean all` -> clean the yum cache (*/etc/cache/yum*)
 
