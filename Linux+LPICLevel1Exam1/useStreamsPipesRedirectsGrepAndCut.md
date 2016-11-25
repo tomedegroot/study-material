@@ -61,3 +61,13 @@ noclobber, makes sure you cannot overwrite an existing file with a redirect if t
 `set +o noclobber` -> turn noclobber OFF
 
 #Pipes
+
+`|` use stdout as stdin for another command, example:
+
+`ls /etc/ | grep cron`
+
+Combining:
+
+`ls /etc/ | grep cron | grep daily > output.txt`
+
+
