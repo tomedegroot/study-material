@@ -70,4 +70,54 @@ Combining:
 
 `ls /etc/ | grep cron | grep daily > output.txt`
 
+#Grep
 
+Search input files or stdin for a match of a pattern -> `GREP [OPTIONS] PATTERN [FILE]`
+
+##Options
+
+###Matcher Options:
+
+1. `-E` -> use extended regex, defined by POSIXs
+2. `-F` -> fixed string; search for exact match of string
+
+###Matching Control Options:
+
+1. `-i` -> Ignore case
+2. `-f` -> Read the pattern to use from a file
+3. `-v` -> Inverted matching, match anything that does **not** match with the pattern
+
+###Output Control Options:
+
+1. `-c` -> count the lines of occurences
+2. `-l` -> list the file names with matches
+3. `-L` -> list files **without** matches
+
+###File and dir selection
+
+Grep searches inside the files to see if it can match the pattern. Very useful with the `-l` output options to see where we stored something.
+
+1. `-r` -> recursive, search a dir recursively
+
+##REGEX
+
+(negative lookahead)[http://stackoverflow.com/a/977294] is (not supported by grep)[http://stackoverflow.com/questions/9197814/regex-lookahead-for-not-followed-by-in-grep]
+
+###General
+
+1. `^` -> beginning
+2. `$` -> end
+3. `[hpok]` -> all the lines with h, p, o or k in it
+  1. `[A-Z]` -> Character or number ranges
+  2. `[^]` -> Negate what is in the square brackets
+4. `.` -> any character
+
+###Quantifiers
+
+It's possible to quantify brackets[]:
+
+1. `?` -> zero or more
+2. `+` -> once or more
+3. `*` -> any number of times
+
+7.49
