@@ -154,3 +154,33 @@ Field types:
   1. `-fN` -> set fields as field type, so: `cut -d: -f1,4-6 /etc/passwd`
     2. `-d` -> set delimiter for the field, so `-d:` sets ':' as delimiter. The default is TAB
   2. `-cN` -> set characters as field types, so: `cut -c1-5 /etc/passwd` gives you the first 5 characters of every line of /etc/passwd
+
+#sed
+
+Stream editor for filtering and transforming text
+
+`sed [OPTIONS] [SCRIPT] [INPUTFILE]`
+
+A script can consist of multiple commands. If no special option is set, the first non-option character is seen as the start of the script.
+
+##commands
+
+Commands form the sed script.
+
+`sed 's/regexp/replacement/'` -> search and replace
+
+`sed 's/regexp/replacement/w changes.txt'` -> save only the changed lines to changes.txt
+
+We don't have to search and replace, we can just search and write:
+
+`sed 's/regexp/replacement/w fulltime.txt'` -> example: `sed '/fulltime/w fulltime.txt'`, no we have a file with all fulltime employees
+
+`sed '0,/parttime/s/parttime/promotion/'` -> search for the first line with occurence of parttime, search within that line for parttime and replace it with promotion
+
+##example
+
+Replace all html tags with nothing(so strip the html tags):
+
+`sed 's/<[^>]*>//' team`, search for any occurence of a <, continue to match for any character except > until you find the > and match that one and replace it with nothing.
+
+@todo Do a sed tutorial
