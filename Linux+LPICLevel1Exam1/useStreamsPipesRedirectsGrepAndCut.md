@@ -74,12 +74,17 @@ Combining:
 
 Search input files or stdin for a match of a pattern -> `GREP [OPTIONS] PATTERN [FILE]`
 
+##Extra:
+
+`wget` -> download from the web
+ 1. `O` -> specify the output file. Use `-` for STDOUT
+
 ##Options
 
 ###Matcher Options:
 
-1. `-E` -> use extended regex, defined by POSIXs
-2. `-F` -> fixed string; search for exact match of string
+1. `-E` -> use extended regex, defined by POSIX (=egrep)
+2. `-F` -> fixed string; search for exact match of string(=fgrep)
 
 ###Matching Control Options:
 
@@ -101,23 +106,51 @@ Grep searches inside the files to see if it can match the pattern. Very useful w
 
 ##REGEX
 
-(negative lookahead)[http://stackoverflow.com/a/977294] is (not supported by grep)[http://stackoverflow.com/questions/9197814/regex-lookahead-for-not-followed-by-in-grep]
-
-###General
-
 1. `^` -> beginning
 2. `$` -> end
 3. `[hpok]` -> all the lines with h, p, o or k in it
   1. `[A-Z]` -> Character or number ranges
   2. `[^]` -> Negate what is in the square brackets
 4. `.` -> any character
+5. `\` -> escape character, so `\$`, `\[` or `\\` for example
 
-###Quantifiers
+##egrep
+
+Use egrep via `grep -e`. More options are possible with egrep.
+
+(negative lookahead)[http://stackoverflow.com/a/977294] is (not supported by grep)[http://stackoverflow.com/questions/9197814/regex-lookahead-for-not-followed-by-in-grep]. But there is a workaround for some cases: pipe the output to grep -v, as in:
+
+`egrep 'hello|world' testf | grep -v 'jeff'`
+
+##REGEX Pipe (= or, or both)
+
+1. `hello|world` -> OR, look for a line that contains hello OR  world
+2. `(W|w)orld` -> OR within group, so World or world.
+
+##Quantifiers
 
 It's possible to quantify brackets[]:
 
 1. `?` -> zero or more
 2. `+` -> once or more
 3. `*` -> any number of times
+4. `{2}` -> exactly 2 times
 
-7.49
+##fgrep
+
+Use as egrep -F, which is interpret the string literally. So the ^, $ and [ for example will be intrepreted literally
+
+##Examples:
+
+1. `wget -O- http://www.nu.nl | grep -E 'href=".*economie.*\.html"'`
+
+#cut
+
+Print selected lines of files:
+
+`cut FIELD TYPE [OPTIONS] [FILE]` or STDIN
+
+Field types:
+  1. `-fN` -> set fields as field type, so: `cut -d: -f1,4-6 /etc/passwd`
+    2. `-d` -> set delimiter for the field, so `-d:` sets ':' as delimiter. The default is TAB
+  2. `-cN` -> set characters as field types, so: `cut -c1-5 /etc/passwd` gives you the first 5 characters of every line of /etc/passwd
