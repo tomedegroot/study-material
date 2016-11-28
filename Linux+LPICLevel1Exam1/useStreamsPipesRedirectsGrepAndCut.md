@@ -3,6 +3,12 @@
 ##cat
 `cat FILE [FILES..]`
 
+###heredoc
+
+Read from STDIN until a certain word is found:
+
+`cat << KEYWORD` -> read from STDIN until KEYWORD is found 
+
 ##wc
 
 count -> `wc`
@@ -184,3 +190,15 @@ Replace all html tags with nothing(so strip the html tags):
 `sed 's/<[^>]*>//' team`, search for any occurence of a <, continue to match for any character except > until you find the > and match that one and replace it with nothing.
 
 @todo Do a sed tutorial
+
+#tee
+
+Allows to read from STDIN and **output to STDOUT and FILE**
+
+`... | tee [OPTIONS] FILES` -> send output to both STDOUT and FILES
+  1. `-a` -> append to the file instead of overwriting
+
+##example
+1. `ls | tee file1 file2` -> send ls output to both STDOUT and file1 and file2
+2. `ls f* | wc -l | tee count.txt` -> count the number of files starting with f and output to both STDOUT and count.txt
+
