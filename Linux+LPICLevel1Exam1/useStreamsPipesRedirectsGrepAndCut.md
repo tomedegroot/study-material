@@ -22,9 +22,13 @@ count -> `wc`
 Split a file (or stdin with piping).
 The output will be files with names: xaa, xab, xac... if those filenames already exist, they will be overwritten.
 
-`split [OPTIONS] [FILE]`
+`split [OPTIONS] [FILE] [FILESPREFIX]`
 
 1. `-l` -> number of lines per output file. So if you have a file of 6 and you want to split it in 2 files, do `-l 3`
+
+If [FILEPREFIX] is specified, all the newly created files will start with the prefix, example:
+
+`split -l 20 /var/log/dmesg lines` will create files linesaa, linesab, linesac, etc
 
 ## diff
 
@@ -161,6 +165,10 @@ Field types:
     2. `-d` -> set delimiter for the field, so `-d:` sets ':' as delimiter. The default is TAB
   2. `-cN` -> set characters as field types, so: `cut -c1-5 /etc/passwd` gives you the first 5 characters of every line of /etc/passwd
 
+##example
+
+`cut -f2 -d ' ' test.txt` -> set space as the delimeter
+
 #sed
 
 Stream editor for filtering and transforming text
@@ -201,4 +209,4 @@ Allows to read from STDIN and **output to STDOUT and FILE**
 ##example
 1. `ls | tee file1 file2` -> send ls output to both STDOUT and file1 and file2
 2. `ls f* | wc -l | tee count.txt` -> count the number of files starting with f and output to both STDOUT and count.txt
-
+3. `ls /var/log/ | tee copy{1..3}` -> output content of /var/log to STDOUT and save to copy1, copy2 AND copy 3
