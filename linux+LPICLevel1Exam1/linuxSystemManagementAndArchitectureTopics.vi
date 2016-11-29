@@ -1,0 +1,21 @@
+#/sys, /proc, /dev and /var
+
+##/var
+
+###/var/log
+
+Central location for all logs
+
+###/var/cache
+
+Contains repository caches
+
+###/var/lib
+
+Contain libraries and some config for example networking
+
+##/sys
+
+Maintains references to devices from a config perspective.
+
+3.00
