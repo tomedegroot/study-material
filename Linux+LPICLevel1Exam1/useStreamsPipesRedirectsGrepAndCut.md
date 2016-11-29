@@ -32,7 +32,7 @@ If [FILEPREFIX] is specified, all the newly created files will start with the pr
 
 ## diff
 
-See the difference between files
+See the difference between files, multiple files is possible.
 
 `diff FILE1 FILE2`
 
@@ -62,6 +62,7 @@ stderr(2) -> error on the screen
 
 1.stdin and stderr in 2 files: `cat xaa xab nofile > mystdoutput 2>mystderror`
 2. combine stdin and stderr in 1 file: `cat xaa xab nofile > mystdoutput 2>&1`
+3. `&>` redirects STDOUT and STDERR to the same place. So `&>word` is equivalent to `>word 2>&1`. See more (info)[http://superuser.com/questions/335396/what-is-the-difference-between-and-in-bash]
 
 ##Prevent overwriting of specific files
 
@@ -210,3 +211,18 @@ Allows to read from STDIN and **output to STDOUT and FILE**
 1. `ls | tee file1 file2` -> send ls output to both STDOUT and file1 and file2
 2. `ls f* | wc -l | tee count.txt` -> count the number of files starting with f and output to both STDOUT and count.txt
 3. `ls /var/log/ | tee copy{1..3}` -> output content of /var/log to STDOUT and save to copy1, copy2 AND copy 3
+
+#sort
+
+Use sort to sort the lines
+
+`sort [OPTIONS] FILE`
+  1. `-n` -> sort according to string numerical value
+
+#uniq
+
+Filter **adjecent** lines to remove duplicates. Since the lines must be adjecent, you mostly use it together with sort.
+
+`sort test.txt | sort -n | uniq`
+
+
