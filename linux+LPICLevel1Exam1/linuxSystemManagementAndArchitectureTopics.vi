@@ -24,4 +24,22 @@ Maintains references to devices from a config perspective. So the config of the 
 
 ##/proc
 
-Everything in Linux has a reference to a file. Processes live in */proc*
+Everything in Linux has a reference to a file. Processes live in */proc* and you can `cd` into a process.
+
+Or get info on systems via:
+
+```
+/proc/cpuinfo
+/proc/filesystems
+/proc/meminfo
+/proc/sys/kernel
+```
+
+Write to `/proc/sys/kernel/hostname` to set the hostname
+
+*/dev
+
+Contains a list of devices that are on can be connected to the file system
+
+9.32
+
