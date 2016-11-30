@@ -16,6 +16,12 @@ Contain libraries and some config for example networking
 
 ##/sys
 
-Maintains references to devices from a config perspective.
+Maintains references to devices from a config perspective. So the config of the devices is in these file:
 
-3.00
+1. */sys/devices/system/cpu/cpu0* -> holds file related to the cpu
+2. */sys/devices/software*
+3. */sys/kernel* -> programs use these to get system info
+
+##/proc
+
+Everything in Linux has a reference to a file. Processes live in */proc*
