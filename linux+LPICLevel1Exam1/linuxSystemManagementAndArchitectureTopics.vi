@@ -41,5 +41,17 @@ Write to `/proc/sys/kernel/hostname` to set the hostname
 
 Contains a list of devices that are on can be connected to the file system
 
-9.32
+So via /dev/stdout one can write to stdoutA
 
+#lsmod
+
+Nicely formats the information that is within */proc/modules*. (This is where kernel modules are loaded)[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/Deployment_Guide/s2-proc-modules.html]
+
+#lspci and lsusb
+
+##lspci 
+
+`lspci` -> list info on pci buses and devices connected to them
+  1. `-v` -> verbose
+
+1.37
