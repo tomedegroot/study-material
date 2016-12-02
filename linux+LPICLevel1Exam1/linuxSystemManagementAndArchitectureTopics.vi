@@ -53,5 +53,10 @@ Nicely formats the information that is within */proc/modules*. (This is where ke
 
 `lspci` -> list info on pci buses and devices connected to them
   1. `-v` -> verbose
+  2. `-vv` -> more verbose
+  3. `-vvv` -> even more verbose
+  4. `-n` -> remove name lookup format from our system
+  5. `-x` -> show heXadecimal dump of standard part of the config space
 
-1.37
+3.44
+
