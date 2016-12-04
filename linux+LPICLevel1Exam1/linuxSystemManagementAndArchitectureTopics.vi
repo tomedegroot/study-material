@@ -115,5 +115,45 @@ update-grub reads these bash scripts from 00 to the highest number. Is is possib
 
 #Differentiate and Optimize Storage Input
 
+##general: manipulate, mount, and df for disk space
+
+1. Want to create and manipulate partitions of a block device under */dev*? -> `fdisk`
+2. Want to mount a filesystem or see which filesystems are mounted? -> `mount`
+3. Want to know disk space usage of a file system? -> `df`
+
+##automount via fstab
+
+*/etc/fstab* contains info on how a file system should be mounted. Linux uses this at boot to mount the filesystems automatically:
+```
+#
+# /etc/fstab
+# Created by anaconda on Mon Sep 29 21:48:54 2014
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+UUID=0f790447-ebef-4ca0-b229-d0aa1985d57f /                       xfs     defaults        1 1
+/root/swap swap swap sw 0 0 
+```
+
+1. The first field (fs_spec) describes  the  block  special  device  or remote filesystem to be mounted. This can be done via UUID. See (lsblk)[#lsblk]. The benefit of using UUID is that is not affected by the ordering of the filesystems, as for example sda1, sda2... are.
+2. The second field describes the mount point for the filesystem.
+3. The third field describes  the  type  of  the  filesystem.
+
+##disk usage of file system
+
 `df [OPTIONS] [FILE]` -> report file system disk space usage
   1. If [FILE] is omitted, df gives info on all the mounted file systems. If [FILE] is given, df gives info on the file sytem containing [FILE]
+
+##lsblk
+
+How to list block devices? -> `lsblk [OPTIONS]`
+  1. How to get output on file systems? -> `-f`
+
+What is lsblk the more user-friendly version of? -> `blkid`
+
+##*/dev/disk*##
+
+Get overview of all the disks. How to see how the disks are mounted?
+
+`cd /dev/disk/by-uuid && ll`
