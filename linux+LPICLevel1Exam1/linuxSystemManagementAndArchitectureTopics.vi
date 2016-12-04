@@ -113,3 +113,7 @@ GRUB_HIDDEN_TIMEOUT_QUIET=true
 
 update-grub reads these bash scripts from 00 to the highest number. Is is possible to add your own menu entry by adding a file in grub.d.
 
+#Differentiate and Optimize Storage Input
+
+`df [OPTIONS] [FILE]` -> report file system disk space usage
+  1. If [FILE] is omitted, df gives info on all the mounted file systems. If [FILE] is given, df gives info on the file sytem containing [FILE]
