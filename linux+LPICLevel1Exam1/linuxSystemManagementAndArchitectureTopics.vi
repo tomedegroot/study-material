@@ -57,6 +57,34 @@ Nicely formats the information that is within */proc/modules*. (This is where ke
   3. `-vvv` -> even more verbose
   4. `-n` -> remove name lookup format from our system
   5. `-x` -> show heXadecimal dump of standard part of the config space
+  6. `-b` -> bus-centric view: in order of all the buses
+  7. `-t` -> get a tree view: see how stuff is connected in your system
+  8. `-s DOMAIN` -> search within a domain. This is the same as doing `lspci | grep DOMAIN`
+  9. `-m` -> Output machine readable form
 
-3.44
+lspci reads */usr/share/hwdata/pci.ids*
+
+
+##lsusb
+
+Same as lspci
+
+`lsusb [OPTIONS]`
+  1. `-s` get by port
+  2. `d VENDOR:DEVICEID`
+  3/ `-t` -> get a tree view, easy when you have a hub
+
+#modprobe and lsmod
+
+Add, remove and view loadable Linux kernel modules. Mod location = */lib/modules/KERNELVERSION/kernel*, so `cd /lib/modules/$(uname -r)/kernel`
+
+In CentOS 7 (lsmod)[https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s1-kernel-module-utils.html] is used to show the **loaded** the kernel modules. `lsmod` formats contents of */proc/modules* pseudo-file
+
+1. `lsmod` -> list all the loaded modules
+2. `modprobe -r` -> remove a module.
+3. `modprobe [MODNAME]` -> load a module
+
+Example: `modprobe floppy`. You could use the older insmod, but it needs the full path: `/lib/modules/3.10.0-327.28.2.el7.x86_64/kernel/drivers/block/floppy.ko`
+
+
 
