@@ -87,4 +87,29 @@ In CentOS 7 (lsmod)[https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s1-k
 Example: `modprobe floppy`. You could use the older insmod, but it needs the full path: `/lib/modules/3.10.0-327.28.2.el7.x86_64/kernel/drivers/block/floppy.ko`
 
 
+#GRUB
+
+GRUB2 is the default Linux (bootloader)[http://www.cs.tau.ac.il/telux/lin-club_files/linux-boot/slide0002.htm] for all distro's
+
+In */etc/default/grub* is GRUB's default config. After editing this file, do `sudo update-grub` affectuate the changes. Comment out the following two lines to show the bootloader:
+
+GRUB_HIDDEN_TIMEOUT=0
+GRUB_HIDDEN_TIMEOUT_QUIET=true
+
+*/etc/grub.d/* contains the config files for the GRUB menu. Contents:
+
+```
+-rwxr-xr-x. 1 root root  8702 Jan  5  2016 00_header
+-rwxr-xr-x. 1 root root   992 May  4  2015 00_tuned
+-rwxr-xr-x. 1 root root   232 Jan  5  2016 01_users
+-rwxr-xr-x. 1 root root 10232 Jan  5  2016 10_linux
+-rwxr-xr-x. 1 root root 10275 Jan  5  2016 20_linux_xen
+-rwxr-xr-x. 1 root root  2559 Jan  5  2016 20_ppc_terminfo
+-rwxr-xr-x. 1 root root 11169 Jan  5  2016 30_os-prober
+-rwxr-xr-x. 1 root root   214 Jan  5  2016 40_custom
+-rwxr-xr-x. 1 root root   216 Jan  5  2016 41_custom
+-rw-r--r--. 1 root root   483 Jan  5  2016 README
+```
+
+update-grub reads these bash scripts from 00 to the highest number. Is is possible to add your own menu entry by adding a file in grub.d.
 
