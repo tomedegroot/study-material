@@ -194,4 +194,50 @@ So the */proc/* file system is you one-stop shop for getting hardware info on yo
 
 #Filesystem Hierarchy Standard
 
+Filesystem Hierarchy Standard (FHS), is a standard to enforce a certain layout of the files in a Unix system. This ensures consistency. (offical source)[http://www.pathname.com/fhs/pub/fhs-2.3.html]
 
+Where is the primary hierarchy? -> */*
+
+Where are the essential commands, available even in (single user mode)[http://www.linfo.org/single_user_mode.html]? -> */bin/*
+
+Where are the boot files? -> */boot/
+
+Where are our device files? -> */dev/*
+
+Originally miscelleaneous files, now there are important files such as configurations in these dir? -> */etc/*
+
+Where are the user's dirs? -> */home/*
+
+Where are our essential libraries binaries for */bin/* and */sbin* -> */lib/*
+
+(Which dir is meant for mounting for storage devices?)[http://www.linfo.org/mnt.html] -> */mnt/*
+
+Which dir is meant for (mounting)[http://askubuntu.com/a/20681] temporary media devices? -> */media/*
+
+Where are **optional** application packages? -> */opt/*
+
+Where is process info stored? -> */proc/*
+
+Where is the root's home dir? -> */root/*
+
+Where are system binaries, (necessary for booting, restoring, recovering and repairing the file system)[http://www.pathname.com/fhs/2.2/fhs-3.14.html] installed? -> */sbin/*
+
+Where do processes store temporary files? -> */tmp/*
+
+Where is the second hierarhcy for non-essential applications from user space? -> */usr/*
+
+Where is a tertiary hierarchy where the local binaries are installed? (*/usr/local/*)[https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s3-filesystem-usr-local.html]
+
+The (offical FSH)[http://www.pathname.com/fhs/pub/fhs-2.3.html#USRLOCALSHARE1] states that */usr/* should be read-only and shareable across systems. That is why local config files and logs do not reside on */usr/* and another filesystem should be mounted on */usr/local/* where only locally installed applications should be. In practice this means */usr/local/* is where you install software that is not managed by a package manager, for instance unpacking a tarball yourself.
+
+Where are non-essential system binaries installed? -> */usr/sbin/*
+
+Where is non-arch binaries installed? */usr/share/*
+
+Where are source codes, such as the kernel source installed? -> */usr/source/*
+
+Where are files that have to remain betweens boots, but have the tendency to change quite a bit? -> */var/*. The files in */var/log* are part of a secondary hierarchy.
+
+So what is the differnce between */tmp/* and */var/tmp*? -> The files in */var/tmp/* remain between boots, the files in */tmp/* do not.
+
+ 
