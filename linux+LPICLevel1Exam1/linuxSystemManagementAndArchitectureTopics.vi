@@ -113,6 +113,8 @@ GRUB_HIDDEN_TIMEOUT_QUIET=true
 
 update-grub reads these bash scripts from 00 to the highest number. Is is possible to add your own menu entry by adding a file in grub.d.
 
+The GRUB config file is in: */boot/grub/menu.lst*
+
 #Differentiate and Optimize Storage Input
 
 ##general: manipulate, mount, and df for disk space
@@ -170,7 +172,7 @@ Remember, everything is Linux is a file. But, cold plug devices are listed in th
 
 HAL is responsible for detecting hot plug devices and reacting to them (such as loading a kernel module) the DBUS(Desktop BUS) broadcasts a message to other processes to let them know about the newly discovered device.
 
-#Determine Hardware Device Resources
+#Determine Hardware Device Resources (*/proc/*)
 
 What hardware resources is our system using?
 
@@ -191,6 +193,8 @@ How can I find the loaded modules? -> `cat /proc/modules`
 How can I find the OS version? -> `cat /proc/version`
 
 So the */proc/* file system is you one-stop shop for getting hardware info on your computer.
+
+Where can you find which dma channels are currently in use by the system? -> */proc/dma* DMA stands for (Direct Memory Access)[http://whatis.techtarget.com/definition/Direct-Memory-Access-DMA]
 
 #Filesystem Hierarchy Standard
 
@@ -228,7 +232,7 @@ Where is the second hierarhcy for non-essential applications from user space? ->
 
 Where is a tertiary hierarchy where the local binaries are installed? (*/usr/local/*)[https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s3-filesystem-usr-local.html]
 
-The (offical FSH)[http://www.pathname.com/fhs/pub/fhs-2.3.html#USRLOCALSHARE1] states that */usr/* should be read-only and shareable across systems. That is why local config files and logs do not reside on */usr/* and another filesystem should be mounted on */usr/local/* where only locally installed applications should be. In practice this means */usr/local/* is where you install software that is not managed by a package manager, for instance unpacking a tarball yourself.
+The (offical FSH)[http://www.pathname.com/fhs/pub/fhs-2.3.html#USRLOCALSHARE1] states that */usr/* should be read-only and shareable across systems. That is why local config files and logs do not reside on */usr/* and another filesystem should be mounted on */usr/local/* where only locally installed applications should be. In practice this means */usr/local/* is where you install software that is not managed by a package manager, for instance unpacking a tarball yourself and all the software managed by a package manager is in */usr/*
 
 Where are non-essential system binaries installed? -> */usr/sbin/*
 
@@ -240,4 +244,32 @@ Where are files that have to remain betweens boots, but have the tendency to cha
 
 So what is the differnce between */tmp/* and */var/tmp*? -> The files in */var/tmp/* remain between boots, the files in */tmp/* do not.
 
- 
+#System Boot Process
+
+This is best to test on a virtual machine.
+
+Where is the valuablu non-debug, non-critical booting info stored? -> */var/log/messages*
+
+Where are the kernel messages (also during the boot process) logged? -> */var/log/dmesg*
+
+However */var/log/messages* and */var/log/dmesg* (can overlap)[http://unix.stackexchange.com/a/35853]
+
+Steps of booting:
+
+1. System startup (Bios/BootMonitor)
+2. Stage 1 bootloader (Master Boot Record, usually installed in sector 0 of hard drive), this just detects where your bootloader is installed
+3. Stage 2 bootloader (GRUB), defines where on your partition scheme the kernel exists
+4. Kernel (Linux)
+5. Init (User-space)
+
+@todo: look up how you can enter commands to your bootloader (from 6.30 in the lecture)
+
+#Init and Telinit
+
+There are 6 run levels
+
+In CentOS, the initial (system 5 init stack)[http://www.tldp.org/LDP/sag/html/run-levels-intro.html] is followed, with run level 0 to 6.
+
+In Ubuntu this is little bit different and will be explained in another lecture.
+
+Change the run level via `sudo /sbin/telinit 1` -> go to single level mode. `/sbin/telinit` is an invoker for `/sbin/init`
