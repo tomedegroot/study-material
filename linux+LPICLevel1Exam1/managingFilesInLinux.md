@@ -50,3 +50,12 @@ ls lists, options:
   1. `-i` -> interactive, prompt before overwrite
   2. `-p` -> preserve permissions. By default, if you copy a file it gets the same permissions and owner as the folder you are copying to. With `-p` you keep the same permissions and owner as the original file
 
+#File Archiving & The RM, MV Commands
+
+##cp
+
+Extra notes on flags for `cp`:
+  1.`-a` -> It preserves ownership on all the folders and it's contents recursively.
+  2. `-u` -> Update copy. It's a backup command: it tells cp to only copy if the target location is newer or the target location doesn't exist
+
+4.23
