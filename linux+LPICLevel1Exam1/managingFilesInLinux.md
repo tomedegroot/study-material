@@ -191,3 +191,75 @@ What is you are logged in as user and you want to change ownership of the group?
 
 `chgrp GROUPNAME FILENAME`
   1. `-R` -> dp recursively, so group ownership of subdir(s) as well
+
+#Special Perimission Bits
+
+See the (Oracle Docs on permissions)[https://docs.oracle.com/cd/E19683-01/816-4883/secfile-69/index.html] and (this)[http://www.tutonics.com/2012/12/linux-file-permissions-chmod-umask.html#special_mode_bits] for more info on the special bits
+
+##sticky bit
+
+Info from previous notes on the sticky bit:
+
+Caveat: all the files in /tmp have 777 permissions. This way everyone has write access to /tmp, but this also  means users can delete other user's files. How to prevent this?
+
+Sticky bit->A folder with a sticky bit ensures that files and folders within the folder with the sticky bit can only be deleted by the owner, even if the permissions on the file are 777.
+
+`chmod o+t FILE` -> example: `chmod o+t /sticky`, ls output: `drwxr-xr-t`
+`chmod o-t FILE` -> example: `chmod o-t /sticky`
+
+Mnemonic aid: it's the user who applies the special bit to (in this case others) and it's the t from sTicky
+
+After this, when you do ls -l The last symbol of the permission string is a 't'. This means any files within the folder with sticky bit can only be deleted by the user who created the file.
+
+You can set the sticky bit via a fourth octet before the regular octets in chmod: chmod 0777 sticky -> sticky bit is off chmod 1777 sticky -> sticky bit is on.
+
+REMEMBER: Without the sticky bit set, any user with write and execute permissions for the directory can rename or delete contained files, regardless of the file's owner.
+
+In other words, if you have write access to a dir, but not the file in the dir (/dir/file), then you can still the delete the file since you have write access to the dir
+
+##setuid permission bit
+
+When you run a program in Linux, by default the program has the same permissions as the user who executes the program. See test output of a program which prints a line to a file in /etc owned by root:
+
+```
+-rwxr-xr-x. 1 root root 48 Dec 11 21:01 program.sh
+[root@t-degroot1 root]# exit
+exit
+[tom@t-degroot1 root]$ ./program.sh
+./program.sh: line 1: /etc/myfile.txt: Permission denied
+```
+
+Why? -> tom doesn't have write permissions to /etc/myfile.txt and if tom runs the program, the program gets the same permissions as tom and thus it cannot write.
+
+How can you run a program with the same permissions as the user who owns the program? -> with the setuid permission bit.
+
+`chmod u+s FILE` -> set setuid bit. ls output: `-rwsrwxrw-`
+`chmod u-s FILE` -> unset setuid bit
+
+### 2 caveats
+
+1. The effective program you are running when you execute a shell script is bash, so you have to set the setiud bit on the bash executable to run the program with the same permissions as the owner
+
+2. On RedHat (and thus CentOS) the setuid bit is (ignored for shell scripts)[https://access.redhat.com/solutions/124693] thus the permissions are of the user who executes the script. This is a (security measure)[http://unix.stackexchange.com/a/130910]
+
+##set setgid
+
+Run this file with same user permissions of the group:
+
+`chmod g+s FILE` -> set setgid bit. ls output: `-rwxrwsrw-`
+`chmod g-s FILE` -> unset setgid bit
+
+Same concept as the setuid bit
+
+##Octal permissions for the special bits
+
+Special Mode Bits
+
+The setuid, setgid, and sticky bit can be set using chmod where
+
+1 = sticky bit
+2 = setgid
+4 = setuid
+For example to set the setuid bit along with permissions 766:
+
+chmod 4766 filename
