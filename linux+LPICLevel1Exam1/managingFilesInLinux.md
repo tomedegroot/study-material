@@ -263,3 +263,39 @@ The setuid, setgid, and sticky bit can be set using chmod where
 For example to set the setuid bit along with permissions 766:
 
 chmod 4766 filename
+
+#Default Permission umask, newgrp and chattr
+
+##newgrp
+
+`newgrp GROUPNAME` -> change the current groupid of the login session. Any newly created file is group owned by the groupid of the login session:
+
+```
+[root@t-degroot1 tom]# newgrp linuxacademy
+[root@t-degroot1 tom]# echo "newfile" >> newfile.txt
+[root@t-degroot1 tom]# ls -l
+
+-rw-r--r--. 1 root linuxacademy   16 Dec 12 08:53 newfile.txt
+```
+
+Why do you want to use newgrp? -> When you create a lot of groups in a session you don't have to use a lot of `chown`
+
+##umask
+
+By default the following modes are set:
+
+files=666
+folders=777
+
+With the umask you can the default modes for files and folders. So a umask of 002 will result in:
+
+files=664
+folders=775
+
+So you have to **substract the umask from the permissions** this because the umask (uses the bitwise AND NOT){https://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html}. So if you want to substract only the read rights for all users: `umask 444`
+
+4.10
+
+
+
+
