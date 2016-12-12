@@ -282,20 +282,45 @@ Why do you want to use newgrp? -> When you create a lot of groups in a session y
 
 ##umask
 
-By default the following modes are set:
+Linux set the following modes on files and folders if no umask is set:
 
 files=666
 folders=777
 
-With the umask you can the default modes for files and folders. So a umask of 002 will result in:
+With the umask you can set different default modes for files and folders. So a umask of 002 will result in:
 
 files=664
 folders=775
 
-So you have to **substract the umask from the permissions** this because the umask (uses the bitwise AND NOT){https://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html}. So if you want to substract only the read rights for all users: `umask 444`
+So you have to **substract the umask from the permissions** this because the umask (uses the bitwise AND NOT){https://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html}. So if you want to substract only the read rights for all users: `umask 444`. **Basically you see which rights you want to take away.**
 
-4.10
+##Additional file attributes
 
+You can set extra attributes on files via chattr:
 
+`chattr [OPTIONS] [MODE] [FILES]...`
 
+Where [MODE] = `+-=[aAcCdDeijsStTu]`
 
+1. `+` -> sets
+2. `-` -> removes
+3. `=` -> make it the only attribute
+
+Some common attributes:
+
+1. `A` -> not atime updates, this means the update time of the file does no longer gets updated when the file is **accessed**. Remember, this is **not** when the file last modified time which shows in ls. This saves time for the kernel.
+2. `c` -> compress files or any files placed in a dir
+3. `a` -> can only be open for appending. (need to be root to set this)
+4. `i` -> immutable, Means no renaming, no symbolic link creation, no execution, no writable, even though the user is the owner, has the right permissions or is the root user. (need to be root to set this)
+5. `s` -> secure deletion, it works like a shredder: If the file gets deleted, not only are the pointers deleted, but the kernel write blocks of zero's to the location.
+
+Example: `sudo chattr +a test.txt `
+
+Common [OPTIONS]
+  1. `R` -> Recursive for dires
+
+How to list the extra attributes? ->  `lsattr`
+
+I get a permission issue, even though I have the right permissions or I am root. What to do? -> check the extra attributes via `lsattr`
+
+#Linux Core Directories & What They Are Used For
