@@ -304,7 +304,7 @@ Where [MODE] = `+-=[aAcCdDeijsStTu]`
 
 1. `+` -> sets
 2. `-` -> removes
-3. `=` -> make it the only attribute
+3. `=` -> make it the only attribute(s)
 
 Some common attributes:
 
@@ -324,3 +324,23 @@ How to list the extra attributes? ->  `lsattr`
 I get a permission issue, even though I have the right permissions or I am root. What to do? -> check the extra attributes via `lsattr`
 
 #Linux Core Directories & What They Are Used For
+
+Where is info for the initial booting of the computer, such as grub? -> */boot/*
+
+Most of this info is in the notes of linuxSystemManagementAndArchitectureTopics.md
+
+Where are the services that can started or stopped? -> */etc/init.d/* (info)[http://www.ghacks.net/2009/04/04/get-to-know-linux-the-etcinitd-directory/]
+
+#Finding Files in Linux Using Find, Locate, Whereis, Which and Type
+
+##find
+
+How to search within a dir tree? -> `find`
+
+`find [OPTIONS] [PATH]... [EXPRESSION]`
+
+Where [EXPRESSION] is made up of: [OPTIONS] [TESTS] [ACTIONS]. In:
+
+`find / -name test`, the [PATH] = */*, the [EXPRESSION] = `-name test` where `-name test` = [TEST]
+
+5.00
