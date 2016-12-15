@@ -343,6 +343,8 @@ Where [EXPRESSION] is made up of: [OPTIONS] [TESTS] [ACTIONS]. In:
 
 `find / -name test`, the [PATH] = */*, the [EXPRESSION] = `-name test` where `-name test` = [TEST]
 
+Every test in [TESTS] works like a filter
+
 ###[TESTS] -maxdepth
 
 How many dirs deep do you want to go? `find . -maxdepth 0`
@@ -428,7 +430,11 @@ These two commands both search for files that are readable for everybody ( -perm
 
 ###[TEST] -size
 
-Example: `find . -size 2M` -> search for files which take n units of space
+Example: `find . -size 2M` -> search for files which take **exactly** n units of space
+
+1. Variation: `-size +1M` -> search files which are bigger than 1 Megabyte
+2. Variation: `-size -1M` -> search files which are smaller than 1 Megabyte
+3. Combine: `-size +1M -size -2M` -> search files which are bigger than 1 Megabyte and smaller than 2 Megabyte
 
 See the man entry for how to enter human-readable formats:
 
@@ -449,5 +455,63 @@ See the man entry for how to enter human-readable formats:
               `G'    for Gigabytes (units of 1073741824 bytes)
 ```
 
-1. **Mind you, the rounding goes up**, so if you have a file of 1 byte and you do `find . -size 1M` it pops up because the file cannot take up 0 MB. So the rounding goes up to 1M.
-2. **Mind you, a kilobyt is actually 1024 bytes, NOT 1000 bytes.
+1. **Mind you**, a kilobyte is actually 1024 bytes, NOT 1000 bytes.
+
+###[TEST] -user or -group
+
+How to search by the owner or group of a file? -> `find . -user tom` or `find . -group root`
+
+###locate
+
+Why use `locate`? - search for files and dirs from a database (so it's quicker.) 
+
+What is the downside -> the database only updates once an hour, **but** you can update the database directly via `updatedb`
+
+###whereis
+
+Only searches for binary files and man page dirs.
+
+###which
+
+Only searches within path an shows the first result in the path
+
+###type command
+
+Why use `type` -> it tells you how bash would interpret a command:
+
+```
+[root@t-degroot1 home]# type ls
+ls is aliased to `ls --color=auto'
+```
+
+What does the -t option do? -> tells you what type the command is. From the man:
+
+```
+If the -t option is used, type prints a string which is one of alias, keyword, function, builtin, or file
+```
+
+##updatedb.conf file
+
+Why is `updatedb used` -> to create a database used by locate.
+
+Where is the `updatedb` config file? -> */etc/updatedb.conf*, the output looks like:
+
+```
+PRUNE_BIND_MOUNTS = "yes"
+PRUNEFS = "9p afs anon_inodefs auto autofs bdev binfmt_misc cgroup cifs coda configfs cpuset debugfs devpts ecryptfs exofs fuse fuse.sshfs fusectl gfs gfs2 gpfs hugetlbfs inotifyfs iso9660 jffs2 lustre mqueue ncpfs nfs nfs4 nfsd pipefs proc ramfs rootfs rpc_pipefs securityfs selinuxfs sfs sockfs sysfs tmpfs ubifs udf usbfs"
+PRUNENAMES = ".git .hg .svn"
+PRUNEPATHS = "/afs /media /mnt /net /sfs /tmp /udev /var/cache/ccache /var/lib/yum/yumdb /var/spool/cups /var/spool/squid /var/tmp"
+```
+
+Prune means (removing sections of decision trees), so PRUNE in the config means removing entities from the updatedb.
+
+What is PRUNE_BIND_MOUNTS? -> A bind mount is not a device, but a path that is mounted into another path. (More info)[http://backdrift.org/how-to-use-bind-mounts-in-linux] and (see practical use cases)[http://backdrift.org/how-to-use-bind-mounts-in-linux]. This means skip bind mounts.
+
+What is PRUNEFS? -> Skip certain file system types
+
+What is PRUNENAMES? -> Skip certain file extension
+
+What is PRUNEPATHS? -> Skip certain paths in the file system 
+
+See here a summary of all the (PRUNE* variables)[http://manpages.ubuntu.com/manpages/xenial/man5/updatedb.conf.5.html]
+
