@@ -317,7 +317,7 @@ Some common attributes:
 Example: `sudo chattr +a test.txt `
 
 Common [OPTIONS]
-  1. `R` -> Recursive for dires
+  1. `R` -> Recursive for dirs
 
 How to list the extra attributes? ->  `lsattr`
 
@@ -342,6 +342,15 @@ How to search within a dir tree? -> `find`
 Where [EXPRESSION] is made up of: [OPTIONS] [TESTS] [ACTIONS]. In:
 
 `find / -name test`, the [PATH] = */*, the [EXPRESSION] = `-name test` where `-name test` = [TEST]
+
+###[TESTS] -maxdepth
+
+How many dirs deep do you want to go? `find . -maxdepth 0`
+
+Where:
+
+1. `maxdepth 0` is only 1 file which is the current dir itself and 
+2. `maxdepth 1` is the content of the current dir
 
 ###[TESTS] -name
 
@@ -417,4 +426,28 @@ find . -perm -a+r -perm /a+w ! -perm /a+x
 These two commands both search for files that are readable for everybody ( -perm  -444 or  -perm -a+r),  have at least one write bit set ( -perm /222 or -perm /a+w) but are not executable for anybody ( ! -perm /111 and ! -perm /a+x respectively).
 ```
 
+###[TEST] -size
 
+Example: `find . -size 2M` -> search for files which take n units of space
+
+See the man entry for how to enter human-readable formats:
+
+```
+ -size n[cwbkMG]
+              File uses n units of space.  The following suffixes can be used:
+
+              `b'    for 512-byte blocks (this is the default if no suffix is used)
+
+              `c'    for bytes
+
+              `w'    for two-byte words
+
+              `k'    for Kilobytes (units of 1024 bytes)
+
+              `M'    for Megabytes (units of 1048576 bytes)
+
+              `G'    for Gigabytes (units of 1073741824 bytes)
+```
+
+1. **Mind you, the rounding goes up**, so if you have a file of 1 byte and you do `find . -size 1M` it pops up because the file cannot take up 0 MB. So the rounding goes up to 1M.
+2. **Mind you, a kilobyt is actually 1024 bytes, NOT 1000 bytes.
