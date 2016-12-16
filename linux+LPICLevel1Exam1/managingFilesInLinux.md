@@ -515,3 +515,35 @@ What is PRUNEPATHS? -> Skip certain paths in the file system
 
 See here a summary of all the (PRUNE* variables)[http://manpages.ubuntu.com/manpages/xenial/man5/updatedb.conf.5.html]
 
+#dd
+
+##How does dd work?
+
+dd is a utility to copy from stdin to stdout
+
+When to use this? -> Creating iso files, creating disk images,  securely deleting files/disks (filling it with 0's), converting lower case to upper case and vice versa, writing to a partition. So:
+
+```
+In essence, dd copies and optionally converts data. It uses an input buffer, conversion buffer if conversion is specified, and an output buffer. Reads are issued to the input file or device for the size of the input buffer, optional conversions are applied, and writes are issued for the size of the output buffer
+```
+
+Structure of dd command: `dd [OPERANDS]...`
+
+Example: `dd if=/dev/zero of=file.iso bs=1024 count=1`
+
+Some operands:
+1. How to specify the input file? -> `if=INPUTFLE` -> by default dd reads from STDIN
+2. How to specify the output file? -> `of=OUTPUTFILE` -> by default dd writes to STDOUT
+3. How to set the block size? -> `bs=BLOCKSIZE`, entered in bytes by default or in  human-readable format such as: `bs=1K` By default dd will collected and processed as full-sized output block until the end of the input is read. @todo look this up in the book. 
+4. How to set the count? -> `count=`, copy only n input blocks with the size specified by the block size. If the block size is NOT specified, dd will read until the end of the input file.
+
+##How to backup using dd?
+
+How to grab the first 5 bytes of a filesytem?
+
+1. Pick the filesystem from an overview -> `df -h`
+2. We start with entering the input file and output file: `dd if=/dev/xda1 of=mbr.bak`
+3. Enter the block size (what you want to transfer per time) -> `dd if=/dev/xda1 of=mbr.bak bs=512`
+4. Set the count of how many times you want to copy the block size -> `dd if=/dev/xda1 of=mbr.bak bs=512 count=1`
+
+11.20
