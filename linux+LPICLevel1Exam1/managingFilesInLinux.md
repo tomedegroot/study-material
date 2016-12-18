@@ -49,14 +49,11 @@ ls lists, options:
 `cp [OPTIONS] SOURCE DESTINATION`
   1. `-i` -> interactive, prompt before overwrite
   2. `-p` -> preserve permissions. By default, if you copy a file it gets the same permissions and owner as the folder you are copying to. With `-p` you keep the same permissions and owner as the original file
+  3. `-a` -> It preserves ownership on all the folders and it's contents recursively.
+  4. `-u` -> Update copy. It's a backup command: it tells cp to only copy if the target location is newer or the target location doesn't exist
+  5. `-r` -> recursive
 
 #File Archiving & The RM, MV Commands
-
-##cp
-
-Extra notes on flags for `cp`:
-  1. `-a` -> It preserves ownership on all the folders and it's contents recursively.
-  2. `-u` -> Update copy. It's a backup command: it tells cp to only copy if the target location is newer or the target location doesn't exist
 
 ##mv
 
@@ -75,6 +72,12 @@ How does Linux mv work under the hood when writing to a different file system? -
 How to remove a file? -> `rm [OPTIONS] file`
   1. How to do this recursively? -> either `r` or `R`
 
+##mkdir
+
+How to create a dir? -> `mkdir DIRNAME`
+
+How to create necessary parents if they do not exist? -> `mkdir -p DIRNAME`, example: `mkdir -p DIRPARENT DIRNAME`
+
 ##tar
 
 How to create an archive of files? -> use `tar [OPTIONS] FILE...`
@@ -89,6 +92,7 @@ Options:
 
   3. How to create a tarball? -> `-c`, so `tar -cvf archive file1 file2`
   4. How to extract a tarball? -> `-x`
+    1. How to extract **only one file** from a tarball? -> `tar -xvf tarball.tar file`
   5. How to list the files in a tarball? -> `-t` for lisT
 
   6. How to filter the tar operation through gzip? `-z` so it will either zip or unzip using gzip:
@@ -96,8 +100,9 @@ Options:
     2. `tar tvfz archive.tar.gz archivezipped` -> list zipped archive
     3. `tar xvfz archive.tar.gz archivezipped` -> extract zipped archive
 
-  7. How to append a tarball to another tarball? -> `-A`
-  8. How to make tar change dir before extracting? -> `-C dirname`, so `tar xvf archive.tar -c /var` will extract the contents to */var/*
+  7. How to append **a tarball to another tarball?** -> `-A`
+  8. How to add a file to a tarball? -> `-r`, so `tar -rvf etc.tar dirlist.txt` will add dirlist.xt to etc.tar (**Mind you! the r is confusing for adding**)
+  9. How to make tar change dir before an action? -> `-C dirname`, so `tar -c /var -xvf archive.tar` will extract the contents to */var/*. **mind you** tar executes in the order of operations it finds, so the `-c` has to before the `-x` operator. (More info on the order of -c)[https://www.gnu.org/software/tar/manual/html_node/directory.html]
 
 ##The gzip and gunzip command
 
@@ -105,6 +110,10 @@ Use it if you want to zip 1 file, not a dir use gzip.
 
 How to use gzip? -> `gzip [OPTIONS] FILENAME`
   1. How to write to a new file and keep the existing one? -> `gzip -c file1 > file1.gz` -> the `-c` option writes to STDOUT and keeps the original file. Use this options for `gunzip` as well
+
+**Learned from the exercise** A .gz file is just one big file. If you execute `gzip -c * > mygzip.gz` it will create one .gz file which concatenates all the files. And if you then append a new file to it with gzip -c newfile.txt >> mygzip.gz it will append the zipped content.
+
+@todo study which of the gzip and tar commands alters the source file(s) and where the output is going by default
 
 ##Links
 
@@ -546,4 +555,54 @@ How to grab the first 5 bytes of a filesytem?
 3. Enter the block size (what you want to transfer per time) -> `dd if=/dev/xda1 of=mbr.bak bs=512`
 4. Set the count of how many times you want to copy the block size -> `dd if=/dev/xda1 of=mbr.bak bs=512 count=1`
 
-11.20
+
+##Convert using dd
+
+1. How to convert using dd? ->`dd if=INPUTFILE conv=CONVERSIONTYPE`. Example:
+  1. `dd if=myfile conv=ucase` (Only one needed for certification)
+
+##Securely deleting a file
+
+Deleting a file only removes the pointers, if you want to savely delete a file (so deleting a contents):
+
+Example: `dd if=/dev/urandom of=myfile bs=16 count=1`
+
+So specify the exact file size for the bytes at a time and the count
+
+```
+?ܩB???W??]1ۊ[root@t-degroot1 tom]# ls myfile
+myfile
+[root@t-degroot1 tom]# dd if=/dev/urandom of=myfile bs=16 count=1
+1+0 records in
+1+0 records out
+16 bytes (16 B) copied, 0.000162625 s, 98.4 kB/s
+[root@t-degroot1 tom]# ls myfile
+myfile
+```
+
+Instead of */dev/urandom* you can choose */dev/zero*. This generates zero's.
+
+##Backing up, copying one hard drive to another hard drive
+
+1. Mount a device
+2. Check what the device is called: `ls /dev`
+3. Create a filesytem on the device: `mkfs -t ext4 /dev/xvdf` (This will be explained in-depth later), to check to make sure it is not a mounted filesystem already: `df` -> see where all currently mounted filesystems are mounted
+4. To backup the first 1000 MB: `dd if=/dev/xvda1 of=/dev/xvdf bs=1M count=1000`
+
+#touch
+
+## stat
+
+How to check the last modify time? -> stat FILENAME
+  1. Access = last time file was read
+  2. Modify = last time file was modified (content changed)
+  3. Change = last time meta data was changed (e.g. permissions)
+
+##touch
+
+Create an empty file or update the last access, modify and/or change time
+
+1. `touch [OPTIONS] FILENAME` -> change access, modify AND change time
+  1. How to change only the access time? -> `-a`
+  2. How to change only the modified time? -> `-m`
+  3. How to use another files access and modify time to set the access and modify time for your file? -> `stat -r FILESOURCE FILETARGET` FILETARGET will have the same access and modify time as FILESOUCE. The `-r` is for reference
