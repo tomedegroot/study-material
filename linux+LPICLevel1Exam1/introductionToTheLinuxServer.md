@@ -157,10 +157,10 @@ All (default)
 
 Without a letter, it defaults to All so `chmod +x FILE` grants execute permission to user, group AND others!
 
-The permission bits have different meaning for a folder:
-1. The read bit allows the affected user to list the files within the directory
-2. The write bit allows the affected user to create, rename, or delete files within the directory, and modify the directory's attributes
-3. The execute bit allows the affected user to enter the directory, and access files and directories inside
+The permission bits have different meaning for a folder: 
+1. The read bit allows the affected user to list the files within the directory 
+2. The write bit allows the affected user to create files within the directory and 
+3. The execute bit allows the affected user to enter the directory, and access files and directories inside. So if you do **not** have execute permission on a dir, you cannot access any file in the dir
 4. The sticky bit states that files and directories within that directory may only be deleted or renamed by their owner (or root)
 
 `groupadd GROUPNAME` -> Add a group
@@ -196,7 +196,7 @@ cron.monthly
 crontab
 cron.weekly
 
-###Structue of */etc/crontab*
+###Structure of */etc/crontab*
 
 ```
 SHELL=/bin/bash
@@ -214,6 +214,7 @@ MAILTO=root
 # |  |  |  |  |
 # *  *  *  *  * user-name  command to be executed
 ```
+All the 5 places acts like filters! Every minute, cron checks if a command is not filtered OUT.
 
 **Asterix means  everything**, so the following line:
 
