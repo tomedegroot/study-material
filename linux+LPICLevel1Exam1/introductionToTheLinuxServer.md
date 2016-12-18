@@ -265,11 +265,15 @@ Regular users can schedule their own cron jobs as longs as their name is **not**
 
 You can also remove */etc/cron.deny* and create a file */etc/cron.allow*. This would mean that by default all users have no acces to cron, unless their name is **in** */etc/cron.allow*
 
-The user's cron is in `/var/spool/cron/crontabs`, but they are **not** intended to be edited directly, use:
+The user's cron is in */var/spool/cron/crontabs*, but they are **not** intended to be edited directly, use:
 
 `crontab` -> bin to edit a user's crontab, for example `crontab FILE` imports the cron task from the file and checks if it is the correct syntax 
-  1. `-l` -> list the user's crontab
-  2. `-e` -> edit the user's crontab via text editor
+  1. `-l` -> List a user's crontab
+  2. `-e` -> Edit a user's crontab via text editor
+  3. `-r` -> Remove a user's crontab
+  3. `-u USER` -> select the crontab of user to execute the option on. **Handy way** for the root user to delete or modify another user's crontab.
+
+**Mind you** root's crontab is, like any other user's cron in */var/spool/cron/crontabs*, the system crontab is used for the whole system.
 
 #Introduction To Linux Package Managers
 
