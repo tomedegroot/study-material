@@ -606,3 +606,7 @@ Create an empty file or update the last access, modify and/or change time
   1. How to change only the access time? -> `-a`
   2. How to change only the modified time? -> `-m`
   3. How to use another files access and modify time to set the access and modify time for your file? -> `stat -r FILESOURCE FILETARGET` FILETARGET will have the same access and modify time as FILESOUCE. The `-r` is for reference
+
+#inode
+
+Find more (extra info on inode numbers)[https://www.cyberciti.biz/tips/understanding-unixlinux-filesystem-inodes.html] and (deleting a file with special characters in it by inode number)[https://www.cyberciti.biz/tips/delete-remove-files-with-inode-number.html]
