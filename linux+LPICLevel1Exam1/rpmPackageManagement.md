@@ -1,4 +1,3 @@
-??? from here until ???END lines may have been inserted/deleted
 #RPM Package Management
 
 Used for RedHat based system
