@@ -46,7 +46,7 @@ file2
 
 ###Append a file to a tar
 
-`tar -rvf archive.tar fileToAppend`
+`tar -rvf archive.tar fileToAppend` **Mnemonic**: add file entRy
 
 ```
 [tom@t-degroot1 ~]$ echo "je moeder" > file3
