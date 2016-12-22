@@ -108,7 +108,12 @@ Different from apt-get since:
 
 `yum deplist PACKAGENAME` -> get dependencies of packages
 
-If you want to list the contents of a package, use `rpm -ql PACKAGENAMErpm -ql PACKAGENAME`
+YUM itself can **not** list the contents of a package. If you want to list the contents of a package, use `rpm -ql PACKAGENAME`, however:
+
+- This only works if a package is installed.
+- Or if you specify a package file via the -p option.
+
+You can use (rpm2cpio to list the contents of a package)[##rpm2cpio]
 
 ###Installing
 
