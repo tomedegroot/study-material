@@ -25,11 +25,11 @@ These hidden files, used for configuration. They are excluded from the view with
 2. What is the wild card for 0,1 or multiple symbols? -> `*` -> `ls b*k` will get book
 3. How can a range be expressed **with reference** to the file names? -> `ls b[oa]k` -> means 'bok' or 'bak', bash can only expand if it finds the filenames
 4. How can a range be expressed without reference to the file names? Use `{}`, so:
-  1. `touch {a,b,c}` -> expands to a,b and c
-  2. `touch {a..d}` -> expands to a,b,c and d
+  1. `touch {a,b,c}` -> expands to a,b or c
+  2. `touch {a..d}` -> expands to a,b,c or d
   3. `touch {ed,ld}*` -> expand to everything that starts with either 'ed' or 'ld'
 
-**Since there (must be a reference to a file names){http://tomecat.com/jeffy/tttt/glob.html} for square brackets ([]) to work, touching files which are non existent will not work with square brackets, you need to use the curly brackets for that.**
+**Since there (must be a reference to a file names)[http://tomecat.com/jeffy/tttt/glob.html] for square brackets ([]) to work, touching files which are non existent will not work with square brackets, you need to use the curly brackets for that.**
 
 **Globbing is sometimes work the same as REGEX, but they are not the same.**
 
@@ -39,7 +39,7 @@ ls lists, options:
 
 1. `-a` -> all, including . files
 2. `-d` -> only show directories
-3. `-f` -> append indicator (one of */=>@|) to entries. So you can easily see it is a dir or socket for example
+3. `-F` -> append indicator (one of */=>@|) to entries. So you can easily see it is a dir or socket for example
   1. `/` -> dir
   2. `@` -> symbolic link
 4. `-R` -> recursive
@@ -48,7 +48,7 @@ ls lists, options:
 
 `cp [OPTIONS] SOURCE DESTINATION`
   1. `-i` -> interactive, prompt before overwrite
-  2. `-p` -> preserve permissions. By default, if you copy a file it gets the same permissions and owner as the folder you are copying to. With `-p` you keep the same permissions and owner as the original file
+  2. `-p` -> preserve permissions. By default, if you copy a file it gets the default file permissions (see umask). With `-p` you keep the same permissions and owner as the original file
   3. `-a` -> It preserves ownership on all the folders and it's contents recursively.
   4. `-u` -> Update copy. It's a backup command: it tells cp to only copy if the target location is newer or the target location doesn't exist
   5. `-r` -> recursive
@@ -88,7 +88,7 @@ What usually happens with a tarball? -> it will be compressed with a zipping too
 
 Options:
   1. How to get verbose output? -> `-v`
-  2. How to select which archive file you want? -> `-f archive`
+  2. How to select which archive file you want? -> `-f archive` **mind you** the `-f` option must be at the end of options for specifying the zip file
 
   3. How to create a tarball? -> `-c`, so `tar -cvf archive file1 file2`
   4. How to extract a tarball? -> `-x`
@@ -96,12 +96,13 @@ Options:
   5. How to list the files in a tarball? -> `-t` for lisT
 
   6. How to filter the tar operation through gzip? `-z` so it will either zip or unzip using gzip:
-    1. `tar cvfz archive.tar.gz archivezipped text1 text2` -> archive and zip files
-    2. `tar tvfz archive.tar.gz archivezipped` -> list zipped archive
-    3. `tar xvfz archive.tar.gz archivezipped` -> extract zipped archive
+    1. `tar cvzf archive.tar.gz archivezipped text1 text2` -> archive and zip files
+    2. `tar tvzf archive.tar.gz` -> list zipped archive 
+    3. `tar xvzf archive.tar.gz archivezipped` -> extract zipped archive
+    4. **mind you** the `-f` option must be at the end of options for specifying the zip file
 
-  7. How to append **a tarball to another tarball?** -> `-A`
-  8. How to add a file to a tarball? -> `-r`, so `tar -rvf etc.tar dirlist.txt` will add dirlist.xt to etc.tar (**Mind you! the r is confusing for adding**)
+  7. How to append **a tarball to another tarball?** -> `-A` for Appending another tar
+  8. How to add a file to a tarball? -> `-r`, so `tar -rvf etc.tar dirlist.txt` will add dirlist.xt to etc.tar, **mnemonic** r for add file entRy
   9. How to make tar change dir before an action? -> `-C dirname`, so `tar -c /var -xvf archive.tar` will extract the contents to */var/*. **mind you** tar executes in the order of operations it finds, so the `-c` has to before the `-x` operator. (More info on the order of -c)[https://www.gnu.org/software/tar/manual/html_node/directory.html]
 
 ##The gzip and gunzip command
@@ -109,7 +110,7 @@ Options:
 Use it if you want to zip 1 file, not a dir use gzip.
 
 How to use gzip? -> `gzip [OPTIONS] FILENAME`
-  1. How to write to a new file and keep the existing one? -> `gzip -c file1 > file1.gz` -> the `-c` option writes to STDOUT and keeps the original file. Use this options for `gunzip` as well
+  1. How to write to a new file and keep the existing one? -> `gzip -c file1 > file1.gz` -> the `-c` option writes to STDOUT and keeps the original file. Use this options for `gunzip` as well. **mnemonic** Cat the result
 
 **Learned from the exercise** A .gz file is just one big file. If you execute `gzip -c * > mygzip.gz` it will create one .gz file which concatenates all the files. And if you then append a new file to it with gzip -c newfile.txt >> mygzip.gz it will append the zipped content.
 
@@ -129,7 +130,7 @@ Which 2 link types are there?
 
 `ln [OPTIONS] SOURCE LINK` -> source is the file you are referencing, hard link by default
   1. How to create a symbolic link? -> `s`
-  2. How to change the location of a link? -> `ln -is NEW_SOURCE LINK` -> the `i` is interactive and prompts you to overwrite with the new link. Of course, add the `s` flag to overwrite
+  2. How to change the location of a link? -> `ln -is NEW_SOURCE LINK` -> the `i` is interactive and prompts you to overwrite with the new link. Of course, add the `s` flag to make it a symbolic link or leave it to make it a hard link
   3. How to overwrite without a prompt? -> `-f` for force, so: `ln -fs /etc/hosts hosts_symbolic_link`
 
 Extra:
@@ -178,7 +179,7 @@ Most filesystems still report a link count of 2+n for directories regardless of 
 
 What to use depends on your needs.
 
-If you remove a file, hard links to the same inode of that file still work. If you remove a file which is soft linked, the symbolic link breaks. See also:
+If you remove a file, hard links to the same inode of that file still work. If you remove a file which is soft linked, the symbolic link breaks. (so if you get the error: `not such file or directory`), but the file exists, than check via `ls -al` if the file is a symlink and the link to the original file broken. This is not the case for hard links:
 
 ```
 A file is an inode with meta data among which a list of pointers to where to find the data.
@@ -249,7 +250,7 @@ How can you run a program with the same permissions as the user who owns the pro
 
 1. The effective program you are running when you execute a shell script is bash, so you have to set the setiud bit on the bash executable to run the program with the same permissions as the owner
 
-2. On RedHat (and thus CentOS) the setuid bit is (ignored for shell scripts)[https://access.redhat.com/solutions/124693] thus the permissions are of the user who executes the script. This is a (security measure)[http://unix.stackexchange.com/a/130910]
+2. On RedHat (and thus CentOS) the setuid bit is [ignored for shell scripts)](https://access.redhat.com/solutions/124693) thus the permissions are of the user who executes the script. This is a [security measure](http://unix.stackexchange.com/a/130910)
 
 ##set setgid
 
@@ -301,7 +302,7 @@ With the umask you can set different default modes for files and folders. So a u
 files=664
 folders=775
 
-So you have to **substract the umask from the permissions** this because the umask (uses the bitwise AND NOT){https://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html}. So if you want to substract only the read rights for all users: `umask 444`. **Basically you see which rights you want to take away.**
+So you have to **substract the umask from the permissions** this because the umask [uses the bitwise AND NOT](https://www.cyberciti.biz/tips/understanding-linux-unix-umask-value-usage.html). So if you want to substract only the read rights for all users: `umask 444`. **Basically you see which rights you want to take away.**
 
 ##Additional file attributes
 
@@ -338,7 +339,7 @@ Where is info for the initial booting of the computer, such as grub? -> */boot/*
 
 Most of this info is in the notes of linuxSystemManagementAndArchitectureTopics.md
 
-Where are the services that can started or stopped? -> */etc/init.d/* (info)[http://www.ghacks.net/2009/04/04/get-to-know-linux-the-etcinitd-directory/]
+Where are the services that can started or stopped? -> */etc/init.d/* [info](http://www.ghacks.net/2009/04/04/get-to-know-linux-the-etcinitd-directory/)
 
 #Finding Files in Linux Using Find, Locate, Whereis, Which and Type
 
@@ -514,7 +515,7 @@ PRUNEPATHS = "/afs /media /mnt /net /sfs /tmp /udev /var/cache/ccache /var/lib/y
 
 Prune means (removing sections of decision trees), so PRUNE in the config means removing entities from the updatedb.
 
-What is PRUNE_BIND_MOUNTS? -> A bind mount is not a device, but a path that is mounted into another path. (More info)[http://backdrift.org/how-to-use-bind-mounts-in-linux] and (see practical use cases)[http://backdrift.org/how-to-use-bind-mounts-in-linux]. This means skip bind mounts.
+What is PRUNE_BIND_MOUNTS? -> A bind mount is not a device, but a path that is mounted into another path. [More info](http://backdrift.org/how-to-use-bind-mounts-in-linux) and [see practical use cases](http://backdrift.org/how-to-use-bind-mounts-in-linux). This means skip bind mounts.
 
 What is PRUNEFS? -> Skip certain file system types
 
@@ -522,7 +523,7 @@ What is PRUNENAMES? -> Skip certain file extension
 
 What is PRUNEPATHS? -> Skip certain paths in the file system 
 
-See here a summary of all the (PRUNE* variables)[http://manpages.ubuntu.com/manpages/xenial/man5/updatedb.conf.5.html]
+See here a summary of all the [PRUNE* variables](http://manpages.ubuntu.com/manpages/xenial/man5/updatedb.conf.5.html)
 
 #dd
 
@@ -570,7 +571,7 @@ Example: `dd if=/dev/urandom of=myfile bs=16 count=1`
 So specify the exact file size for the bytes at a time and the count
 
 ```
-?ܩB???W??]1ۊ[root@t-degroot1 tom]# ls myfile
+[root@t-degroot1 tom]# ls myfile
 myfile
 [root@t-degroot1 tom]# dd if=/dev/urandom of=myfile bs=16 count=1
 1+0 records in
@@ -609,4 +610,4 @@ Create an empty file or update the last access, modify and/or change time
 
 #inode
 
-Find more (extra info on inode numbers)[https://www.cyberciti.biz/tips/understanding-unixlinux-filesystem-inodes.html] and (deleting a file with special characters in it by inode number)[https://www.cyberciti.biz/tips/delete-remove-files-with-inode-number.html]
+Find more [extra info on inode numbers](https://www.cyberciti.biz/tips/understanding-unixlinux-filesystem-inodes.html) and [deleting a file with special characters in it by inode number](https://www.cyberciti.biz/tips/delete-remove-files-with-inode-number.html)
