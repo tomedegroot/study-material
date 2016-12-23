@@ -56,3 +56,34 @@ Info only in the course notes:
 	libfreebl3.so => /lib64/libfreebl3.so (0x00007f68ffd0a000)
 ```
 
+#Using `ps` to manage processes
+
+@todo, not vital for exam: read up the difference between `-x` and `-e`
+
+1. What is a reason for the complexity of `ps`? -> `ps` is build to run on different systems, so there are 3 styles of entering options (UNIX, BSD, GNU)
+
+2. `What is `ps` showing by default? -> only the processes from the terminal executing the command, truncated to fit your terminal window
+
+`ps OPTIONS` 
+1. Selection options:
+ 1. `-e` -> displays all the processes on the system
+ 2. `-x` -> displays all the processes, even if they don't have a tty. Splits the processes by user owner
+ 3. `-U USERNAME` or `U USERNAME` -> display all the processes of a USERNAME
+ 4. `aux` -> everything on the system, on the system
+ 5. `--forest` -> see relationships between the processes, example: `ps -U root --forest`
+2. Output format options:
+  1. `u` -> user orientated ouutput. Example: `ps u U tom`:
+
+```
+[root@t-degroot1 tom]# ps u U tom
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+tom       1129  0.0  0.2 142960  2196 ?        S    16:51   0:00 sshd: tom@pts/0
+tom       1130  0.0  0.2 115520  2188 pts/0    Ss   16:51   0:00 -bash
+```
+
+**Mind you** -> the `U` is different from `-u`
+**Mind you** -> Some selection options are mutually exclusive. If you select only for USERNAME via `-U` you cannot select all in the same command via -x
+
+##How to change the ps default settings
+
+$PS_PERSONALITY env variable controls the default ps settings
