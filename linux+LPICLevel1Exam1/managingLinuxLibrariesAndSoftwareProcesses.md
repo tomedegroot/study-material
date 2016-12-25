@@ -168,24 +168,27 @@ NI is nice value of task. A negative nice value means higher priority, whereas a
 
 How to renice a process? -> `-r`
 
-1. Commands to enter during `top` execution:
-  1. Displaying and searching:
-    1. `L` -> locate a certain string
+1. Command line options `top [OPTIONS]`
+  1. How to show only processes for a specific user? -> `top -u USERNAME`
+  2. How to specify the process id's you want to view -> `-pPROCESSID1,PROCESSID2...` Great tool to watch just one or two processes of a beta program
+  3. How to specify the amount of updates and then quit? -> `-n NUMBEROFUPDATES` so `-n 5` will make sure top updates 5 times and then quits
+  4. How to set the update time? -> `-d SECONDS`, so `-d 1` sets upDate time of 1 second
+  5. How to operate in batch mode? -> `-b`. With batch mode top runs until it's killed or the program reaches the max number of input via `-n`. This means commands can not be entered during execution
+2. Commands to enter during `top` execution:
+  1. Sorting:
+    1. `SHIFT + m`  -> resort on memory utilization
+    2. `SHIFT + p` -> resort on cpu (processor) utilization
+  2. Searching:
+    1. `L` -> locate a string in the COMMAND column
     2. `o` -> filter on a column, example: `o COMMAND=http`. Press `o` again for a new filter
     3. `CRTL+o` -> see all filters
     4. `=` -> clear all the filters and brings you back to the start screen of top
-    5. `SHIFT + m`  -> resort on memory utilization
-    6. `SHIFT + p` -> resort on cpu (processor) utilization
-  2. Manipulate proceses:
+  3. Manipulate proceses:
     1. `r` -> renice a value; give a new value for nice
     2. `k` -> kill a process with a [signal](https://bash.cyberciti.biz/guide/Sending_signal_to_Processes):
       1. 9 (SIGKILL)-> force quit for when a process is hung
       2. 15 (SIGTERM)-> nicer way of terminating a process (this is the default!)
     3. `s` -> change delay (same as `-d` when starting top). **mnemonic** Sjeens delay
-2. Options entered when starting top: `top OPTIONS`
-  1. How to set the delay time? -> `-d SECONDS`, so `-d 1` sets update time of 1 second
-  2. How to specify the process id's you want to view -> `-pPROCESSID1,PROCESSID2...` Great tool to watch just one or two processes of a beta program
-  3. How to specify the amount of updates and then quit? -> `-n NUMBEROFUPDATES` so `-n 5` will make sure top updates 5 times and then quits
 
 #Using Nice to Change Linux Process Priorities
 
@@ -237,14 +240,14 @@ Normally when you exit you tty, all the processes associated with it will be kil
 
 `uname` -> Give information about the system. Flags:
 
-1. How to get the kernel name? -> `-s` or `--kernerl-name`
+1. How to get the operating system -> `-o`
 2. How to get the host name? -> `-n` or `--nodename`
-3. How to get kernel release number -> `-r` or `--kernel-release`
-4. How to get kernel version number -> `-v` or `--kernel-version` 
-5. How to get the machine hardware name (e.g. x86_64)-> `-m`
-6. How to get the processor type (e.g. x86_64) -> `-p` 
+3. How to get the kernel name? -> `-s` or `--kernel-name`
+4. How to get kernel release number -> `-r` or `--kernel-release`
+5. How to get kernel version number -> `-v` or `--kernel-version` 
+6. How to get the machine hardware name (e.g. x86_64)-> `-m`
 7. How to get the hardware platform (e.g. x86_64) ->  `-i` or `--hardware-platform`
-8. How to get the operating system -> `-o`
+8. How to get the processor type (e.g. x86_64 or i386) -> `-p` 
 9. Give all information add once -> `-a` (`uname -a | sed 's/ /\n/g'` for nice `-aA` for nice formatting)
 
 #Understanding Background vs Foreground jobs
@@ -253,10 +256,11 @@ A job is shell concept (not a kernel concept as a process (= running program wit
 
 **mind you**: jobs are only related to the current tty
 
-1. How to send a job to the background? -> `CRTL+Z` or `bg JOBID` (this causes the job to be paused)
+1. How to send a job to the background? -> `CRTL+Z` this causes the job to be stopped
 2. How to see which jobs are running in the current tty? -> `jobs`
 3. How to send a job to the foreground? `fg JOBID`
 4. How to launch a job in the background? With the ampersand (&) = `COMMAND &`
+5. How to send a job to the background and keep it running? -> `bg JOBID` 
 
 Example:
 
@@ -267,11 +271,44 @@ Example:
 [1]+  Stopped                 vi
 ```
 
+6. How to kill a job? -> `kill %JOBNUMBER` Example:
+
+```
+[root@t-degroot1 tom]# jobs
+[1]+  Running                 ping -c 5000 yahoo.com > ping.out 2>&1 &
+[root@t-degroot1 tom]# kill %1
+[root@t-degroot1 tom]# jobs
+[1]+  Terminated              ping -c 5000 yahoo.com > ping.out 2>&1
+[root@t-degroot1 tom]# jobs
+```
+
+So the first time after killing a job, the `jobs` command will show a terminated job. After that, the `jobs` command will no longer output the job
+
+
+7. If you exit the tty all the stopped jobs and it's related processed will be killed
+
 #nohup(=no hang up)
 
 Launch a command immune to terminal hangups (such as closing a terminal, which sends a hangup signal)
 
 1. How to run `nohup COMMAND`
-2. How to make the command executed with nohup run in the background? -> `nohup COMMAND &` (since it's in the background, the job will be stopped. If you exit the tty all the stopped job and it's related processed will be killed)
+2. How to make the command executed with nohup run in the background? -> `nohup COMMAND &`
 3. Where does `nohup` send the STDOUT by default? -> *./nohup.out*
 4. How to set a different output location? -> `nohup COMMAND > redirectlocation 2>&1`, the 2>&1 makes sure the STDERROR goes to the same location
+
+#free
+
+How to display the free and used memory on a system? -> `free [OPTIONS]`
+
+1. What is the default output of free -> kilobytes
+2. How to get the output in bytes? -> `-b`
+3. How to get the output in megabytes -> `-m`
+4. How to set an interval for refresh in Seconds? -> `-s INTERVALINSECONDS`
+
+Swap space allows the kernel to offload some memory to the file system. So if swap space is used quite a lot, you probably need more memory.
+
+The buffers and cache on the first line are used for incoming and outgoing data. Such as your keyboard.
+
+The buffers/cache on the second line are used by programs for I/O via system calls
+
+
