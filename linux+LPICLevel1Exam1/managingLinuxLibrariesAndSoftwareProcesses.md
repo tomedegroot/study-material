@@ -84,9 +84,39 @@ tom       1130  0.0  0.2 115520  2188 pts/0    Ss   16:51   0:00 -bash
 **Mind you** -> the `U` is different from `-u`
 **Mind you** -> Some selection options are mutually exclusive. If you select only for USERNAME via `-U` you cannot select all in the same command via -x
 
+##`ps aux` is most used
+
+Sample output:
+
+```
+[root@t-degroot1 tom]# ps aux | grep httpd
+root      2211  0.6  0.4 226012  4980 ?        Ss   11:54   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    2212  0.0  0.2 226012  2860 ?        S    11:54   0:00 /usr/sbin/httpd -DFOREGROUND
+```
+
+Meaning of columns:
+
+USER = user owning the process
+PID = process ID of the process
+%CPU = It is the CPU time used divided by the time the process has been running.
+%MEM = ratio of the process’s resident set size to the physical memory on the machine
+VSZ = virtual memory usage of entire process (in KiB)
+RSS = resident set size, the non-swapped physical memory that a task has used (in KiB)
+TTY = controlling tty (terminal)
+STAT = multi-character process state
+START = starting time or date of the process
+TIME = cumulative CPU time
+COMMAND = command with all its arguments
+
+
 ##How to change the ps default settings
 
 $PS_PERSONALITY env variable controls the default ps settings
+
+#top
+
+Sample output:
+
 
 ```
 top - 11:53:19 up  2:33,  1 user,  load average: 0.00, 0.01, 0.05
@@ -170,4 +200,78 @@ How to renice a process? -> `-r`
   1. `renice -n -20 -p 1650` where `-p 1650` signifies processid 1650
   2. `renice -n -20 -u root`, set for all processes from root.
 
+#Killing Processes In Linux
 
+## `kill` and `killall`
+
+`kill -s SIGNAL PROCESSID...` or shorthand without -s: `kill -SIGNALID PROCESSID`
+
+Following signals:
+1. What to signal to send with a frozen project? -> 9 hard kill
+2. What to signal a restart? -> 1 restart
+3. What to signal to properly shutdown? -> 15 graceful shutdown
+
+How to kill multiple processes with 1 command? 2 ways:
+1. `kill -SIGNAL PROCESSID1 PROCESSID2...`
+2  `killal -SIGNAL NAME` where NAME is the name of the command, so:
+
+```
+[root@t-degroot1 tom]# ps aux | grep httpd
+root      2105  0.0  0.4 226012  4980 ?        Ss   11:49   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    2106  0.0  0.2 226012  2860 ?        S    11:49   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    2107  0.0  0.2 226012  2860 ?        S    11:49   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    2108  0.0  0.2 226012  2860 ?        S    11:49   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    2109  0.0  0.2 226012  2860 ?        S    11:49   0:00 /usr/sbin/httpd -DFOREGROUND
+apache    2110  0.0  0.2 226012  2860 ?        S    11:49   0:00 /usr/sbin/httpd -DFOREGROUND
+root      2130  0.0  0.0 112648   964 pts/0    R+   11:50   0:00 grep --color=auto httpd
+[root@t-degroot1 tom]# killall -9 httpd
+[root@t-degroot1 tom]# ps aux | grep httpd
+root      2138  0.0  0.0 112648   964 pts/0    R+   11:50   0:00 grep --color=auto httpd
+```
+
+##nohup
+
+Normally when you exit you tty, all the processes associated with it will be killed. Use `nohup` to prevent this
+
+#`uname` (=Unix Name)
+
+`uname` -> Give information about the system. Flags:
+
+1. How to get the kernel name? -> `-s` or `--kernerl-name`
+2. How to get the host name? -> `-n` or `--nodename`
+3. How to get kernel release number -> `-r` or `--kernel-release`
+4. How to get kernel version number -> `-v` or `--kernel-version` 
+5. How to get the machine hardware name (e.g. x86_64)-> `-m`
+6. How to get the processor type (e.g. x86_64) -> `-p` 
+7. How to get the hardware platform (e.g. x86_64) ->  `-i` or `--hardware-platform`
+8. How to get the operating system -> `-o`
+9. Give all information add once -> `-a` (`uname -a | sed 's/ /\n/g'` for nice `-aA` for nice formatting)
+
+#Understanding Background vs Foreground jobs
+
+A job is shell concept (not a kernel concept as a process (= running program with own address space)) and is an interactive program that doesn't detach (i.e. a daemon) [source](http://unix.stackexchange.com/questions/4214/what-is-the-difference-between-a-job-and-a-process)
+
+**mind you**: jobs are only related to the current tty
+
+1. How to send a job to the background? -> `CRTL+Z` or `bg JOBID` (this causes the job to be paused)
+2. How to see which jobs are running in the current tty? -> `jobs`
+3. How to send a job to the foreground? `fg JOBID`
+4. How to launch a job in the background? With the ampersand (&) = `COMMAND &`
+
+Example:
+
+```
+[root@t-degroot1 tom]# vi &
+[1] 3053
+[root@t-degroot1 tom]# jobs
+[1]+  Stopped                 vi
+```
+
+#nohup(=no hang up)
+
+Launch a command immune to terminal hangups (such as closing a terminal, which sends a hangup signal)
+
+1. How to run `nohup COMMAND`
+2. How to make the command executed with nohup run in the background? -> `nohup COMMAND &` (since it's in the background, the job will be stopped. If you exit the tty all the stopped job and it's related processed will be killed)
+3. Where does `nohup` send the STDOUT by default? -> *./nohup.out*
+4. How to set a different output location? -> `nohup COMMAND > redirectlocation 2>&1`, the 2>&1 makes sure the STDERROR goes to the same location

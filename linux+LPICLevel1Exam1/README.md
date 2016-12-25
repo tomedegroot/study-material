@@ -4,3 +4,7 @@
 * linuxacademy.com has more topics than the offical exam. Make sure to study the material that is actually in the exam better.
 * The offical syllabus is a great tool to know what is in the exam.
 * Use the test exam!
+
+#random
+
+Find distro in */etc/os-release*
