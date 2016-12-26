@@ -20,6 +20,31 @@ Why use locate? - search for files and dirs from a database (so it's quicker.)
 
 What is the downside -> the database only updates once an hour, but you can update the database directly via updatedb
 
+##updatedb.conf file
+
+Why is `updatedb used` -> to create a database used by locate.
+
+Where is the `updatedb` config file? -> */etc/updatedb.conf*, the output looks like:
+
+```
+PRUNE_BIND_MOUNTS = "yes"
+PRUNEFS = "9p afs anon_inodefs auto autofs bdev binfmt_misc cgroup cifs coda configfs cpuset debugfs devpts ecryptfs exofs fuse fuse.sshfs fusectl gfs gfs2 gpfs hugetlbfs inotifyfs iso9660 jffs2 lustre mqueue ncpfs nfs nfs4 nfsd pipefs proc ramfs rootfs rpc_pipefs securityfs selinuxfs sfs sockfs sysfs tmpfs ubifs udf usbfs"
+PRUNENAMES = ".git .hg .svn"
+PRUNEPATHS = "/afs /media /mnt /net /sfs /tmp /udev /var/cache/ccache /var/lib/yum/yumdb /var/spool/cups /var/spool/squid /var/tmp"
+```
+
+Prune means (removing sections of decision trees), so PRUNE in the config means removing entities from the updatedb.
+
+What is PRUNE_BIND_MOUNTS? -> A bind mount is not a device, but a path that is mounted into another path. [More info](http://backdrift.org/how-to-use-bind-mounts-in-linux) and [see practical use cases](http://backdrift.org/how-to-use-bind-mounts-in-linux). This means skip bind mounts.
+
+What is PRUNEFS? -> Skip certain file system types
+
+What is PRUNENAMES? -> Skip certain file extension
+
+What is PRUNEPATHS? -> Skip certain paths in the file system 
+
+See here a summary of all the [PRUNE* variables](http://manpages.ubuntu.com/manpages/xenial/man5/updatedb.conf.5.html)
+
 #find
 
 How to search within a dir tree? -> `find`
@@ -32,6 +57,33 @@ Where [EXPRESSION] is made up of: [OPTIONS] [TESTS] [ACTIONS]. In:
 
 Every test in [TESTS] works like a filter
 
+##[TESTS] -name
+
+Example: `find / -name *.c`
+
+Example:
+
+```
+[root@t-degroot1 etc]# cd /etc
+[root@t-degroot1 etc]# find . -name 'cron*'
+./systemd/system/multi-user.target.wants/crond.service
+./cron.monthly
+./cron.hourly
+./cron.weekly
+./crontab
+./sysconfig/crond
+./cron.d
+./cron.deny
+./selinux/targeted/modules/active/modules/cron.pp
+./selinux/targeted/active/modules/100/cron
+./pam.d/crond
+./cron.daily
+```
+
+##[TEST] -user or -group
+
+How to search by the owner or group of a file? -> `find . -user tom` or `find . -group root`
+
 ##[TESTS] -maxdepth
 
 How many dirs deep do you want to go? `find . -maxdepth 0`
@@ -41,9 +93,40 @@ Where:
 1. `maxdepth 0` is only 1 file which is the current dir itself and 
 2. `maxdepth 1` is the content of the current dir
 
-##[TESTS] -name
+##[TEST] -type
 
-Example: `find / -name *.c`
+Filter by file type (File, Dir, Link)
+
+Example: `find . -type f`
+
+##[TEST] -size
+
+Example: `find . -size 2M` -> search for files which take **exactly** n units of space
+
+1. Variation: `-size +1M` -> search files which are bigger than 1 Megabyte
+2. Variation: `-size -1M` -> search files which are smaller than 1 Megabyte
+3. Combine: `-size +1M -size -2M` -> search files which are bigger than 1 Megabyte and smaller than 2 Megabyte
+
+See the man entry for how to enter human-readable formats:
+
+```
+ -size n[cwbkMG]
+              File uses n units of space.  The following suffixes can be used:
+
+              `b'    for 512-byte blocks (this is the default if no suffix is used)
+
+              `c'    for bytes
+
+              `w'    for two-byte words
+
+              `k'    for Kilobytes (units of 1024 bytes)
+
+              `M'    for Megabytes (units of 1048576 bytes)
+
+              `G'    for Gigabytes (units of 1073741824 bytes)
+```
+
+1. **Mind you**, a kilobyte is actually 1024 bytes, NOT 1000 bytes.
 
 ##[TESTS] -perm
 
@@ -115,35 +198,13 @@ find . -perm -a+r -perm /a+w ! -perm /a+x
 These two commands both search for files that are readable for everybody ( -perm  -444 or  -perm -a+r),  have at least one write bit set ( -perm /222 or -perm /a+w) but are not executable for anybody ( ! -perm /111 and ! -perm /a+x respectively).
 ```
 
-##[TEST] -size
+###[ACTION] -exec
 
-Example: `find . -size 2M` -> search for files which take **exactly** n units of space
+Execute against all returned results. Example:
 
-1. Variation: `-size +1M` -> search files which are bigger than 1 Megabyte
-2. Variation: `-size -1M` -> search files which are smaller than 1 Megabyte
-3. Combine: `-size +1M -size -2M` -> search files which are bigger than 1 Megabyte and smaller than 2 Megabyte
+`find . -perm 777 -exec chmod 555 {} \;`
 
-See the man entry for how to enter human-readable formats:
+1. The `{}` means is a placeholder for all returned results.
+2. The `\;` means to end the expression
 
-```
- -size n[cwbkMG]
-              File uses n units of space.  The following suffixes can be used:
-
-              `b'    for 512-byte blocks (this is the default if no suffix is used)
-
-              `c'    for bytes
-
-              `w'    for two-byte words
-
-              `k'    for Kilobytes (units of 1024 bytes)
-
-              `M'    for Megabytes (units of 1048576 bytes)
-
-              `G'    for Gigabytes (units of 1073741824 bytes)
-```
-
-1. **Mind you**, a kilobyte is actually 1024 bytes, NOT 1000 bytes.
-
-##[TEST] -user or -group
-
-How to search by the owner or group of a file? -> `find . -user tom` or `find . -group root`
+7.00
