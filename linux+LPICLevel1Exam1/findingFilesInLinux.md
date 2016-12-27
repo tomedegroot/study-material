@@ -67,7 +67,6 @@ Every test in [TESTS] works like a filter
 ##[TESTS] -name PATTERN
 
 Example: `find / -name '*.c'`
-
 Example:
 
 ```
@@ -179,7 +178,6 @@ Last modify or access times in n * 24 hourse. Example:
 ##[TESTS] -xdev
 
 Do not descend dirs into other file systems. This means to only search the local file system.
-
 ##[TESTS] -perm
 
 From the manual:
@@ -264,4 +262,3 @@ Execute against all returned results. Example:
 
 1. The `{}` means is a placeholder for all returned results.
 2. The `\;` means to end the expression
-
