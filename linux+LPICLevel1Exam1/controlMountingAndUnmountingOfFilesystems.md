@@ -63,3 +63,41 @@ Interactive options:
 2. How to add a new partition? -> `n`
 
 After saving your changes with `-w`, you need to create a new file system on the partition
+
+##*/etc/fstab*
+
+Check the device notes for how the file works.
+
+Example of /etc/fstab:
+
+```
+#
+# /etc/fstab
+# Created by anaconda on Mon Sep 29 21:48:54 2014
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+UUID=0f790447-ebef-4ca0-b229-d0aa1985d57f /                       xfs     defaults        1 1
+/root/swap swap swap sw 0 0 
+```
+
+Syntax: device mountpoint filesystem options dump fsck
+1. Device: Can mount by  le name, disk UUID or network drive
+2. Mount point: Should usually be an empty directory
+3. File system: What type of  le system is being mounted; auto tells kernel to auto-detect
+4. Options: Tell kernel how to treat mounted system. Comma seperated with following options or set all the defaults by just specifying `defaults`:
+  1. uid: Set owner of disk
+  2. umask: Set umask
+  3. noauto: Do not automatically mount drive  
+  4. exec: Execute binaries on  le partition
+  5. ro: Read only
+  6. rw: Read and write
+  7. user: All normal users to mount disk
+5. Dump: Set to 1 to backup partition
+6. fsck: Determine order for  le system check
+
+##how is */etc/fstab* used?
+
+1. The kernel will try to mount the device in /etc/fstab at bootup which do **not** have the noauto options
+2. With `mount -a` or `umount -a` you specify all the devices
