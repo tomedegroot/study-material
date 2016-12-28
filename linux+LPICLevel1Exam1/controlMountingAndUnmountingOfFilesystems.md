@@ -94,10 +94,19 @@ Syntax: device mountpoint filesystem options dump fsck
   5. ro: Read only
   6. rw: Read and write
   7. user: All normal users to mount disk
+  8. nofail: (add to let fsck skip non-existent device (source)[http://techmonks.net/nofail-and-nobootwait-mount-options-in-fstab-prevent-boot-problems/]) 
 5. Dump: Set to 1 to backup partition
 6. fsck: Determine order for  le system check
+
+Extra info on nofail option:
+
+```
+fsck normally does not check whether the device actually exists before calling a file system specific checker. Therefore non-existing devices may cause the system to enter file system repair mode during boot if the filesystem specific checker returns a fatal error. The /etc/fstab mount option nofail may be used to have fsck skip non-existing devices. fsck also skips non-existing devices that have the special file system type auto
+```
+
 
 ##how is */etc/fstab* used?
 
 1. The kernel will try to mount the device in /etc/fstab at bootup which do **not** have the noauto options
-2. With `mount -a` or `umount -a` you specify all the devices
+2. With `mount -a` you mount all the devices listed in */etc/fstab*
+3. You can no mount via `mount FILESYSTEM`. `mount` will look up the where to mount in */etc/fstab*
