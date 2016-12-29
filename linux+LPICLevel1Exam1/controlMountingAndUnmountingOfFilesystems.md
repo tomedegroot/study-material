@@ -110,3 +110,27 @@ fsck normally does not check whether the device actually exists before calling a
 1. The kernel will try to mount the device in /etc/fstab at bootup which do **not** have the noauto options
 2. With `mount -a` you mount all the devices listed in */etc/fstab*
 3. You can no mount via `mount FILESYSTEM`. `mount` will look up the where to mount in */etc/fstab*
+
+#Working With Swap And Linux Page File
+
+The physical memory is broken up into pages. When the physical memory runs out, Linux stores (the less important) pages into swap.
+
+Swap is storage space which usually lives on the hard drive, but it can also be on an external drive. Off course, the hard drive is slower than memory and an externel drive would be slower than the hard drive.
+
+(The Linux Academy CentOS and Debian server have swap space by default.)
+
+##Setting up swap
+
+1. Create a file: `dd if=/dev/zero of=~/swap.swp bs=1024 count=800k` -> 800 megabyte file. (bs of 1024 is 1K. For the `dd` command, you could also have specified the option as `bs=1K`)
+2. Set up the device or file as a swap file: `mkswap DEVICE/FILE`
+3. Use the `swapon` command to turn the swap file on:
+
+`swapon` and `swapoff`
+
+1. How to get info? -> `swapon -s`; **mnemonic** Summary
+2. How to turn swap **on** for a device/file? -> `swapon SWAPFILE`
+3. How to enable all swap? -> `swapon -a`
+4 .How to turn swap **off** for a device/file? -> `swapoff SWAPFILE`
+5. How to disable all swap? -> `swapoff -a`
+
+4. Check the total swap space using the `free` command
