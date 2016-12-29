@@ -58,8 +58,38 @@ file3
 -rw-rw-r-- tom/tom          10 2016-12-20 09:14 file3
 ```
 
-###Updating & upgrading via YUM/RPM (Make a diagram)
+###Using the '-f -'
 
-###Partitions (DONE)
+For testing purposes, we gzip an archive and pipe it to the `tar` command to list the contents:
 
-How can a file system be on both /xvdf and /xvdf1 ?
+`gzip -c dropbox_x84_64.tar | tar ztvf -`
+
+`-f -`; the dash has a special value for the `-f option` which means to read from stdin
+
+###Double zipped tars
+
+Modern versions of tar filter a file through gzip automatically.
+
+Sometimes a tar can be double zipped. Use this info to check this:
+
+```
+You can check this by running head hello-02.tar.gz and head hello-02.tar. GZip is a very binary format, whereas tar is quite human readable. If the .tar file appears "too binary" you have a doubly encoded file on your hands.
+```
+
+[source](http://stackoverflow.com/a/14349164/1941737)
+
+##Special value of `-` for commands
+
+1. `cd -` -> go to previous dir
+2. `tar -f -` -> read the file from stdin
+
+##Updating & upgrading via YUM/RPM (Make a diagram)
+
+##Partitions (To do)
+
+How can a file system be on both /xvdf and /xvdf1?
+
+Yes this is possible, but the filesystems will be corrupted:
+
+1. (stackoverflow)[http://stackoverflow.com/a/41358393/1941737]
+2. (linuxacademy)[https://linuxacademy.com/cp/community/view/id/13331]
