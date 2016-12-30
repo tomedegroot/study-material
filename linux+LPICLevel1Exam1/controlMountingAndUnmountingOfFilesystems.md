@@ -6,15 +6,30 @@ Create a volume for your server in the server tab. This simulates attaching a de
 
 A device file can only be mounted on /dev as a device file, a file system can be mounted on a mount point in the file system. Thus the order is:
 
-1. Device file
+1. Device file (can be a partition)
 2. File system
-
-@todo: how can a file system be on both /xvdf and /xvdf1 ?
 
 How to access device files:
 
 1. Create a file system on a device. Device files can be accessed in via */dev/**
 2. Mount the partition with file system on a mount point
+
+##fdisk
+
+How to manipulate a disk partition table? -> `fdisk [OPTIONS] DEVICEFILE`
+
+Interactive options:
+
+1. How to save your changes to the disk? -> `w` (for Write table to disk) 
+2. How to add a new partition? -> `n`
+
+After saving your changes with `-w`, you need to create a new file system on the partition
+
+###How to delete a partition?
+
+`dd if=/dev/zero of=/dev/xvdf bs=1024 count=2`
+
+This will delete the MBR [where the partition table is stored](http://wiki.osdev.org/Partition_Table)
 
 ##file systems
 
@@ -51,18 +66,9 @@ These are depended on the file system
 
 `umount MOUNTPOINT`, if the device is busy you cannot unmount
 
+To see which devices are mounted, use `mount -s` -> for summary
+
 #Using `fdisk`, crating a file system and */etc/fstab*
-
-##fdisk
-
-How to manipulate a disk partition table? -> `fdisk [OPTIONS] DEVICEFILE`
-
-Interactive options:
-
-1. How to save your changes to the disk? -> `w` (for Write table to disk) 
-2. How to add a new partition? -> `n`
-
-After saving your changes with `-w`, you need to create a new file system on the partition
 
 ##*/etc/fstab*
 
@@ -96,7 +102,7 @@ Syntax: device mountpoint filesystem options dump fsck
   7. user: All normal users to mount disk
   8. nofail: (add to let fsck skip non-existent device (source)[http://techmonks.net/nofail-and-nobootwait-mount-options-in-fstab-prevent-boot-problems/]) 
 5. Dump: Set to 1 to backup partition
-6. fsck: Determine order for  le system check
+6. fsck: Determine order for the system check
 
 Extra info on nofail option:
 
@@ -158,3 +164,20 @@ So */etc/fstab* looks like:
 How to test if this works? -> use the `swapoff -a` and `swapon -a` commands. These read from /etc/fstab
 
 How to do this for a mounted device? -> `mkswap DEVICEFILE && swapon DEVICEFILE`. So no need to partition if you are going to use the whole device as a swap file.
+
+##Where to mount?
+
+1. Which dir is used for temporarily mounting filesystems? -> In */mnt/* [source](http://www.linfo.org/mnt.html)
+2. Which dir is used for mounting removeable media? -> In */media/*
+
+[source](http://www.pathname.com/fhs/pub/fhs-2.3.html#MEDIAMOUNTPOINT)
+
+But, they are just normal dirs. It's just a way of segregating your files described by the Filesystem Hierarchy Standard (FHS)
+
+##fsck
+
+Check file system **on an unmounted** filesytems. If you try it on a mounted filesystem it will result in an error.
+
+`fsck [OPTIONS] DEVICEFILEORMOUNTPOINT`
+1. How to Automatically fix errors? -> `-a`
+2. How to check All filesystems in */etc/fstab* -> `-A`
