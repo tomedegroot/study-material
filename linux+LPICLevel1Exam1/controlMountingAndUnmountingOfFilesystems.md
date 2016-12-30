@@ -134,3 +134,27 @@ Swap is storage space which usually lives on the hard drive, but it can also be 
 5. How to disable all swap? -> `swapoff -a`
 
 4. Check the total swap space using the `free` command
+
+##Automatically mount the swap at boot
+
+Add the following entry to */etc/fstab*: `/root/swap / swap defaults`
+
+So */etc/fstab* looks like:
+
+```
+      1 
+      2 #
+      3 # /etc/fstab
+      4 # Created by anaconda on Mon Sep 29 21:48:54 2014
+      5 #
+      6 # Accessible filesystems, by reference, are maintained under '/dev/disk'
+      7 # See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+      8 #
+      9 UUID=0f790447-ebef-4ca0-b229-d0aa1985d57f /                       xfs     defaults        1 1
+     10 /root/swap / swap defaults
+     11 /dev/xvdf1 /mount auto nofail 0 0
+```
+
+How to test if this works? -> use the `swapoff -a` and `swapon -a` commands. These read from /etc/fstab
+
+How to do this for a mounted device? -> `mkswap DEVICEFILE && swapon DEVICEFILE`. So no need to partition if you are going to use the whole device as a swap file.
