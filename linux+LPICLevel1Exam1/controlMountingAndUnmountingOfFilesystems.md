@@ -31,6 +31,12 @@ After saving your changes with `-w`, you need to create a new file system on the
 
 This will delete the MBR [where the partition table is stored](http://wiki.osdev.org/Partition_Table)
 
+[More info on the MBR](http://www.computerhope.com/jargon/m/mbr.htm)
+
+* Usually the MBR is on the first sector (sector 0) and takes up 512 bytes. But to be safe, `fdisk` starts the first partition at byte 2048, because the MBR might be bigger. Therefor, overwrite the MBR and the partition table by overwriting the first 2048 bytes.
+
+After deleting a partition use `blockdev --rereadpt` to reread the partition table, so the partition table is no linger visible under */dev/*
+
 ##file systems
 
 1. What is the original native Linux file system? -> ext2fs (second extended file systems, native for Linux)
