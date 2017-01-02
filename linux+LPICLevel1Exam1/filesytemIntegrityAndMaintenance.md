@@ -77,3 +77,29 @@ Interactive options:
 2. `q` -> Quit
 3. `lsdel` -> list deleted inodes. **only works with ext2**
 4. `undel INODENUMBER`
+
+#dumpe2fs and tune2fs
+
+##dumpe2fs
+
+How to dump ext2/ext3/ext4 filesystem information? -> `dumpe2fs [OPTIONS] FILESYSTEM`
+
+*Uses the same system binaries as the debugfs application
+
+##tune2fs
+
+How to tune a filesystem? -> `tune2fs [OPTIONS] FILESYSTEM`
+1. How to adjust the number of mounts after which the filesystem will be checked (via `e2fsck`)? -> `-c`
+2. How to set a label? -> `-L NewLabel`
+
+#xfs
+
+XFS is an older file system. Ext2/4 is now more in common.
+
+##xfsdump
+
+`xfsdump -J MOUNTPOINT` -> create a dump of the filesystem
+
+@todo take a look at xfs_dump and xfs_restore. Just create a new xfs, do the dumping and copying. (Max 5 minutes)
+
+**Mind you** Create a new xfs file system to do all the tests. Don't use the one mounted on */*
