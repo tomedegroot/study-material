@@ -35,7 +35,7 @@ This will delete the MBR [where the partition table is stored](http://wiki.osdev
 
 * Usually the MBR is on the first sector (sector 0) and takes up 512 bytes. But to be safe, `fdisk` starts the first partition at byte 2048, because the MBR might be bigger. Therefor, overwrite the MBR and the partition table by overwriting the first 2048 bytes.
 
-After deleting a partition use `blockdev --rereadpt` to reread the partition table, so the partition table is no linger visible under */dev/*
+After deleting a partition use `blockdev --rereadpt DEVICEFILE` to reread the partition table, so the partition table is no longer visible under */dev/*
 
 ##file systems
 
@@ -187,3 +187,7 @@ Check file system **on an unmounted** filesytems. If you try it on a mounted fil
 `fsck [OPTIONS] DEVICEFILEORMOUNTPOINT`
 1. How to Automatically fix errors? -> `-a`
 2. How to check All filesystems in */etc/fstab* -> `-A`
+
+#Disk Partition Schemes
+
+

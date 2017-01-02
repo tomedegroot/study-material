@@ -89,8 +89,12 @@ How to dump ext2/ext3/ext4 filesystem information? -> `dumpe2fs [OPTIONS] FILESY
 ##tune2fs
 
 How to tune a filesystem? -> `tune2fs [OPTIONS] FILESYSTEM`
-1. How to adjust the number of mounts after which the filesystem will be checked (via `e2fsck`)? -> `-c`
-2. How to set a label? -> `-L NewLabel`
+1. How to set a label? -> `-L NEWLABEL`
+2. How to adjust the number of mounts after which the filesystem will be checked (via `e2fsck`)? -> `-c NUMBER`
+3. How to set the current number of mounts? -> `-C NUMBER`; If set to a greater value than the max-mount-counts parameter set by the -c option, e2fsck(8) will check the filesystem at the next reboot.
+4. How to set the interval between checks in days|weeks|months? -> `-i NUMBERd|w|m`
+
+**mnemonic**: Capital -C is for the longest parameter: current number of mounts, and smaller -c is for the smaller word check 
 
 #xfs
 
@@ -103,3 +107,27 @@ XFS is an older file system. Ext2/4 is now more in common.
 @todo take a look at xfs_dump and xfs_restore. Just create a new xfs, do the dumping and copying. (Max 5 minutes)
 
 **Mind you** Create a new xfs file system to do all the tests. Don't use the one mounted on */*
+
+#Disk Partition Schemes
+
+It's easier to set your disk layout at installation than afterwards. So built in flexibility.
+
+#How to get a label and uuid of your device files?
+
+3 ways:
+
+1. `lsblk -o label,uuid,name`
+2. `ls -al /dev/disk/by-uuid >> file.out && ls -al /dev/disk/by-partlabel >> file.out`
+3. `blkid`
+
+#How to resize a partition table?
+
+To make a partition smaller:
+1. Resize the filesytem -> [via resize2fs](https://access.redhat.com/articles/1196333)
+2. Resize the partition -> [via fdisk](https://access.redhat.com/articles/1190213)
+  1. Delete existing partition
+  2. Create smaller partition of the same size as the resized filesystem; tip: use human readable sizes.
+3. After resizing the partition use `fsck`
+
+To increase a partition size, just do step 1 as the last step
+
