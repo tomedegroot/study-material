@@ -108,7 +108,9 @@ Syntax: device mountpoint filesystem options dump fsck
   7. user: All normal users to mount disk
   8. nofail: (add to let fsck skip non-existent device (source)[http://techmonks.net/nofail-and-nobootwait-mount-options-in-fstab-prevent-boot-problems/]) 
 5. Dump: Set to 1 to backup partition
-6. fsck: Determine order for the system check
+6. fsck: Determine order for the system check: (see man fstab)
+  1. Root should be 1
+  2. If the number is 0, fsck assumes the filesystem doesn't need to be checked
 
 Extra info on nofail option:
 
