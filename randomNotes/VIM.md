@@ -34,6 +34,7 @@ Yanking(copying):
 Paste:
 
 1. `p`  -> paste what was just deleted or yanked
+2. `Np` -> paste whats in the buffer N times
 
 Moving:
    
