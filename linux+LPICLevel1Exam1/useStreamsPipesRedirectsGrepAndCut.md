@@ -92,6 +92,8 @@ Search input files or stdin for a match of a pattern -> `GREP [OPTIONS] PATTERN 
 
 ##Options
 
+1. `-c` -> count the number of lines that match
+
 ###Matcher Options:
 
 1. `-E` -> use extended regex, defined by POSIX (=egrep)
