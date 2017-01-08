@@ -128,7 +128,9 @@ Explanation: `find -print0` prints the filename, terminated with a 0. xargs -0 l
 
 Purpose: concatenate files and print to STDOUT
 
-`cat [FILE...]`
+`cat [OPTIONS][FILE...]`
+
+1. `-n` count newlines in the file. Do count the empty lines (in contrast with `nl FILE` which does'nt count empty lines)
 
 ##uniq
 
@@ -159,7 +161,7 @@ Example:
 
 `nl [FILE]`
 
-Get the line numbers per line
+Get the line numbers per line. Do not count the empty lines. (In contrast with `cat -n [FILE]` which does count empty lines)
 
 ##fmt
 
