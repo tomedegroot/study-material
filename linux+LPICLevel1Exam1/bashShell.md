@@ -182,7 +182,8 @@ Command structure:
 `split [OPTIONS] FILETOSPLIT PREFIXFORNEWFILENAMES`
 
 OPTIONS:
-1. `-l n` -> split per 2 lines, so every new file has 2 lines (and the last one has 1 line if the origin file has an odd number of lines)
+1. `-l N` -> split per N lines, so if N=2 every file has 2 lines (and the last one has 1 line if the origin file has an odd number of lines)
+2. `-b N` -> split per N bytes
 
 ##paste
 
