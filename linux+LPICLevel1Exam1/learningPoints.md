@@ -44,7 +44,7 @@ file2
 -rw-rw-r-- tom/tom          20 2016-12-20 09:02 file2
 ```
 
-###Append a file to a tar
+###Append a file to a tar -> `-r`
 
 `tar -rvf archive.tar fileToAppend` **Mnemonic**: add file entRy
 
