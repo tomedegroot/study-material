@@ -15,7 +15,7 @@ Check the man of rpm. The first option is the kind of action:
 3. Install `-i`
 4. Upgrade `-U`
 5. Freshen `-F` -> same as upgrading, but only upgrades if a previous version is installed. This is handy if you have a bunch of rpm's and want to use those to update, but only if an older version is already installed (so in a script, piping or redirecting)
-5. Remove `-e`
+5. Erase a package `-e`
 
 And the second option is an option specific for that action or one of the general options, suc as `v` for verbose. See:
 

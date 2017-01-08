@@ -8,10 +8,12 @@ Get the disk usage of a file.
 
 `du [OPTIONS] [FILE]`
 
-1. How to get all the info of the current dir? -> `-a`
+1. How to get all the info of the current dir? -> `-a` by default du only shows dirs
 2. How to get info in human readable format? -> `-h`
 3. How to get a summary of all the info? -> `-s`; summary means to not traverse into dirs. THerefor `-a` and `-h` are incompatible
 4. How to exclude patterns our display? -> `--exclude=PATTERN`
+
+[FILE] is by default the current dir (.), just as with ls
 
 ##df
 
