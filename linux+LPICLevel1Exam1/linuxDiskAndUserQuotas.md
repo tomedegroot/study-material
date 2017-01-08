@@ -4,7 +4,7 @@ Note: the quota tools described here only work for an ext2 filesystem, not a xfs
 
 ##quota
 
-You may need to install `quota` first if it is not installed by default:
+You need to have the packages `quota` and `quotatools` installed. Mostly installed by default.
 
 `yum install quota`
 
