@@ -115,9 +115,10 @@ Explanation: `find -print0` prints the filename, terminated with a 0. xargs -0 l
 
 `sort [options]`
 
-1. `-r` -> reverse
-2. `-n` -> numerical
-3. `-k` -> sort by key (or column).
+1. `-r` -> Reverse
+2. `-f` -> Fold lower case to upper case, thus ignoring case
+3. `-n` -> Numerical
+4. `-k` -> sort by Key (or column).
   1. `-k2` -> sort by field 2 **nothing -> field number**
   2. `-k2,4` -> sort by field 2 and end with field 4. **comma -> range of fields**
   3. `-k fieldnumber[.charnumber]` -> set key to sort on to a certain field and char within that field. all defaults to 1. **dot -> field.column**
