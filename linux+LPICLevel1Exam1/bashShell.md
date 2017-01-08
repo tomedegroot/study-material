@@ -183,15 +183,20 @@ OPTIONS:
 
 ##paste
 
-`paste [FILE...]`
+`paste [OPTIONS] [FILE...]`
 
-Paste line by line for multiple files:
+Paste line by line for multiple files
+
+OPTIONS:
+
+1. `-d ""` -> default delimeter between pasted lines is tabs, replace it with whats in the double quotes. Example: 
 
 ```
-[tom@t-degroot1 ~]$ echo "bla hello world" > test1
-[tom@t-degroot1 ~]$ echo "bla how are you today" > test2
-[tom@t-degroot1 ~]$ past test1 test2
-bla hello world bla how are you today
+[tom@t-degroot1 ~]$ paste -d "\n" splittedaa splittedab
+bla hello world
+bla hello world
+bla hello world
+bla hello world
 ```
 
 ##join
@@ -236,4 +241,89 @@ bta tettt wtrtd
 
 @todo no important for test, but why would a person want to use this?
 
+#File Viewing Commands For The Linux Bash Shell
+
+##head & tail
+
+See the first or last lines of a file
+
+`tail [OPTIONS] [FILE]`
+
+OPTIONS:
+1. `-n` -> number of lines to display
+2. `-c` -> number of bytes to display
+3. `-f` -> follow` (TAIL ONLY)
+
+Example:
+
+```
+[tom@t-degroot1 ~]$ ./testscript.sh &
+[1] 5576
+[tom@t-degroot1 ~]$ tail -f -n100 testfile 
+Hai
+Hai
+Hai
+```
+
+[Info on background & forground](https://github.com/tomedegroot/study-material/blob/e95ac232a59cbe8336b41c7dd43e62543a7e12a2/linux%2BLPICLevel1Exam1/managingLinuxLibrariesAndSoftwareProcesses.md#understanding-background-vs-foreground-jobs)
+
+##wc
+
+`wc [OPTIONS] [FILE]`
+
+OPTIONS:
+
+Count:
+1. lines -> `-l`
+2. chars -> `-m`
+3. words -> `-w`
+
+Miscellaneous:
+1. get the longest line -> `-L`
+
+##sed
+
+Stream editor for filtering and transforming text. Sed is a tool on it own which has books for just sed.
+
+`sed [OPTIONS] [SCRIPT] [INPUTFILE]`
+
+A script consists of COMMANDS. If no special option is set, the first non-option character is seen as the start of the script.
+
+###OPTIONS
+1. `-r` -> use extended regex. The default regex in sed is limited
+
+###commands
+
+Commands form the sed script.
+
+###search and replace
+
+`sed 's/regexp/replacement/OPTIONS'` -> search and replace. **you need to have the final forward slash**. It only changes the first occurence
+
+OPTIONS:
+1. `-g` -> globally, so changes multiple occurences on 1 line. Example:
+
+```
+sed: -e expression #1, char 10: unterminated `s' command
+[tom@t-degroot1 ~]$ echo "bla bla" | sed 's/bla/woot/'
+woot bla
+[tom@t-degroot1 ~]$ echo "bla bla" | sed 's/bla/woot/g'
+woot woot
+```
+
+2. `sed 's/regexp/replacement/w changes.txt'` -> save only the changed lines to changes.txt example: `sed '/fulltime/w fulltime.txt'`, now we have a file with all fulltime employees
+
+###find the correct line
+
+`sed '0,/parttime/s/parttime/promotion/'` -> search for the first line with occurence of parttime, search within that line for parttime and replace it with promotion
+
+###example
+
+Replace all opening html tags with nothing(so strip the html tags):
+
+`sed 's/<[^>]*>//'`, search for any occurence of a <, continue to match for any character except > until you find the > and match that one and replace it with nothing.
+
+###REGEX
+
+The default regex is limited and different from the bash regex. For example, the `*` is just a modifier for the previous character and doesn't mean anything by itself. These part of the REGEX is comparable with egrep (`grep -E PATTERN`) [See egrep](https://github.com/tomedegroot/study-material/blob/934ac84382b144de84f65659757b5a4687b43b53/linux%2BLPICLevel1Exam1/useStreamsPipesRedirectsGrepAndCut.md#egrep§)
 
