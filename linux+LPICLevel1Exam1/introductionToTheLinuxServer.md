@@ -26,6 +26,8 @@ Each field in a passwd entry is separated with ":" colon characters, and are as 
 `passwd [OPTIONS] [USER]` -> set a password [FOR USER]
   1. `-l` -> lock a user's account
   2. `-u` -> unlock a user's account
+  3. `-S` -> get status of a password
+  4. `--stdin` -> read the password from stdin, example: echo "testPassword" | passwd --stdin user3
 
 `userdel USER` -> remove user
   1. `-r` -> remove the /home/USER dir as well
