@@ -13,7 +13,7 @@ Check the man of rpm. The first option is the kind of action:
 1. Query `-q`
 2. Verify `-V`
 3. Install `-i`
-4. Upgrade `-U`
+4. Upgrade `-U` -> upgrade or install if the package is not already installed
 5. Freshen `-F` -> same as upgrading, but only upgrades if a previous version is installed. This is handy if you have a bunch of rpm's and want to use those to update, but only if an older version is already installed (so in a script, piping or redirecting)
 5. Erase a package `-e`
 
