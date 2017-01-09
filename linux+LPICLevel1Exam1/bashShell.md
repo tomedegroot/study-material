@@ -86,6 +86,21 @@ command > filenameoranothercommand -> shorthand for command 1> fileoranothercomm
 8. `command < stdin` -> redirect stdin as input to a command
 9. `command1 | command2` -> stdout of command1 is stdin of command2
 
+##Command operators
+
+1. `COMMAND1;COMMAND2` -> execute command 1 and then command 2
+2. `COMMAND1 && COMMAND2` -> execute the second command if the first command exits with 0 status (AND)
+3. `COMMAND1 || COMMAND2` -> only execute the second command if the first command exits with a non-0 status (OR)
+
+##Substitution
+
+1. `$((ARITHMETIC))` -> Arithmetic substitution. Example:
+
+```
+root@t-degroot2:/home/tom# echo $(((2+4) / 2))
+3
+```
+
 #Manipulating files
 
 ##xargs
