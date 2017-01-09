@@ -93,3 +93,16 @@ Yes this is possible, but the filesystems will be corrupted:
 
 1. (stackoverflow)[http://stackoverflow.com/a/41358393/1941737]
 2. (linuxacademy)[https://linuxacademy.com/cp/community/view/id/13331]
+
+##Locking and Unlocking accounts
+
+`usermod [OPTIONS] USER` -> modify users
+  1. `-L USERNAME` -> lock a user's account
+  2. `-U USERNAME` -> unlock a user's account
+
+`passwd [OPTIONS] [USER]` -> set a password [FOR USER]
+  1. `-l` -> lock a user's account
+  2. `-u` -> unlock a user's account
+  3. `-S` -> get status of a password
+
+So in `usermod` capitalized, but in `passwd` uncapitalized. **mnemonic** usermod has a broader purpose, so the uncapitalized letters were already taken for the options

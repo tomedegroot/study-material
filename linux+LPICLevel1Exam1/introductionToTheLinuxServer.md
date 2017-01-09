@@ -65,7 +65,9 @@ In CentOS, all the users in the wheel group have sudo privilege. This differs pe
 `visudo` -> command to alter the */etc/sudoers* file. visudo checks the **syntax** of */etc/sudoers* before overwriting it.
 
 `usermod [OPTIONS] USER` -> modify users
-  1. `-G [groupname]` -> add user to group
+  1. `-G GROUPNAME` -> add user to group
+  2. `-U USERNAME` -> unlock a user's account
+  3. `-L USERNAME` -> lock a user's account
 
  is set to no`groups USER` -> see the groups of which the USER is a member
 
