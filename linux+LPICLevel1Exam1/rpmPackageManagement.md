@@ -79,6 +79,10 @@ More advanced stuff:
 */usr/lib/rpm/rpmrc* -> rpm config file
 */usr/lib/rpm/rpm.log* -> log file of rpm
 
+##rpmbuild
+
+Building an rpm used to be `rpm -b`. This is now deprecated and the `rpm-build` package is used for building rpms. 
+
 #YUM
 
 Yellowdog Updater Modified -> package manager.
