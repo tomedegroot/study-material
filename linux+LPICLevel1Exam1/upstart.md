@@ -1,16 +1,16 @@
 #Upstart Overview
 
-In older systems, sysvinit was used. This was the first process to run and started other services. sysvinit was also used to manage these services.
+In older systems, SysV init was used. This was the first process to run and started other services. SysV init was also used to manage these services, and this would be done via the `service` and `systemctl` commands
 
-A limitation of sysvinit was it could not start services in asynchronously. sysvinit had to wait until service A was started before it could start service B. As the servers grew, this slowed down the systems. Newer init systems act much like sysvinit. A lot of commands are backwards compatible.
+A limitation of SysV init was it could not start services in asynchronously. SysV init had to wait until service A was started before it could start service B. As the servers grew, this slowed down the systems. Newer init systems act much like SysV init. 
 
 Upstart can start services in parallel (at the same time, asynchronously). It is still the first process to start (PID 1).
 
 ##scripts vs jobs
 
-###sysvinit scripts
+###SysV init scripts
 
-With sysvinit, you place bash script in */etc/rc[[:digit:]]/*:
+With SysV init, you place bash script in */etc/rc[[:digit:]]/*:
 
 ```
 root@t-degroot2:/etc# ls | grep rc[[:digit:]]
@@ -23,17 +23,17 @@ rc5.d
 rc6.d
 ```
 
-These dirs correspond with runlevels. When the system entered a runlevel, it would execute the scripts in the corresponding dir.
+These dirs correspond with runlevels. When the system entered a runlevel, it would execute the scripts in the corresponding dir and these scripts start the daemon services
 
-`initctl list`
-
-list all the init services = jobs. These services live in */etc/init.d/*
+The services can be listed via `service --status-all` and they live in */etc/init.d/*
 
 ###upstart jobs
 
-upstart is only used on Ubuntu, Debian is also going to SystemD just as CentOS.
+Upstart is only used on Ubuntu, Debian is also going to SystemD just as CentOS.
 
-Upstart uses upstart jobs. These jobs live in */etc/init/*
+Upstart uses upstart jobs. `initctl list` lists all the jobs. These jobs live in */etc/init/*
+
+*(There is backwards compatability, so in Ubuntu there a both the SysV services and the Upstart jobs and most can be interacted with in the same way)
 
 ###events
 
@@ -41,10 +41,42 @@ upstart listens for events and if an event occurs it executes an event which lis
 
 See for an upstart job which implements listening to events */etc/init/ssh*
 
-(@todo telinit, getting the current runlevel)
 
-###commands for interacting with a service
+###commands for interacting with a service via upstart
 
-`restart SERVICENAME`
+`restart SERVICENAME` (Equivalent of `service SERVICENAME restart`)
 
-11.34
+###test jobs
+
+####create jobs
+
+Enter the following in */etc/init/test.conf*
+
+```
+description     "Our test job"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+expect fork
+respawn
+
+script
+        logger -f /var/log/syslog "Hello world $(date)"
+end script
+```
+
+####test conf file
+
+Test the conf file:
+
+```
+root@t-degroot2:/etc/init# init-checkconf test.conf 
+File test.conf: syntax ok
+```
+
+####start the job
+
+Start the job
+
+
