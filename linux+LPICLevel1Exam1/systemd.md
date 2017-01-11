@@ -47,4 +47,17 @@ In */usr/lib/systemd/system* are the services which are managed via systemd and 
 ##runlevels
 @todo learn about runlevels. You need to know this for the LPIC Exam.
 
-10.54
+#Using Systemd With Services And Service Unit Files
+
+[Systemd works with units.](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units) 
+
+1. A service is a type of units(suffixed with .service)
+2. A targetfile is also a units (suffixed with .target) A target file is used to group other units and with this describe a system state (much like a runlevel)
+
+Unit files live in 2 locations:
+1. */usr/lib/systemd/system*
+2. */etc/systemd/system*
+
+Service files in location 1 have precedence over location 2
+
+1.23
