@@ -6,7 +6,9 @@ A limitation of SysV init was it could not start services in asynchronously. Sys
 
 Upstart can start services in parallel (at the same time, asynchronously). It is still the first process to start (PID 1).
 
-##scripts vs jobs
+##SysVinit vs Upstart
+
+SysVinit is the old tool for managing the system, upstart is the new tool for Ubuntu
 
 ###SysV init scripts
 
