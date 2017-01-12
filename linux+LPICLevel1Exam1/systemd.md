@@ -29,23 +29,35 @@ lrwxrwxrwx.  1 root root          16 Dec 14 20:43 shutdown -> ../bin/systemctl
 
 In older programs, shutdown was it's own program
 
+@todo read from p.42 in Linux book for all the kill, shutdown, halt, reboot and systemctl commands
+
 In systemd we can configure to start services after other services has started (such as httpd after the network service)
 
-##systemd.unit
+##systemd units
 
 [Systemd works with units.](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units) 
 
-Check `man systemd.unit`. A unit is a config file for a service or target.
+Types of units:
+
+1. A service is a type of unit(suffixed with .service) (Apart from a .target, this is the only one you need to know)
+2. A targetfile is also a unit(suffixed with .target) A target file is used to group/order other units such as services. These targets are used to describe a system state (like a runlevel)
+
+Systemd loads units from 2 locations (see `man 5 systemd.unit`):
+1. */usr/lib/systemd/system*
+2. */etc/systemd/system*
+
+Service files in location 1 have precedence over location 2
+
+Check `man systemd.unit`
 
 `systemctl -t help` -> get available unit types (`-t` specifies a type for systemctl`)
 
-See also the notes in the next lesson
-
+(Some units are in */lib/systemd/system/*, nothin found on this location)
 ##targets
 
 In */usr/lib/systemd/user* we have different targets.
 
-`systemctl get-default` -> get the current default target. The default target is in /etc/systemd/system/default.target and symlinks to another target
+`systemctl get-default` -> get the current default target. The default target is in /etc/systemd/system/default.target and symlinks to another target (by default: */lib/systemd/system/multi-user.target*)
 
 ```
 [root@t-degroot1 system]# systemctl get-default
@@ -58,16 +70,15 @@ Targets use .wants to set the dependencies for a state. So the multi-user.target
 
 #Using Systemd With Services And Service Unit Files
 
-Types of units:
+Pulling info:
 
-1. A service is a type of unit(suffixed with .service)
-2. A targetfile is also a unit(suffixed with .target) A target file is used to group/order other units such as services. These targets are used to describe a system state (like a runlevel)
+`systemctl status SERVICENAME`
 
-Unit files live in 2 locations:
-1. */usr/lib/systemd/system*
-2. */etc/systemd/system*
+How to make sure a service is started by systemd at boot? -> `systemctl enable SERVICENAME` Output:
 
-Service files in location 1 have precedence over location 2
+```
+[root@t-degroot1 system]# systemctl enable httpd
+Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.
+```
 
-@todo read from p.42 in Linux book for all the kill, shutdown, halt, reboot and systemctl commands
-
+11.56
