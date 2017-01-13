@@ -70,9 +70,44 @@ Targets use .wants to set the dependencies for a state. So the multi-user.target
 
 #Using Systemd With Services And Service Unit Files
 
-Pulling info:
+Example of a service target (in this case httpd):
 
-`systemctl status SERVICENAME`
+```
+[root@t-degroot1 system]# cat /usr/lib/systemd/system/httpd.service 
+[Unit]
+Description=The Apache HTTP Server
+After=network.target remote-fs.target nss-lookup.target
+Documentation=man:httpd(8)
+Documentation=man:apachectl(8)
+
+[Service]
+Type=notify
+EnvironmentFile=/etc/sysconfig/httpd
+ExecStart=/usr/sbin/httpd $OPTIONS -DFOREGROUND
+ExecReload=/usr/sbin/httpd $OPTIONS -k graceful
+ExecStop=/bin/kill -WINCH ${MAINPID}
+# We want systemd to give httpd some time to finish gracefully, but still want
+# it to kill httpd after TimeoutStopSec if something went wrong during the
+# graceful stop. Normally, Systemd sends SIGTERM signal right after the
+# ExecStop, which would kill httpd. We are sending useless SIGCONT here to give
+# httpd time to finish.
+KillSignal=SIGCONT
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+```
+
+##Using systemctl to interact with services
+
+1. Getting info: 
+  1. `systemctl status SERVICENAME` -> this shows some info from the journal
+  2. `systemctl is-active` -> see if a service is active
+2. Starting a service: `systemctl start SERVICENAME` (Executes ExecStart of the service unit)
+3. Reload a service: `systemctl reload SERVICENAME` (Executes ExecReload of the service unit)
+4. Stopping a service: `systemctl stop SERVICENAME` (Executes ExecStop of the service unit)
+
+##Starting a service by default at a specific target
 
 How to make sure a service is started by systemd at boot? -> `systemctl enable SERVICENAME` Output:
 
@@ -80,5 +115,14 @@ How to make sure a service is started by systemd at boot? -> `systemctl enable S
 [root@t-degroot1 system]# systemctl enable httpd
 Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.
 ```
+So now from the multi-user.target.wants there is a symlink to the httpd.service. The reason it chooses the multi-user.target is because it is in the install section of the service:
 
-11.56
+```
+[Install]
+WantedBy=multi-user.target
+```
+So `systemctl enable` looks at the install section, WantedBy key of a service unit.
+
+See `man systemd` the 'SEE ALSO' section to see other relevant info, such as `man systemd.unit` (This describes a unit file such as httpd.service)
+
+
