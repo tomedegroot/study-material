@@ -120,7 +120,7 @@ It's easier to set your disk layout at installation than afterwards. So built in
 
 1. `lsblk -o label,uuid,name`
 2. `ls -al /dev/disk/by-uuid >> file.out && ls -al /dev/disk/by-partlabel >> file.out`
-3. `blkid`
+3. `blkid` (This only works for mounted filesystems by default)
 
 #How to resize a partition table?
 
