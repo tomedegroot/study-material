@@ -123,6 +123,74 @@ WantedBy=multi-user.target
 ```
 So `systemctl enable` looks at the install section, WantedBy key of a service unit.
 
-See `man systemd` the 'SEE ALSO' section to see other relevant info, such as `man systemd.unit` (This describes a unit file such as httpd.service)
+See `man systemd` the 'SEE ALSO' section to see other relevant info, such as `man systemd.unit` (This describes a unit file such as httpd.service or a target etc.)
+
+#Systemd Targets & Boot Targets
+
+1. How to get the default target (The target entered in booting)? -> `systemctl get-default`
+2. How to get a view of the dependencies of a target? -> `systemctl list-dependencies TARGETNAME`. Gives a tree overview:
+
+```
+[root@t-degroot1 system]# systemctl list-dependencies multi-user.target
+multi-user.target
+● ├─auditd.service
+● ├─avahi-daemon.service
+● ├─brandbot.path
+● ├─chronyd.service
+[...]
+● ├─basic.target
+● │ ├─microcode.service
+```
+
+3. How to get an overview of units? -> systemctl list-units [OPTIONS]
+  1. How to only get certain types? -> `--types=LIST` -> systemctl list-units --type=target,service
+
+Example:
+
+```
+[root@t-degroot1 system]# systemctl list-units --type=target
+UNIT                   LOAD   ACTIVE SUB    DESCRIPTION
+basic.target           loaded active active Basic System
+...
+```
+
+4. How to get an overview view of all the targets, even if they are disabled? -> `systemctl list-unit-files --type=target --all`
+
+##With sysvinit you could issue a `telinit RUNLEVELNUMBER` command to enter a runlevel. How to move from target to target in SystemD?
+
+Some of the targets we have correspond to certain runlevels from SysVinit
+
+How to enter a target? -> `systemctl isolate graphical.target` -> so you basically execute a set of dependencies
+
+##How to set the default mode?
+
+`systemctl get-default` -> get the current default target. The default target is in /etc/systemd/system/default.target and symlinks to another target (by default: */lib/systemd/system/multi-user.target*)
+
+`systemctl set-default TARGET` -> set the default target.
+
+```
+[root@t-degroot1 system]# systemctl set-default graphical.target
+Removed symlink /etc/systemd/system/default.target.
+Created symlink from /etc/systemd/system/default.target to /usr/lib/systemd/system/graphical.target.
+```
+
+For backwards compatibility there are runlevelN.target file which symlinks to equivalent targets
+
+```
+ls -l /usr/lib/systemd/system | grep runlevel
+lrwxrwxrwx. 1 root root 15 Sep 4 13:59 runlevel0.target -> poweroff.target
+lrwxrwxrwx. 1 root root 13 Sep 4 13:59 runlevel1.target -> rescue.target
+drwxr-xr-x. 2 root root 49 Sep 4 13:59 runlevel1.target.wants
+lrwxrwxrwx. 1 root root 17 Sep 4 13:59 runlevel2.target -> multi-user.target
+drwxr-xr-x. 2 root root 49 Sep 4 13:59 runlevel2.target.wants
+lrwxrwxrwx. 1 root root 17 Sep 4 13:59 runlevel3.target -> multi-user.target
+drwxr-xr-x. 2 root root 49 Sep 4 13:59 runlevel3.target.wants
+lrwxrwxrwx. 1 root root 17 Sep 4 13:59 runlevel4.target -> multi-user.target
+drwxr-xr-x. 2 root root 49 Sep 4 13:59 runlevel4.target.wants
+lrwxrwxrwx. 1 root root 16 Sep 4 13:59 runlevel5.target -> graphical.target
+drwxr-xr-x. 2 root root 49 Sep 4 13:59 runlevel5.target.wants
+lrwxrwxrwx. 1 root root 13 Sep 4 13:59 runlevel6.target -> reboot.target
+```
+
 
 
