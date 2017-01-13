@@ -143,7 +143,7 @@ multi-user.target
 ```
 
 3. How to get an overview of units? -> systemctl list-units [OPTIONS]
-  1. How to only get certain types? -> `--types=LIST` -> systemctl list-units --type=target,service
+  1. How to only get certain types? -> `--type=LIST` -> systemctl list-units --type=target,service
 
 Example:
 
@@ -192,5 +192,40 @@ drwxr-xr-x. 2 root root 49 Sep 4 13:59 runlevel5.target.wants
 lrwxrwxrwx. 1 root root 13 Sep 4 13:59 runlevel6.target -> reboot.target
 ```
 
+#Identify Enabled Services and Running Services
 
+1. How to list all the units? -> `systemctl list-units [OPTIONS]`
+2. How to list all the units files? -> `systemctl list-unit-files [OPTIONS]`
 
+OPTIONS for `list-units` and `list-unit-files`:
+1. `--type=LIST` -> list only the unit types from the list. `systemctl list-units --type=service,target`
+2. `--all` -> also list of the non-active targets
+
+Example: `systemctl list-units --type=service --all`
+
+#wall
+
+Send a message to all logged in users -> `wall [OPTIONS] [MESSAGE]`
+1. How to suppress the the name of the user who sends the message? -> `-n` **Mnemonic**: Not show the username
+
+1. Where can you find these messages from the past? -> */var/log/messages*
+2. All the users can use wall, not just root
+
+#journalctl
+
+How to control the systemd journal? -> `journalctl [OPTIONS]`
+
+1. `-n[=N]` -> Only show the last N lines, or if N is not given, the last 10 lines
+2. `-x` -> Add eXplanatory help on the journal
+
+#halt, poweroff, shutdown
+
+```
+halt terminates all processes and shuts down the cpu.
+
+poweroff is exactly like halt, but it also turns off the unit itself (lights and everything on a PC). It sends an ACPI command to the board, then to the PSU, to cut the power.
+
+shutdown is like poweroff, but it also runs the shutdown scripts.
+```
+
+1. `shutdown -k` -> only show the shutdown message to all logged in users. **Mnemonic** k is for Kidding
