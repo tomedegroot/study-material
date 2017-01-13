@@ -37,8 +37,6 @@ This will delete the MBR [where the partition table is stored](http://wiki.osdev
 
 After deleting a partition use `blockdev --rereadpt DEVICEFILE` to reread the partition table, so the partition table is no longer visible under */dev/*
 
-Or use `partprobe`
-
 ##file systems
 
 1. What is the original native Linux file system? -> ext2fs (second extended file systems, native for Linux)
