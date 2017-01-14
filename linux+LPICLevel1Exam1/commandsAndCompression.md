@@ -10,9 +10,47 @@ OPTIONS:
 1. How to see all your open windows? -> `-list`; from the man: `prints a list of pid.tty.host strings identifying your screen sessions.`
 2. How to detach the current window? -> `-d`
 3. How to reattach a different window? -> `-r WINDOWNUMBER`
+4. How to start a new session and give it a meaningful sessionname? -> `-S SESSIONNAME`
 
 How to exit a window? -> `exit`; it will exit the screen and brings you to the most recently atttached window.
 
-How to execute a command and close the screen once it's done executing? -> `screen COMMAND`
+How to execute a command and terminate the screen once it's done executing? -> `screen COMMAND`
 
-6.55
+##How to share a screen? (Only share windows between the same user)
+
+1. Create a screen session: `screen -S SESSIONNAME`
+2. Attach to a screen that is attached somewhere else? -> `screen -x SESSIONNAME`
+
+or
+
+3. Attach to a screen that is detached? -> `screen -r 'USERNAME/WINDOWNUMBER'`
+
+#xz compression
+
+xz and gzip are the most used compression utilities. 
+
+Why `xz`?
+1. xz has a better compression ratio that gzip.
+2. xz requires more memory to compress
+
+`xz [OPTIONS] [FILE]`
+
+OPTIONS:
+
+1. How to zip a file? -> `-z`
+2. How to decompress a file? -> `-d` or use the `unxz` command (if you don't write the result to STDOUT, the filename must have know suffix, such as '.xz', otherwise you will get an error)
+3. How to list information of a zipped file? -> `-l`
+4. How to write to STDOUT? -> '-c', same as unzip (Mind you, compressed data cannot be written to a terminal (results in error), but it can be redirected to a file). Example: `echo "haaaaaaaai" | xz -z > test`
+
+```
+`echo "haaaaaaa    ai" | xz -z > test`
+[tom@t-degroot1 ~]$ xz -dc test
+haaaaaaaai
+```
+
+```
+[tom@t-degroot1 ~]$ echo "Haaaaai" | xz -zc > buffer && xz -dc < buffer
+Haaaaai
+```
+
+You can never compress a dir or multiple files. You first need to create an archive via tar. You can filter tar through `xz` via the `-J` option. Same as the `-z` option, but then for `xz`
