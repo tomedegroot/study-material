@@ -17,7 +17,10 @@ Only searches within $PATH  and shows the first result in the path
 
 #locate 
 
-`locate PATTERN`
+`locate [OPTIONS] PATTERN`
+
+1. `-b --basename` -> only match the pattern against the basename of the file (so omit the dirs of the fill name fo rmatching)
+2. `-w --wholename` -> match against the full file name. This is the default behaviour
 
 Not installed by default on every linux distro
 
