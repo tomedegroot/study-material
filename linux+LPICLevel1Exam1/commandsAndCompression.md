@@ -54,3 +54,36 @@ Haaaaai
 ```
 
 You can never compress a dir or multiple files. You first need to create an archive via tar. You can filter tar through `xz` via the `-J` option. Same as the `-z` option, but then for `xz`
+
+#pkill and pgrep
+
+look up or signal processes based on name and other attributes
+
+`pgrep|pkill [OPTIONS] pattern`
+
+OPTIONS:
+1. Sending a signal:
+   1. `-SIGNAL` -> send signal (15=SIGTERM, 9=SIGKILL). 15 is default. (pkill only)
+2. Getting info:
+  1. `-l` -> list the process name (pgrep only)
+  2. `-a` -> list the command that was issued. 
+3. These options are all filters:
+  1. `-u USERNAME|USERID` -> filter based on USERNAME
+  2. `-v` -> invert matching (pgrep only)
+  3. `-n` -> get the most recent process
+
+Examples:
+     
+1. You don't have to use a filter and 15 is the default signal, so with `pkill httpd` all processes with the name httpd will be killed with a SIGTERM
+2. `pgrep -u tom -n` -> get user tom's newest process
+
+#dmesg
+
+Used for troubleshooting the Linux kernel
+
+A buffer is portion of the memory for temporary storing info (from for example a harddrive or a keyboard). A ring buffer is a constant size buffer, so it's LIFO storage. `dmesg` helps you to interact with the kernel ring buffer.
+
+`dmesg [OPTIONS]`
+
+OPTIONS:
+1. `-C` -> Clear the kernel ring buffer
