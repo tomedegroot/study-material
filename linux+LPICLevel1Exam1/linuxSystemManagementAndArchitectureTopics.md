@@ -30,7 +30,7 @@ Or get info on systems via:
 
 ```
 /proc/cpuinfo
-/proc/filesystems
+/proc/filesystems (gives info on the available file systems)
 /proc/meminfo
 /proc/sys/kernel
 ```
