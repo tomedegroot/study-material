@@ -34,7 +34,7 @@ If [FILEPREFIX] is specified, all the newly created files will start with the pr
 
 See the difference between files, multiple files is possible.
 
-`diff FILE1 FILE2`
+`diff FILES...`
 
 A `<` in the output means the line exists in FILE1, but not in FILE2
 A `>` in the output means the line exists in FILE2, not not in FILE1
