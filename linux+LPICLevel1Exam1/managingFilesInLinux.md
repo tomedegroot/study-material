@@ -583,6 +583,10 @@ myfile
 
 Instead of */dev/urandom* you can choose */dev/zero*. This generates zero's.
 
+###Difference between /dev/random and /dev/urandom
+
+*/dev/random* depends on entropy (= lack of order) gathered by the system. If there is not enough collected, /dev/random will block. */dev/urandom* generates it's own entropy pool, thus generating it's own randomness, thus not blocking if the system does not have enough entropy gathered. [source](http://stackoverflow.com/questions/4819359/dev-random-extremely-slow) So for large files, use */dev/urandom*
+
 ##Backing up, copying one hard drive to another hard drive
 
 1. Mount a device
