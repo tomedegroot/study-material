@@ -104,8 +104,9 @@ WantedBy=multi-user.target
   1. `systemctl status SERVICENAME` -> this shows some info from the journal
   2. `systemctl is-active` -> see if a service is active
 2. Starting a service: `systemctl start SERVICENAME` (Executes ExecStart of the service unit)
-3. Reload a service: `systemctl reload SERVICENAME` (Executes ExecReload of the service unit)
-4. Stopping a service: `systemctl stop SERVICENAME` (Executes ExecStop of the service unit)
+3. Reload a service: `systemctl reload SERVICENAME` (Executes ExecReload of the service unit and will in general just reload the config files)
+4. Restart a service: `systemctl restart SERVICENAME` this does ExecStop and then ExecStart. So a complete shutdown
+5. Stopping a service: `systemctl stop SERVICENAME` (Executes ExecStop of the service unit)
 
 ##Starting a service by default at a specific target
 
