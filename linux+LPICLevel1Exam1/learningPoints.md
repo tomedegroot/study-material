@@ -106,3 +106,7 @@ Yes this is possible, but the filesystems will be corrupted:
   3. `-S` -> get status of a password
 
 So in `usermod` capitalized, but in `passwd` uncapitalized. **mnemonic** usermod has a broader purpose, so the uncapitalized letters were already taken for the options
+
+##See which filesystems are supported by the kernel     
+
+Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s2-proc-filesystems.html)
