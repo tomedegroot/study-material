@@ -229,4 +229,8 @@ poweroff is exactly like halt, but it also turns off the unit itself (lights and
 shutdown is like poweroff, but it also runs the shutdown scripts.
 ```
 
-1. `shutdown -k` -> only show the shutdown message to all logged in users. **Mnemonic** k is for Kidding
+`shutdown OPTIONS `
+
+1. `-k` -> only show the shutdown message to all logged in users. **Mnemonic** k is for Kidding
+2. `-r` -> reboot
+3. `-h` -> halt the system
