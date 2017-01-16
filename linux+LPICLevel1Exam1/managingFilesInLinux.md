@@ -261,6 +261,10 @@ Run this file with same user permissions of the group:
 
 Same concept as the setuid bit
 
+##setgid on a dir
+
+When the setgid is set on a dir, it has a whole different meaning. The setgid on a dir causes new files and subdirectories created within it to inherit its group ID,
+
 ##Octal permissions for the special bits
 
 Special Mode Bits
