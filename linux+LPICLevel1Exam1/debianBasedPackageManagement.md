@@ -94,6 +94,7 @@ Packages for Debian-based system. First we need to get the package:
 For packages that are installed on your systems
 
 1. `dpkg --get-selections` -> get installed packages
+2. `dpkg -s PACKAGENAME` -> get the status of a package (see if it is installed)
 2. `dpkg -L PACKAGENAME` -> list the files of the package installed on your system.
 
 For packages not yet installed, so use the package file:
