@@ -47,7 +47,7 @@ Basically, versions from Ubuntu's main package sources will always stay the same
 
 This is why for example you always install php55 or php56
 
-`apt-get dist-upgrade` -> handles changing dependencies and might remove packages or install packages currently not installed
+`apt-get dist-upgrade` -> handles changing dependencies and might remove packages or install packages currently not installed. [this might also update your kernel version](http://askubuntu.com/a/99039)
 
 `apt-get -f upgrade|install` -> fix unmet dependencies, even if the package which has a dependency issue is installed via dpkg
 
