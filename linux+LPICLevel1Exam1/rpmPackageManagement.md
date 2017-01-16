@@ -134,7 +134,7 @@ You can use (rpm2cpio to list the contents of a package)[##rpm2cpio]
 
 `yum remove PACKAGENAME`
 
-`yum autoremove PACKAGENAME` -> works like `-clean_requirements_on_remove remove`; it removes all the config files as well
+`yum autoremove PACKAGENAME` -> works like `-clean_requirements_on_remove remove`; it removes no longer used packages (old requirements)
 
 ###Cleaning
 
