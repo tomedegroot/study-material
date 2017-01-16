@@ -118,6 +118,8 @@ Now, you should be able to use `dpkg -i PACKAGENAME` to complete the installatio
 
 #Summary & Overview aptitude
 
+(Remember apt is the advanced package tool. `apt-get` and `apt-cache` are used to interact with it. `aptitude` and `dselect` are just otherways of interacting with apt)
+
 High level interface for Debian based package manager. To open that, type `aptitude`
 
 Other possible commands:
