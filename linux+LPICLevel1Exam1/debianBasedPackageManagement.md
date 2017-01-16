@@ -18,6 +18,7 @@ If you cursor is on a word in vi, you can use:
 [Ubuntu offical info](https://help.ubuntu.com/community/AptGet/Howto)
 
 Package managers helps you manage your software by:
+
 1. Searching repositories
 2. Manage dependencies
 
@@ -34,7 +35,7 @@ Package managers helps you manage your software by:
 `apt-get install PACKAGENAME` -> install a package
   1. `-s` simulate an installation. This wasy you can see the packages that would be installed without installing them. With the `-s` parameter any action can be simulated, so also others than installing
   2. `-y` -> always return 'yes' to prompts
-  3. `-q` -> produces output suitable for logging, omitting progress indicators. More q's will produce more quiet up to a maximum of 2.
+  3. `-q` -> produces output suitable for logging, omitting progress indicators. More q's will produce more **quiet** up to a maximum of 2.
 
 ##Upgrading & and fixing unmet dependencies
 
@@ -54,11 +55,13 @@ This is why for example you always install php55 or php56
 
 `apt-get [OPTIONS]remove PACKAGENAME` -> remove a package
   1. `--purge` -> remove config files
+
 `apt-get autoremove` -> autoremove is used to remove packages that were automatically installed to satisfy dependencies for other packages and are now no longer needed.
 
 ##Cleaning up the local cache
 
 `apt-get autoclean` -> This command removes .deb files for packages that are no longer installed on your system from the cache
+
 `apt-get clean` -> remove all /deb packages from the package cache, which is in */var/cache/apt/archives/*. Only the lock file remains.
 
 #Apt-Cache Package Management
@@ -72,9 +75,9 @@ Allows us to create a local repo of info of all the packages available on our re
 
 `apt-cache stats` -> get info on repo's.
 
-`apt-cache depends PACKAGENAME` -> get dependencies of PACKAGENAME
+`apt-cache depends PACKAGENAME` -> get dependencies of PACKAGENAME (In yum `yum deplist`)
 
-`apt-cache showpkgd PACKAGENAME` -> The available versions and reverse dependencies of each package listed are listed, as well as forward dependencies for each version.
+`apt-cache showpkg PACKAGENAME` -> The available versions and reverse dependencies of each package listed are listed, as well as forward dependencies for each version.
 
 `apt-cache unmet` -> see all unmet dependencies within the local repo
 
@@ -86,22 +89,32 @@ Packages for Debian-based system. First we need to get the package:
 
 `dpkg [OPTIONS...] ACTION`
 
-`dpkg --get-selections` -> get installed packages
+##getting info
 
-`dpkg -L PACKAGENAME` -> list the files of the package installed on your system.
-`dpkg --info PACKAGEFILE` -> get info on package.
-`dpkg --contents PACKAGEFILE` -> see the owner, permissions and install location of the contents.
+For packages that are installed on your systems
+
+1. `dpkg --get-selections` -> get installed packages
+2. `dpkg -L PACKAGENAME` -> list the files of the package installed on your system.
+
+For packages not yet installed, so use the package file:
+
+1. `dpkg --info PACKAGEFILE` -> get info on package by packagefile.
+2. `dpkg --contents PACKAGEFILE` -> see the owner, permissions and install location of the contents by packagefile. So `--contents` is suitable for a not-installed packages, and `-L` can be used for a package that is installed
+
+##installing & reconfiguring
 
 `dpkg -i PACKAGENAME` -> install a package, if a dependency error occurs, do:
 
 (You can use `apt-get -f install` -> fix unmet dependencies, even if done with dpkg)
 
-Now, you should be able to use `dpkg -i PACKAGENAME` to install the package
+Now, you should be able to use `dpkg -i PACKAGENAME` to complete the installation of the package
 
-`dpkg-reconfigure PACKAGENAME` -> reconfigure PACKAGENAME
+`dpkg -reconfigure PACKAGENAME` -> reconfigure PACKAGENAME
 
-`dpkg --remove PACKAGENAME` -> remove PACKAGENAME, leave config files
-`dpkg --purge PACKAGENAME` -> remove PACKAGENAME including config files 
+##removing a package
+
+1. `dpkg --remove PACKAGENAME` -> remove PACKAGENAME, leave config files
+2. `dpkg --purge PACKAGENAME` -> remove PACKAGENAME including config files 
 
 #Summary & Overview aptitude
 
