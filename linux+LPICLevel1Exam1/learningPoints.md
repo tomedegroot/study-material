@@ -123,6 +123,7 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 6. Setting the defaults for add a user `/etc/default/useradd`
 7. `top -d DELAYTIME` -> set the delay (interval) time
 8. `umask OCTALNOTATIONS` -> umask only accepts octal notation
+9. `rmdir -p test/file` -> Removes all the parents of the basedir file, so in this case the dir test will also be removed
 
 #dependencies
 
