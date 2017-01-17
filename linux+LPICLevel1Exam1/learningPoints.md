@@ -138,4 +138,6 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 3. `apt-get install` -> will install the missing dependencies
 4. `dpkg i PACKAGEFILE` -> reinstall a package
 
+So with rpm you have to specify the missing requirements: `yum install NAMEOFREQUIREMENT`, but with dpkg, you just have to do an apt-get install without specifying the requirements
 
+@todo: Linux System Management and Architecture
