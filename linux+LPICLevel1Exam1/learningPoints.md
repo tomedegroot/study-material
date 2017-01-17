@@ -121,3 +121,11 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 4. `userdel -r USERNAME` -> remove a user and remove of all the files belonging to the user
 5. `useradd -m USERNAME` -> add USERNAME and create a homedir if the CREATE_HOME
 6. Setting the defaults for add a user `/etc/default/useradd`
+7. `rpm -qRp lynx-2.8.8-0.3.dev15.el7.x86_64.rpm` -> get the dependencies of a package. With rpm, you have to install them manually via yum install PACKAGENAMEOFDEP
+8. `dpkg -I PACKAGEFILE` -> get information including requirements for a package
+
+#dependencies
+1. `rpm -qRp lynx-2.8.8-0.3.dev15.el7.x86_64.rpm` -> get the Requerements (dependencies) of a package. With rpm, you have to install them manually via yum install PACKAGENAMEOFDEP
+2. `dpkg -I PACKAGEFILE` -> get information including requirements for a package
+
+
