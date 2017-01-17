@@ -110,3 +110,14 @@ So in `usermod` capitalized, but in `passwd` uncapitalized. **mnemonic** usermod
 ##See which filesystems are supported by the kernel     
 
 Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s2-proc-filesystems.html)
+
+#Random
+
+1. PID = Process Identification
+2. `/etc/sudoers` -> holds who can executed with elevated privileges (root)
+3. `usermod -a -G group1 group2 user1` -> group1 and group2 supplementary groups for user1:
+  1. `-G` -> set supplementary groups
+  2. `-g` -> set login group
+4. `userdel -r USERNAME` -> remove a user and remove of all the files belonging to the user
+5. `useradd -m USERNAME` -> add USERNAME and create a homedir if the CREATE_HOME
+6. Setting the defaults for add a user `/etc/default/useradd`
