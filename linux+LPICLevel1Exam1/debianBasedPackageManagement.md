@@ -97,6 +97,7 @@ For packages that are installed on your systems
 2. `dpkg -l 'PATTERN'` -> list installed packages matching the pattern with a description of the package
 3. `dpkg -s PACKAGENAME` -> get the status of a package (see if it is installed)
 4. `dpkg -L PACKAGENAME` -> list the files of the package installed on your system. (**mnemonic** L is based on l = installed files is based upon a package)
+5. `dpkg -I PACKAGEFILE` -> list dependencies of a package file
 
 For packages not yet installed, so use the package file:
 
