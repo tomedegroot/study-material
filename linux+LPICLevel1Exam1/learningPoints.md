@@ -125,7 +125,17 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 8. `dpkg -I PACKAGEFILE` -> get information including requirements for a package
 
 #dependencies
-1. `rpm -qRp lynx-2.8.8-0.3.dev15.el7.x86_64.rpm` -> get the Requerements (dependencies) of a package. With rpm, you have to install them manually via yum install PACKAGENAMEOFDEP
-2. `dpkg -I PACKAGEFILE` -> get information including requirements for a package
+
+##rpm based
+1. `rpm -qRp lynx-2.8.8-0.3.dev15.el7.x86_64.rpm` -> get the Requerements (dependencies) of a package. `yum deplist` is the yum equavelent
+2. `rpm -i PACKAGEFILE` -> if you miss a requirement, RPM will give an error
+3. `yum install NAMEOFREQUIREMENT...` -> install the requirement(s)
+4. `rpm -i PACKAGEFILE` -> install the pacakge should work
+
+##dpkg based
+1. `dpkg -I PACKAGEFILE` -> get information including requirements for a package. `apt-cache depends|showpkg` is the apt equavelent
+2. `dpkg i PACKAGEFILE` -> install a package, if you miss dependencies it will fail
+3. `apt-get install` -> will install the missing dependencies
+4. `dpkg i PACKAGEFILE` -> reinstall a package
 
 
