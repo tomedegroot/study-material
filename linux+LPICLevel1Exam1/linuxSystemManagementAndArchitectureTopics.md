@@ -76,13 +76,16 @@ Same as lspci
 
 #modprobe and lsmod
 
+**mnemonic** probe means to examine
+
 Add, remove and view loadable Linux kernel modules. Mod location = */lib/modules/KERNELVERSION/kernel*, so `cd /lib/modules/$(uname -r)/kernel`
 
 In CentOS 7 (lsmod)[https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s1-kernel-module-utils.html] is used to show the **loaded** the kernel modules. `lsmod` formats contents of */proc/modules* pseudo-file
 
 1. `lsmod` -> list all the loaded modules
-2. `modprobe -r` -> remove a module.
-3. `modprobe [MODNAME]` -> load a module
+2. `modinfo MODNAME` -> get info on a mod
+3. `modprobe MODNAME` -> load a module (older equavelent `insmod MODNAME`)
+4. `modprobe -r MODNAME` -> remove a module. (older equavelent `rmmod MODNAME`)
 
 Example: `modprobe floppy`. You could use the older insmod, but it needs the full path: `/lib/modules/3.10.0-327.28.2.el7.x86_64/kernel/drivers/block/floppy.ko`
 
