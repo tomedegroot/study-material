@@ -111,6 +111,16 @@ So in `usermod` capitalized, but in `passwd` uncapitalized. **mnemonic** usermod
 
 Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Deployment_Guide/s2-proc-filesystems.html)
 
+#runlevels
+
+0	Halt the system.
+1	Single-user mode (for special administration).
+2	Local Multiuser with Networking but without network service (like NFS)
+3	Full Multiuser with Networking
+4	Not Used
+5	Full Multiuser with Networking and X Windows(GUI)
+6	Reboot.
+
 #Random
 
 1. PID = Process Identification
@@ -125,6 +135,9 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 8. `umask OCTALNOTATIONS` -> umask only accepts octal notation
 9. `rmdir -p test/file` -> Removes all the parents of the basedir file, so in this case the dir test will also be removed
 10. `find -xdev` -> only search the local filesystem
+11. `0x82` -> the linux swap filesystem typecode
+12. `du -c` -> produce a grand total
+13. `find . -mtime +3` -> find files modified at least 3 days ago
 
 #dependencies
 
