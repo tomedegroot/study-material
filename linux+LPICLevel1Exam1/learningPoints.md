@@ -138,6 +138,10 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 11. `0x82` -> the linux swap filesystem typecode
 12. `du -c` -> produce a grand total
 13. `find . -mtime +3` -> find files modified at least 3 days ago
+14. `grub-mkconfig -> /boot/grub/grub.cfg` -> So grub-mkconfig sends the output by default to STDOUT
+15. `shutdown -f` -> Reboot Fast, by suppressing the normal call to fsck when rebooting.
+16. `shutdown -F` -> FORCE filesystem check **mnemonic** Force with capital F
+17. `uniq -d` -> only print Duplicate lines. So uniq is the test for duplicate lines and the options determine what you want to output.
 
 #dependencies
 
@@ -156,3 +160,4 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 So with rpm you have to specify the missing requirements: `yum install NAMEOFREQUIREMENT`, but with dpkg, you just have to do an apt-get install without specifying the requirements
 
 @todo: Linux System Management and Architecture
+@todo: modprobe, insmod, rmmod, lsmod
