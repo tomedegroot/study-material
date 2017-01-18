@@ -119,8 +119,8 @@ Grep searches inside the files to see if it can match the pattern. Very useful w
 
 ##REGEX
 
-1. `^` -> beginning
-2. `$` -> end
+1. `^` -> beginning of line
+2. `$` -> end of line
 3. `[hpok]` -> all the lines with h, p, o or k in it
   1. `[A-Z]` -> Character or number ranges
   2. `[^]` -> Negate what is in the square brackets
