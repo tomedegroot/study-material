@@ -161,3 +161,4 @@ So with rpm you have to specify the missing requirements: `yum install NAMEOFREQ
 
 @todo: Linux System Management and Architecture
 @todo: modprobe, insmod, rmmod, lsmod
+@todo: parted
