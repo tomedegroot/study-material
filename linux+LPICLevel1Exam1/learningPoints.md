@@ -135,7 +135,7 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 8. `umask OCTALNOTATIONS` -> umask only accepts octal notation
 9. `rmdir -p test/file` -> Removes all the parents of the basedir file, so in this case the dir test will also be removed
 10. `find -xdev` -> only search the local filesystem
-11. `0x82` -> the linux swap filesystem typecode
+11. `0x82` -> the linux swap filesystem typecode (or identifier); 0x83 -> Linux xfs/ext2/3/4 filesystem typecode
 12. `du -c` -> produce a grand total
 13. `find . -mtime +3` -> find files modified at least 3 days ago
 14. `grub-mkconfig -> /boot/grub/grub.cfg` -> So grub-mkconfig sends the output by default to STDOUT
