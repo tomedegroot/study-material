@@ -129,14 +129,14 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
   1. `-G` -> set supplementary groups
   2. `-g` -> set login group
 4. `userdel -r USERNAME` -> remove a user and remove of all the files belonging to the user
-5. `useradd -m USERNAME` -> add USERNAME and create a homedir if the CREATE_HOME
+5. `useradd -m USERNAME` -> add USERNAME and create a homedir if the CREATE_HOME is set to false
 6. Setting the defaults for add a user `/etc/default/useradd`
 7. `top -d DELAYTIME` -> set the delay (interval) time
 8. `umask OCTALNOTATIONS` -> umask only accepts octal notation
 9. `rmdir -p test/file` -> Removes all the parents of the basedir file, so in this case the dir test will also be removed
 10. `find -xdev` -> only search the local filesystem
 11. `0x82` -> the linux swap filesystem typecode (or identifier); 0x83 -> Linux xfs/ext2/3/4 filesystem typecode
-12. `du -c` -> produce a grand total
+12. `du -c` -> produce a grand total (complete overview)
 13. `find . -mtime +3` -> find files modified at least 3 days ago
 14. `grub-mkconfig -> /boot/grub/grub.cfg` -> So grub-mkconfig sends the output by default to STDOUT
 15. `shutdown -f` -> Reboot Fast, by suppressing the normal call to fsck when rebooting.
@@ -144,6 +144,9 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 17. `uniq -d` -> only print Duplicate lines. So uniq is the test for duplicate lines and the options determine what you want to output.
 18. `tune2fs -c` -> set the number of times before a filesystem will be checked
 19. `apt-get -s install` -> simulate an install. (**does not exist in YUM**)
+20. `setopt +0` and `unset` lets you unset bash options
+21. `which` tells you which command will be executed and `whereis` returns multiple matches and will not tell which will be executed.
+22. */usr/local* contains shareable apps and */usr/share* is for files for multiple architectures.
 
 #dependencies
 
@@ -158,6 +161,8 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 2. `dpkg i PACKAGEFILE` -> install a package, if you miss dependencies it will fail
 3. `apt-get install` -> will install the missing dependencies
 4. `dpkg i PACKAGEFILE` -> reinstall a package
+
+1. `dpkg --force-depends` -> turn all errors into warning, so you can install a package even if you do not have the required dependencies
 
 So with rpm you have to specify the missing requirements: `yum install NAMEOFREQUIREMENT`, but with dpkg, you just have to do an apt-get install without specifying the requirements
 
