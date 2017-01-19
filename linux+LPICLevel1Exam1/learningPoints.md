@@ -142,6 +142,7 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 15. `shutdown -f` -> Reboot Fast, by suppressing the normal call to fsck when rebooting.
 16. `shutdown -F` -> FORCE filesystem check **mnemonic** Force with capital F
 17. `uniq -d` -> only print Duplicate lines. So uniq is the test for duplicate lines and the options determine what you want to output.
+18. `tune2fs -c` -> set the number of times before a filesystem will be checked
 
 #dependencies
 
