@@ -151,6 +151,7 @@ Check in */proc/filesystems* [source](https://www.centos.org/docs/5/html/5.1/Dep
 20. `setopt +0` and `unset` lets you unset bash options
 21. `which` tells you which command will be executed and `whereis` returns multiple matches and will not tell which will be executed.
 22. */usr/local* contains shareable apps and */usr/share* is for files for multiple architectures.
+23. */proc/cmdline* Holds boot parameters. These are passed by the bootloader to the kernel on boot
 
 #dependencies
 
