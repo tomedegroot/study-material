@@ -78,6 +78,10 @@ You can check this by running head hello-02.tar.gz and head hello-02.tar. GZip i
 
 [source](http://stackoverflow.com/a/14349164/1941737)
 
+###Filter tar through bzip2
+
+`tar -j` -> filter through bzip2
+
 ##Special value of `-` for commands
 
 1. `cd -` -> go to previous dir
