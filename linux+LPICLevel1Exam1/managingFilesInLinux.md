@@ -278,6 +278,8 @@ For example to set the setuid bit along with permissions 766:
 
 chmod 4766 filename
 
+[More info on stickybit, SETGID, SETUID](http://unix.stackexchange.com/a/43747)
+
 #Default Permission umask, newgrp and chattr
 
 ##newgrp
