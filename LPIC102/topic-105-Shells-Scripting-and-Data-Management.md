@@ -91,5 +91,88 @@ j```
 Why `${10}`? -> so the shell doesn't expand $1 to 'a' so you would get 'a0'. 2 takeaways:
 
 1. Variable expansion (`${}`), is not the same as brace expansion (`{}`)
-2. You can use `${}` if you only want to expand on part of what comes after the dollar sign. So `${foo}bar` extends foo, but not bar. And it [is necessary when expanding for positional parameters above 9](http://stackoverflow.com/a/8748880/1941737)
+2. You can use `${}` if you only want to expand on part of what comes after the dollar sign. So `${foo}bar` extends foo, but not bar. And it [is necessary when expanding for positional parameters above 9](http://stackoverflow.com/a/8748880/1941737). So it is a more precise way to tell to bash what to expand
+
+###compound commands executed in  a subshell
+
+1. `(command)` -> create a compound command, but do **not** substitute the output, so `wc -l (ls)` will **not** work
+2. `$(command)` -> create a compound command and substitute the output. This means the STDOUT is placed where `$(command)` is 
+
+To demonstrate, xecute the following:
+
+```
+echo "In parent $BASH_SUBSHELL pid $$"
+FOO=bar
+echo $FOO
+(FOO=baz; echo -n "In subshell $BASH_SUBSHELL "; echo $$)
+echo $FOO
+```
+
+Result:
+
+```
+In parent 0 pid 1758
+bar
+In subshell 1 1758
+bar
+```
+
+($$ will be substituted for the PID)
+
+###Using `env`
+
+1. `env` without any arguments prints the environment
+2. Place `#! /bin/env ruby` in the start of the script gets the shell to search for the executable ruby in $PATH
+3. Manipulate the env just before running a command: `env [COMMAND [ARGS]]`, so for example: `env -i sh -c 'echo $PATH'`
+  1. `env -i` -> Ignore the current environment (test this via `env -i env`)
+  2. `sh -c 'STRING'` -> read the Command(s) from string and execute immediately
+
+###Global and user shell settings
+
+####setting up the shell
+
+Order of sourcing scripts for a **login session**:
+1. */etc/profile*
+2. files in */etc/profile.d*
+3. *~/.bash_profle*
+4. *~/.bash_rc* is sourced from *~/.bash_profile*
+5. When logging out: *~/.bash_logout* is sourced
+
+**Mind you** the sourcing of */.bash_logout* when logging out is part of the loggin session
+
+A non-login session is mostly when:
+1. The root user uses `su` to become another user
+2. A sysadmin uses `su` to become the root user
+
+Order of sourcing scripts for a **non-login session**:
+
+1. *~/.bashrc*
+2. On RedHat, the */.bashrc* sources */etc/bashrc* if it exists.
+
+####$PATH
+
+$PATH contains your dirs where to search for commands. It's separated by colons:
+
+```
+[root@t-degroot1 ~]# echo $PATH
+/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/tom/.local/bin:/home/tom/bin
+```
+
+The shell will search the path in order from left to right (so if a command is */usr/local/bin* and in */home/tom/bin*, it will execute the one in */usr/local/bin*)
+
+To add a dir to your $PATH:
+
+`export PATH=$PATH:$HOME/bin`
+
+Trick to add the working dir to your path: `export PATH=$PATH:.` This gets interpreted, so it's not statically set when you set the $PATH variable and 'moves' with you as you travel through the system. This comes with security risks: if a user puts a malicious program called `ls` in it's home dir and the root user is there, problems arise.
+
+####Aliases
+
+`alias nameOfAlias="contentsOfTheAlias"` Example: `alias ll="ls -l"`. So an alias is a form of substitution.
+
+Aliases have precendence over $PATH, so if you add options to a command in $PATH, the alias will be used: `alias rm="rm -f"`, every time you issue the command `rm`, `rm -f` will be executed.
+
+
+####Functions
+
 
