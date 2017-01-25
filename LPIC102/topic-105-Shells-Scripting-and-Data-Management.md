@@ -134,8 +134,8 @@ bar
 Order of sourcing scripts for a **login session**:
 1. */etc/profile*
 2. files in */etc/profile.d*
-3. *~/.bash_profle*
-4. *~/.bash_rc* is sourced from *~/.bash_profile*
+3. *~/.bash_profile*
+4. *~/.bashrc* is sourced from *~/.bash_profile* (optional: On RedHat, the */.bashrc* sources */etc/bashrc* if it exists, which sources everythin in */etc/profile.d*)
 5. When logging out: *~/.bash_logout* is sourced
 
 **Mind you** the sourcing of */.bash_logout* when logging out is part of the loggin session
@@ -148,6 +148,10 @@ Order of sourcing scripts for a **non-login session**:
 
 1. *~/.bashrc*
 2. On RedHat, the */.bashrc* sources */etc/bashrc* if it exists.
+
+(*~/.bash_profile* is **not** sourced from */.bashrc*, because then you would end up in an invinite sourcing loop)
+
+**Mnemonic:** In short *~/.bashrc* is sourced from *~/.bash_profile*, not the other way around
 
 ####$PATH
 
@@ -166,13 +170,38 @@ To add a dir to your $PATH:
 
 Trick to add the working dir to your path: `export PATH=$PATH:.` This gets interpreted, so it's not statically set when you set the $PATH variable and 'moves' with you as you travel through the system. This comes with security risks: if a user puts a malicious program called `ls` in it's home dir and the root user is there, problems arise.
 
+After some research: some parts of $PATH, such as */usr/bin* is set by bash itself, and not via 
+
 ####Aliases
 
-`alias nameOfAlias="contentsOfTheAlias"` Example: `alias ll="ls -l"`. So an alias is a form of substitution.
+`alias nameOfAlias="contentsOfTheAlias"` Example: `alias ll="ls -l"`. So an alias is a form of substitution and it replaces the whole or a part of your command.
 
-Aliases have precendence over $PATH, so if you add options to a command in $PATH, the alias will be used: `alias rm="rm -f"`, every time you issue the command `rm`, `rm -f` will be executed.
+To know:
 
+1. Aliases have precendence over $PATH, so if you add options to a command in $PATH, the alias will be used: `alias rm="rm -f"`, every time you issue the command `rm`, `rm -f` will be executed.
+2. How to bypass an alias?
+  1. Enter the full path to the command, example: */bin/ls*
+  2. Escape: `\ls` (alias `ls` is aliased to add colors, do '\ls' to see the difference)
 
 ####Functions
+
+A function runs code and is **not substitution**. Form:
+
+`function name() {commands}`
+
+Example of this function added to *~/.bashrc*:
+
+1. Define the function in a file
+
+```
+#copy the contents of a dir
+function dircopy(){
+        tar -cf - * | (mkdir $1 && cd $1 && tar xf -)
+}
+```
+
+2. Then source the file where the function is in: `. file-with-function.sh`
+
+3. Call the function: `dircopy ~/backup`
 
 
