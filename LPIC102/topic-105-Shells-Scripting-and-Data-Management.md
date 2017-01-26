@@ -93,9 +93,9 @@ Why `${10}`? -> so the shell doesn't expand $1 to 'a' so you would get 'a0'. 2 t
 1. Variable expansion (`${}`), is not the same as brace expansion (`{}`)
 2. You can use `${}` if you only want to expand on part of what comes after the dollar sign. So `${foo}bar` extends foo, but not bar. And it [is necessary when expanding for positional parameters above 9](http://stackoverflow.com/a/8748880/1941737). So it is a more precise way to tell to bash what to expand
 
-###compound commands executed in  a subshell
+###compound commands executed in  a subshell (so it has no access to variables if they are not exported)
 
-1. `(command)` -> create a compound command, but do **not** substitute the output, so `wc -l (ls)` will **not** work
+1. `(command)` -> create a compound command, but do **not** substitute the output, so `wc -l (ls)` will **not** work and redirection has to be done on the complete compound command. See our `dircopy` function in this document where this can be useful: first change dir and then read from STDIN in 1 command.
 2. `$(command)` -> create a compound command and substitute the output. This means the STDOUT is placed where `$(command)` is 
 
 To demonstrate, xecute the following:
@@ -204,4 +204,42 @@ function dircopy(){
 
 3. Call the function: `dircopy ~/backup`
 
+####Prompt string
+
+#####Setting prompt string one ($PS1)
+
+The variable PS1 holds the content of the command prompt. To make the following command prompt:
+
+`[tom@t-degroot1 backup]$ `
+
+Set $PS1 like so: `export PS1="[\u@\h \W]$ "` -> the prompt will be updated immediately, no need to relogin
+
+For the exam: you don't have to know all the abbreviations, just know special values are escaped with `\`. Look it up in `man bash` under '**PROMPTING**'
+
+######Dynamic content in $PS1
+
+It is possible to call a function or execte a command from within $PS1: `export PS1='$(date +%r) - [\u@\h \W]$ '`
+
+**important** -> every time bash generates the prompt string, it reads the value of $PS1 and does command substitution at runtime. Therefor, if you have dynamic content in your prompt string, you must place the variable PS1 in single quotes. If you would assign the value to PS1 via double quotes, bash would already do command substitution and before assigning the value to PS1 and the prompt would have the same value every time.
+
+######Prompt string 2 ($PS2)
+
+$PS2 is used when the command prompt goes over multiple lines. If $PS2 is not set, bash uses the default `>` to indicate multi line input.
+
+###Skeleton home dir for new users
+
+The location of the skeleton dir for new users is set in */etc/default/useradd*
+
+By default */etc/default/useradd* points to */etc/skel*.
+
+*/etc/skel* hold a default value for bash customization files:
+
+```
+-rw-r--r--.   1 root root   18 Jan 16 19:42 .bash_logout
+-rw-r--r--.   1 root root  193 Jan 16 19:42 .bash_profile
+-rw-r--r--.   1 root root  231 Jan 16 19:42 .bashrc
+drwxr-xr-x.   4 root root   37 Dec 19  2015 .mozilla
+```
+
+So you could adjust these to set certain settings by default
 
