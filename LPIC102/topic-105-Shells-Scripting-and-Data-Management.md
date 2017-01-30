@@ -241,5 +241,82 @@ By default */etc/default/useradd* points to */etc/skel*.
 drwxr-xr-x.   4 root root   37 Dec 19  2015 .mozilla
 ```
 
-So you could adjust these to set certain settings by default
+So you could adjust these to adjust the default home dir.
 
+##Localization and Internationalization 
+
+Internationalization = The feature that *allows* a system to display information in different ways for different locations
+
+Localization = A process that bundles all regional changes for a single location into a locale
+
+So localization is the process of adapting internationalized software for a specific region or language by adding locale-specific components and translating text.
+
+###Time Zones
+
+UTC = Universal Coordinated Time
+
+GMT = Greenwich Mean Time = UTC + 0
+
+DST = Daylight Saving Time: Clock move ahead an hour to take advantage of longer nights. A DST Zone sets the data when an hour is added or removed.
+
+Unix stores all timestamps in since midnight Jan 1 1970 UTC (epoch), and each user sets the timezone for displaying.
+
+###Getting the date
+
+`date [OPTION] [+FORMAT]` -> gets the date and timezone
+
+`date +'%z'` -> `-0500` -> gives you the **timeZone offset.** So Central daylight time=UTC-5
+
+`date -u` -> gives you the date in UTC
+
+###Setting timezones
+
+Timezone info is stored in binary in */usr/share/zoneinfo*, so for example: */usr/share/zoneinfo/Europes/Amsterdam*. 
+
+####System timezone
+
+System timezone is stored in */etc/localtime*. To set it, make a copy of or symlink to the right timezone from */etc/localtime*:
+
+`ln -sf /usr/share/zoneinfo/Europe/Amsterdam /etc/localtime`
+
+####User timezone
+
+Users get the system timezone by default. They can override it by setting the $TZ environment variable. For example:
+
+`TZ=Europe/Amsterdam date +'%z'` or `TZ=America/New_York` date +'%z'. Example:
+
+```
+[root@t-degroot1 Europe]# date +'%z'
++0100
+[root@t-degroot1 Europe]# TZ=America/New_York date +'%z'
+-0500
+[root@t-degroot1 Europe]# TZ=Asia/Hong_Kong date +'%z'
++0800
+```
+
+**Mind the forward slash after the continten and the underscore if a city name consists of two words.**
+
+####Other tools for setting the timezone
+
+1. `tzselect`
+2. `tzconfig` -> set */etc/localtime* for you
+3. `dpkf-reconfigure tzdata` -> set */etc/localtime* for you
+
+To get the timezone in a word, some distros have additional files:
+
+1. */etc/timezone* (Debian, gives wrong output for me)
+2. */etc/sysconfig/clock* (RedHat, it's not in CentOS 7, it's [replaced with the timedatectl command](http://unix.stackexchange.com/a/213114))
+
+##Character Encoding
+
+ISO-8859 Standards:
+
+1. ISO-8859-1: Latin with English chars
+2. ISO-8859-9: Latin with Turkish chards
+3. ISO-8859-3: Turkish with some others 
+
+Unicode: each char is defined as a code point (a number). The first 127 code points are compatible with ASCII ([ASCII uses 7 bit originally](http://stackoverflow.com/a/14690651/1941737)). There are several Unicode encodings
+
+1. UCS-2: 2 byte Universal Character Set. Stores everything in 2 bytes, but what if there are more bytes?
+2. UTF-16: 16-bit Unicode Transformation Format. Anything over 16K is represented with a second pair or bytes.
+3. UTF-8: A two bytes minimum of UCS-2 or UTF-16 is not compatible of with existing ASCII files. UTF-8 allows 1 to 6 bytes to be used for the char encoding with the length of the char encoded in the high order bits of the number. So this makes it backwards compatible with ASCII while also being able to store any Unicode code point.
