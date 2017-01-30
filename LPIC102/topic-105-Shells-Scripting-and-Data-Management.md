@@ -59,7 +59,7 @@ There are two ways of passing a variable to a child:
 `$ export NAME=Tom 
 `$ ./my_command1`
 
-So my_command1 has access to the variable that is exported. Just typing `export` gives an overview of all the currently **exported** variables.
+So my_command1 has access to the variable that is exported **to the environment of my_command1**. Just typing `export` gives an overview of all variables automatically exported to the environment of child processes.
 
 ####Setting a variable from a child
 
@@ -126,6 +126,10 @@ bar
 3. Manipulate the env just before running a command: `env [COMMAND [ARGS]]`, so for example: `env -i sh -c 'echo $PATH'`
   1. `env -i` -> Ignore the current environment (test this via `env -i env`)
   2. `sh -c 'STRING'` -> read the Command(s) from string and execute immediately
+
+####EDITOR
+
+$EDITOR -> variable which holds your default editor
 
 ###Global and user shell settings
 
@@ -320,3 +324,62 @@ Unicode: each char is defined as a code point (a number). The first 127 code poi
 1. UCS-2: 2 byte Universal Character Set. Stores everything in 2 bytes, but what if there are more bytes?
 2. UTF-16: 16-bit Unicode Transformation Format. Anything over 16K is represented with a second pair or bytes.
 3. UTF-8: A two bytes minimum of UCS-2 or UTF-16 is not compatible of with existing ASCII files. UTF-8 allows 1 to 6 bytes to be used for the char encoding with the length of the char encoded in the high order bits of the number. So this makes it backwards compatible with ASCII while also being able to store any Unicode code point.
+
+##locales
+
+A locales is represented by:
+
+1. Language code (ISO 639), countries such as Belgium and Canada have multiple languages
+2. Country code (ISO 3166)
+3. Encoding (optional)
+
+Example: nl_NL.UTF-8
+
+To see all the available locales: `locale -a`
+
+```
+[tom@t-degroot1 ~]$ locale -a | grep nl_NL.utf8
+nl_NL.utf8
+```
+
+Internationalisation in Unix is handled by gettext, which uses the environment variables outputted with the command `locale`:
+
+```
+A locale is composed of several locale categories. When a program looks up locale dependent values, it does this according to the following environment variables, in priority order:
+
+1. LANGUAGE
+2. LC_ALL
+3. LC_xxx, according to selected locale category: LC_CTYPE, LC_NUMERIC, LC_TIME, LC_COLLATE, LC_MONETARY, LC_MESSAGES, ...
+4. LANG
+```
+[source](https://www.gnu.org/software/gettext/manual/html_node/Locale-Environment-Variables.html)
+
+A locale contains settings for the following categories(between brackets in which env variables locale for this setting can be specifically stored(point 3 of the order of reading variables)):
+
+1. Addresses ($LC_ADDRESS)
+2. Collation (how to sort) ($LC_COLLATE)
+3. Measurement ($LC_MEASUREMENT)
+4. Messages ($LC_MESSAGES)
+5. Monetary ($LC_MONETARY)
+6. Names ($LC_NAME)
+7. Numeric ($LC_NUMERIC)
+8. Paper (Paper sizes user in the country) ($LC_PAPER)
+9. Telephone ($LC_TELEPHONE)
+10. Time (date and time formats, 24 hour clock vs AM and PM) ($LC_TIME)
+
+So you can set environment variable and it will be used:
+
+```
+[tom@t-degroot1 ~]$ LC_TIME=nl_NL.utf8 date
+ma jan 30 20:54:46 CET 2017
+```
+
+###converting files between encodings
+
+`iconv -c -f ASCII -t UTF-8 file.txt > file-utf8.txt`
+
+1. `-c` -> clear any unkown chars
+2. `-f ENCODING` -> from encoding
+3. `-t ENCODING` -> to encoding
+
+`iconv -l` -> get a list of all available encodings
