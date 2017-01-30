@@ -170,7 +170,7 @@ To add a dir to your $PATH:
 
 Trick to add the working dir to your path: `export PATH=$PATH:.` This gets interpreted, so it's not statically set when you set the $PATH variable and 'moves' with you as you travel through the system. This comes with security risks: if a user puts a malicious program called `ls` in it's home dir and the root user is there, problems arise.
 
-After some research: some parts of $PATH, such as */usr/bin* is set by bash itself, and not via 
+After some research: some parts of $PATH, such as */usr/bin* is set by bash itself, and not via */etc/profile* or */etc/bashrc*
 
 ####Aliases
 
