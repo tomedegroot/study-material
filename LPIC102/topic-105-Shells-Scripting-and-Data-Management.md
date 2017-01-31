@@ -386,3 +386,53 @@ ma jan 30 20:54:46 CET 2017
 
 ##105.2: Shell Scripting
 
+Most if this is covered in the book [The Linux Command Line](http://linuxcommand.org/tlcl.php), [see my scripts to relearn that](https://github.com/tomedegroot/study-material/tree/master/bashscripts). In here I will just place the learning points that need to be freshen up:
+
+###Running the script:
+
+1. The shebang: `#! /bin/bash` -> specify bash, because the used might use another shell
+2. A file must be executable and have a shebang to run directly,
+3. Or not run directly via: `bash script.sh` (No shebang on +x permission needed on script.sh)
+4. A good place to store the script for more users to use is in */usr/local/bin/*
+
+###Parameters:
+
+1. `$0` -> Holds the invoked command (can be the relative or absolute path)
+2. `$1` - `$N` -> Holds positional parameters
+
+###Substition:
+1. `$(COMMAND)` or `\`COMMAND\`` -> command substitution. Substitute with the command output (p.345)
+
+* Extra info on why using '[]' in `ps -ef | grep [m]ysqld` doesn't match it's own process:
+
+2. `$((MATHEXPRESSION))` -> arithmetic substitution -> `echo $((2+2))` or:
+
+```
+PROCESSLIST=$(ps -ef | wc -l)
+echo $(($PROCESSLIST - 1))
+```
+
+*You can use `bc` to decimal arithmetic. bc reads the expression from STDIN:
+
+`echo "3.14 * 3 ^ 2" | bc` -> You need to use double quotes to prevent expansion
+
+3. You can substitute within arithmetic substitution: `echo $(( $(ps -ef | wc -l) - 1  ))`
+
+```
+When you run ps -ef | grep string, grep is displayed in the output because string matches [...] grep string.
+
+But, when you run ps -ef | grep [s]tring the line isn't displayed, because grep translates [s]tring to string, while ps outputs [...] grep [s]tring, and that doesn't match string
+```
+[source](http://unix.stackexchange.com/questions/2062/grep-why-do-brackets-in-grep-pattern-remove-the-grep-process-from-ps-results)
+
+###Conditionals
+
+`$?` -> holds the exit status of the previous command. This can be used for testing. If the exit status of `$?` is 0(=NO ERROR), it evaluates to true, otherwise to false:
+
+```
+if ps -ef | grep -q [m]ysqld; then
+	echo "Mysql is running"
+fi
+```
+
+`grep -q` means quit to not generate output. grep exit status is 0 when grep matches at least 1 time.
