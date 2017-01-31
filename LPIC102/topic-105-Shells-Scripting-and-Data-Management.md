@@ -427,7 +427,7 @@ But, when you run ps -ef | grep [s]tring the line isn't displayed, because grep 
 
 ###Conditionals
 
-`$?` -> holds the exit status of the previous command. This can be used for testing. If the exit status of `$?` is 0(=NO ERROR), it evaluates to true, otherwise to false:
+####Basic structure and `$?`
 
 ```
 if ps -ef | grep -q [m]ysqld; then
@@ -436,3 +436,112 @@ fi
 ```
 
 `grep -q` means quit to not generate output. grep exit status is 0 when grep matches at least 1 time.
+
+`$?` -> holds the exit status of the previous command. This can be used for testing. If the exit status of `$?` is 0(=NO ERROR), it evaluates to true, otherwise to false (This is the opposite of other programming languages. Why? Because 0 is the logical output for NO ERRORS so higher numbers mean different errors and evaluating NO ERROR as true is logical, because only with NO ERROR you want to continue execution):
+
+####`else` and `elif`
+
+```
+#! /bin/env bash
+
+if ps -ef | grep -q [m]ysqld; then
+        echo "Mysql is running"
+else
+	echo "Mysql is not running"
+fi
+```
+
+`elif` structure:
+
+
+```
+#! /bin/env bash
+
+TESTFILE=./testfile.txt
+
+if  [[ "$(wc -l < $TESTFILE)" -gt  "10" ]]; then
+        echo "$TESTFILE has more than 10 lines"
+elif [[ "$(wc -l < $TESTFILE)" -gt "5"  ]]; then
+        echo "$TESTFILE has more than 5 lines"
+else
+        echo "$TESTFILE has less than 5 lines"
+fi
+```
+
+###Testing syntax
+
+####Notation for test command
+
+1. `test CONDITION`
+2. [ CONDITION  ] -> shorthand for test. Mind the spaces. Is still in bash for POSIX copliancy and backwards compatibility. The newer and one is:
+3. [[ CONDITION  ]] -> is newer and better in handling unset variables and can also do artithmetic testing
+
+####Notation for FILE and STRING CONDITION
+
+Get possible test conditions via `help test`
+
+`!` negates the result of a conditional:
+
+```
+[root@t-degroot1 tom]# [[ ! 2 < 4 ]]
+[root@t-degroot1 tom]# echo $?
+1
+```
+
+#####FILE CONDITION
+
+1. `FILE1 -ef FILE2` -> Equal device and File indode number
+2. `FILE1 -nt FILE2` -> FILE1 newer than FILE2
+3. `FILE1 -ot FILE2` -> FILE1 older than FILE2
+
+4. `-d FILE` -> exists and dir
+5. `-e FILE` -> exists
+6. `-f FILE` -> exists and regular file
+7. `-h FILE` -> exists and symbolic link
+8. `-r FILE` -> exists and readable
+9. `-s FILE` -> exists and greater than zero. **mnemonic**: Sero
+10. `-w FILE` -> exists and writable
+11. `-x FILE` -> exists and executable
+
+
+#####STRING CONDITION
+
+1. `-z STRING` -> true if string is zero (so empty string)
+2. `-n STRING` -> true for non zero string
+
+####Artihmetic testing, notation for command and condition
+
+4. ((ARITHMETIC CONDITION)) -> exit status 0 if an arithmetic test evaluates to true:
+5. [[ ARITHMETIC CONDITION ]] -> The newer `[[ ]]` keyword [does artihmetic testing](http://serverfault.com/questions/52034/what-is-the-difference-between-double-and-single-square-brackets-in-bash)
+
+Example:
+
+```
+[root@t-degroot1 tom]# (( 2 < 4))
+[root@t-degroot1 tom]# echo $?
+0
+[root@t-degroot1 tom]# (( 2 < 1))
+[root@t-degroot1 tom]# echo $?
+1
+[root@t-degroot1 tom]# [[ 2 = 2 ]]
+[root@t-degroot1 tom]# echo $?
+0
+```
+**important** To compare equals, use 1 `=` sign!
+
+###`read`
+
+Read data from a string and assign it to VARIABLE: `read VARIABLE`. Example:
+
+```
+#! /bin/bash
+echo -n "Say something: "
+
+read STRING
+
+if [[ -z $STRING ]]; then
+        echo "You didn't say something"
+elif [[ -n $STRING ]]; then
+        echo "You said $STRING"
+fi
+```
