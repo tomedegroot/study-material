@@ -1,0 +1,7 @@
+#! /bin/bash
+#
+# Test scratch
+
+echo \$1 is $1 
+echo \$2 is $2
+[ -z $2 ]; echo \$? is $?

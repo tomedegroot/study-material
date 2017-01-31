@@ -1,0 +1,15 @@
+#! /bin/bash
+
+# Script to display all elements using shift
+
+# shift will unset $1, $2 will become $1 and $3 will become $2 and so on.
+# argument $0 will remain the command being entered.
+# since one argument is being unset, $# will be decreased by 1.
+
+count=1
+
+while [[ $# -gt 0 ]]; do
+	echo "Argument $count is $1"
+	count=$(($count + 1))
+	shift
+done

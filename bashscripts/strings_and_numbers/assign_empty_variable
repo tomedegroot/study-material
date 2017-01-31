@@ -1,0 +1,6 @@
+#! /bin/bash
+
+foo=
+echo ${foo:="substitute if value is empty"}
+#because of assigning, $foo is no longer empty
+echo $foo

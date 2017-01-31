@@ -1,0 +1,4 @@
+#! /bin/bash
+
+foo="bar"
+echo ${foo:+"substitute if the variable is set"}

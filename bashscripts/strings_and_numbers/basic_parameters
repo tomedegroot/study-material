@@ -1,0 +1,5 @@
+#! /bin/bash
+
+a="foo"
+# echo $a_file would fail, because the shell will expand it with the empty variable $a_file, correct:
+echo "${a}_file"

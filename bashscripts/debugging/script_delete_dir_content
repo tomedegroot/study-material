@@ -1,0 +1,42 @@
+#! /bin/bash
+
+# This is a script for directory content  deletion with input validation, tracing messages.
+
+dir_name=$1
+
+declare -r usage="USAGE: \"dirdeletion <dir_name>\""
+
+echo "Validating input" >&2 #TRACE MESSAGE
+
+if [[ -z $dir_name ]]; then
+	echo "No directory name given" >&2
+	echo $usage
+	exit 1
+fi
+
+if ! [[ -d $dir_name ]]; then
+	echo "$dir_name is not a directory" >&2
+	echo $usage
+	exit 1
+fi
+
+# testing empty string returns 1, if the string is not empty it returns 0
+if ! [[ $(ls -A $dir_name) ]]; then
+	echo "$dir_name is empty" >&2
+	exit 1
+fi
+
+echo "Changing working directory" >&2 #TRACE MESSAGE
+if ! cd $dir_name; then
+	echo "Cannot cd to $dir_name" >&2
+	exit 1
+fi
+
+echo "Starting deletion of contents of $dir_name" >&2 #TRACE MESSAGE
+if rm *; then #Stub for TESTING
+	echo "Deletion of content of '$dir_name' complete!"
+	exit 0
+else
+	echo "Deletion failed" >&2
+	exit 1
+fi

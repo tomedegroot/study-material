@@ -1,0 +1,13 @@
+#! /bin/bash
+#
+# Read file content with a while loop
+
+test_var="initialtestvalue"
+
+# piping will execute a command in a subshell. Any variables created or assigned within the loop are gone when the loop terminates
+cat test_input.txt | while read file_content; do
+	test_var=$file_content
+	echo "Inside loop: $test_var"
+done
+
+echo "Outside loop: $test_var"

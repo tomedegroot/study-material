@@ -1,0 +1,24 @@
+#! /bin/bash
+
+file_name=$1
+
+if [[ -e "$file_name" ]]; then
+	read -p "$file_name already exists. Overwrite? [y,q] > "
+	case $REPLY in
+		y|Y)
+			;;
+		q|Q)
+			echo "Program terminated"
+			exit 1
+			;;
+		*)
+			echo "Invalid response, Program terminated" >&2
+			exit 1		
+			;;
+	esac
+fi
+
+echo "#! /bin/bash" > $file_name && chmod 755 $file_name && vi $file_name
+
+
+

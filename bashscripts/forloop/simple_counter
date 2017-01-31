@@ -1,0 +1,13 @@
+#! /bin/bash
+#
+# A simple counter with a c-like loop construction (only available in newer versions of bash)
+
+echo "Executing the c-like for loop:"
+for (( i=1;$i<=5;i=$i+1 )) {
+	echo $i
+}
+
+echo "Executing the traditional for loop:"
+for i in {1..5}; do
+	echo $i
+done;

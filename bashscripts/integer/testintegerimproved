@@ -1,0 +1,31 @@
+#! /bin/bash
+#
+# Demonstrate testing integer
+#
+#INT=
+# $1 is the first argument given to the script
+INT=$1
+
+if [[ $INT =~ ^-?[0-9]+$ ]]; then
+	if (($INT == 0)); then
+        	echo "INT is zero."
+	else
+        	# Test for negative or positive
+        	if ((INT < 0)); then
+                	echo "INT is negative."
+        	else
+                	echo "INT is positive."
+        	fi
+        	# Test for even or odd
+        	# Arithmetic expansion both $((INT)) and $(($INT)) are valid.
+        	# http://wiki.bash-hackers.org/syntax/expansion/arith
+        	if (( (( $INT % 2 )) == 0 )); then
+                	echo "INT is even."
+        	else
+                	echo "INT is odd."
+        	fi
+	fi
+else
+	echo " Argument 1 is not an integer." >&2
+	exit 1
+fi

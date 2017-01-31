@@ -1,0 +1,33 @@
+#! /bin/bash
+#
+# Demonstrate testing integer
+#
+#INT=
+# $1 is the first argument given to the script
+INT=$1
+
+if [ -z $INT ]; then
+	echo "INT is empty." >&2
+	exit 1
+fi
+
+echo "INT is ${INT}"
+
+if [ $INT -eq 0 ]; then
+	echo "INT is zero."
+else
+	# Test for negative or positive
+	if [ $INT -lt 0 ]; then
+		echo "INT is negative."
+	else
+		echo "INT is positive."
+	fi
+	# Test for even or odd
+	# Arithmetic expansion both $((INT)) and $(($INT)) are valid.
+	# http://wiki.bash-hackers.org/syntax/expansion/arith
+	if [ $(($INT % 2)) -eq 0 ]; then
+		echo "INT is even."
+	else
+		echo "INT is odd."
+	fi
+fi

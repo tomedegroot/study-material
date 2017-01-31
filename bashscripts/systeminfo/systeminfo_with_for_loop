@@ -1,0 +1,142 @@
+#! /bin/bash
+#
+# Program to output sysinfo with positional parameters
+
+declare -r PROGNAME=$(basename $0)
+declare -r TITLE="System Information Report For $HOSTNAME"
+declare -r CURRENT_TIME=$(date +"%x %r %Z")
+declare -r TIME_STAMP="Generated $CURRENT_TIME, by $USER"
+
+report_uptime() {
+	cat <<- _EOF_
+		<H2>System Uptime</H2>
+		<PRE>$(uptime)</PRE>
+		_EOF_
+	return 
+}
+
+report_disk_space() {
+	cat <<- _EOF_
+		<H2>Disk Space Utilization</H2>
+		<PRE>$(df -h)</PRE>
+		_EOF_
+	return
+}
+
+report_home_space() {
+	#local means the variable's scope only to that of the function
+	#format for sprintf (http://wiki.bash-hackers.org/commands/builtin/printf), minimum field widths of 8, 10 and 10
+	local format="%8s%10s%10s\n"
+	local dir dir_list total_files total_dirs total_size user_name
+
+	if [[ $(id -u) -eq 0 ]]; then
+		dir_list=/home/*
+		user_name="All Users"
+	else
+		dir_list=$HOME
+		user_name=$USER
+	fi
+
+	echo "<H2>Home Space Utilization ($user_name)</H2>"
+	
+	for dir in $dir_list; do
+		# GNU find <path> <test(in this case for a file)> #GNU wc word count, count lines
+		total_files=$(find $dir -type f | wc -l)
+		total_dirs=$(find $dir -type d | wc -l)
+		# GNU disk usage du <OPTIONS (in this case --summarize and --human-readable)> #GNU cut print selected parts <OPTIONS such as --fields 1 (Only cut the first field)>
+		total_size=$(du -sh $dir | cut -f 1)
+		
+		echo "<PRE>"
+		printf "$format" "Dirs" "Files" "Size"
+		printf "$format" "----" "-----" "----"
+		printf "$format" "$total_dirs" "$total_files" "$total_size"
+		echo "</PRE>"
+	done
+
+}
+
+usage() {
+	echo "$PROGNAME: usage: $PROGNAME [-f file | -i]"
+	return
+}
+
+write_html_page() {
+	cat <<- _EOF_
+	<HTML>
+		<HEAD>
+			<TITLE>$TITLE</TITLE>
+		</HEAD>
+		<BODY>
+			<H1>$TITLE</H1>
+			<P>$TIME_STAMP</P>
+			<P>$(report_uptime)</P>
+			<P>$(report_disk_space)</P>
+			<P>$(report_home_space)</P>
+		</BODY>
+	</HTML>
+	_EOF_
+	return
+}
+
+#process command line options
+
+interactive=
+filename=
+
+while [[ -n $1 ]]; do
+	case $1 in
+		-f | --file)	
+			shift
+			filename=$1
+			;;
+		-i | --interactive)
+			interactive=$1
+			;;
+		-h | --help)
+			usage
+			exit
+			;;
+		*)
+			usage >&2
+			exit 1
+			;;
+	esac
+	shift
+done
+
+#interactive mode
+
+if [[ -n $interactive ]]; then
+	while true; do
+		read -p "Enter name of output file: " filename
+		if [[ -e $filename ]]; then
+			read -p "file '$filename' exists. Overwrite? > [y/n/q]"
+			case $REPLY in
+				Y|y)
+					break
+					;;
+				Q|q)
+					echo "Program terminated."
+					exit
+					;;
+				*)
+					continue
+					;;
+			esac
+		else
+			break
+		fi
+	done
+fi
+
+#output html page
+if [[ -n $filename ]]; then
+	if touch $filename && [[ -f $filename ]]; then
+		write_html_page > $filename
+	else
+		echo "$PROGNAME: Cannot write file '$filename'" >&2
+		exit 1
+	fi
+else
+	write_html_page
+fi

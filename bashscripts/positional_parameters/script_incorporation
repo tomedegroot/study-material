@@ -1,0 +1,43 @@
+#! /bin/bash
+
+#script to demonstrate handling positional arguments
+
+PROGNAME=$(basename $0)
+
+usage() {
+	echo "Invalid option '$1'"
+	echo "usage: $PROGNAME --filename filename [--interactive]"
+	return
+}
+
+
+#initialize variables and process command line options
+interactive=
+filename=
+
+while [[ -n $1 ]]; do
+	case $1 in
+		--interactive)	interactive=1
+				;;
+		--filename)	shift #extra shift so we can assign the value of the next parameter to $filename, example: --file /usr/home/pi
+				filename=$1
+				;;
+		*)		usage $1 >&2
+				exit 1
+				;;	
+	esac
+	shift
+done
+
+#echo the result
+if [[ -n $interactive ]]; then
+	echo "interactive option given"
+else
+	echo "interactive option not given"
+fi
+
+if [[ -n $filename ]]; then
+	echo "filename is $filename"
+else
+	echo "filename not given"
+fi

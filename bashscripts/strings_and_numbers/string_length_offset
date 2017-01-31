@@ -1,0 +1,11 @@
+#! /bin/bash
+
+foo="thisisateststring"
+
+# ${#param} gives length of param
+echo "'$foo' has ${#foo} characters"
+
+# ${#param:offset[:length]}
+echo ${foo:7}
+echo ${foo:7:4}
+echo ${foo: -6}

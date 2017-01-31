@@ -1,0 +1,42 @@
+#! /bin/bash
+#
+# Test script for making a menu
+
+declare -r DELAY=3
+
+while [[ $REPLY != 0 ]]; do
+	clear
+	cat <<- _EOF_
+		Please Select: 
+		1. Display System Information
+		2. Display Disk Space
+		3. Display Home Space Utilization
+		0. Quit
+	_EOF_
+	read -p "Enter selection[0-3] > "
+
+	if [[ $REPLY =~ ^[^0-3]$ ]]; then
+		echo "Invalid choice" >&2
+		exit 1
+	fi
+	#SED replaces based on a REGEX
+	(( $REPLY == 1 )) && echo "Hostname: $HOSTNAME"  && uptime | sed -r 's/^\s+//' && sleep $DELAY; 
+
+	(( $REPLY == 2 )) && df -h && sleep $DELAY
+
+	if (( $REPLY == 3 )); then
+		notify(){
+			echo "Home Space Utilization ($1)"
+		}
+
+		if (( $(id -u) == 0 )); then
+			notify "All Users"
+			du -sh /home/*
+		else
+			notify "$USER"
+			du -sh $HOME
+		fi
+		sleep $DELAY
+	fi
+done
+echo "Program terminated"

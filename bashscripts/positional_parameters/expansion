@@ -1,0 +1,24 @@
+#! /bin/bash
+
+# Program to demonstrate $* and $@ expansion into complete list of arguments
+
+print_params() {
+	echo "\$1 = $1"
+	echo "\$2 = $2"
+	echo "\$3 = $3"
+	echo "\$4 = $4"
+}
+
+pass_params() {
+	echo -e "\n" '$* :'; print_params $* # $* expands into list of positional arguments where each words, even if they form one string, expands to a separate argument
+	echo -e "\n" '"$*" :'; print_params "$*" # "$*" expands into one double quoted string containing all the words, even if an argument are multiple words grouped in a string
+	echo -e "\n" '$@ :'; print_params $@ # $@ expands into list of positional arguments where each words, even if they form one string, expands to a separate argument
+	echo -e "\n" '"$@" :'; print_params "$@" # "$@" expands each position parameter into a separate word surrounded by double quotes
+	
+}
+
+pass_params "word" "words with spaces"
+
+cat <<- _EOF_
+	"\$@" is the best way to expand the position arguments. It preserves the integrity of the original arguments given.
+_EOF_

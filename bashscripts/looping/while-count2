@@ -1,0 +1,40 @@
+#! /bin/bash
+#
+# test script for looping
+
+# Set and validate the start
+read -p 'Where should the count start? > ' counter
+
+# '!' negates the test result. So here the if block is executed if the condition within [[ ]] is false.
+if ! [[ $counter =~ ^-?[[:digit:]]+$ ]]; then
+	echo "You didn't enter an integer" >&2
+	exit 1
+fi
+
+# Set and validate the stop
+read -p 'Where should the count end? > ' stop
+
+if ! [[ $stop =~ ^-?[[:digit:]]+$ ]]; then
+        echo "You didn't enter an integer" >&2
+        exit 1
+fi
+
+if (( $stop <= $counter)); then
+	echo "The stopping point is lower than the starting point" >&2
+	exit 1
+fi
+
+# Set and validate the incrementor
+read -p 'What should be the incrementor? > ' incrementor
+
+if ! [[ $incrementor =~ ^-?[[:digit:]]+$ ]]; then
+        echo "You didn't enter an integer" >&2
+        exit 1
+fi
+
+while [ $counter -le $stop ]; do
+        # printf works like it's c equavalent: printf <FORMAT> <ARGUMENTS...>
+	printf "%d " $counter
+        counter=$((counter+$incrementor))
+done
+echo "Finished"

@@ -1,0 +1,15 @@
+# Test for filenames: 
+# grep -v -> invert match, select lines that do not match the pattern
+# cat testfilenames1 | grep -E "[[:alnum:] .-]+$" | grep -v "/"
+# cat testfilenames1 | grep "[[:alnum:] .-]\+$" | grep -v "/" 
+# sed -> exclude characters
+# cat testfilenames1 | egrep "[[:alnum:] .-]+$" | sed 's/filename: /\//'
+
+filename: filename
+filename: filename1
+filename: filename2.extension
+filename: filename2-3
+
+filename: /filename
+filename: filename*
+filename: filename$

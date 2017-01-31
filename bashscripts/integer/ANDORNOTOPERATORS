@@ -1,0 +1,24 @@
+#! /bin/bash
+#
+#
+MIN_VAL=1
+MAX_VAL=100
+
+INT=$1
+
+if [[ $INT =~ ^-?[0-9]+$ ]]; then
+	if (($INT < $MIN_VAL || $INT > $MAX_VAL)); then
+		echo "$INT is smaller than the minimal value of $MIN_VAL or greater than max value of $MAX_VAL"
+	fi
+	# Same test written in a different way:
+#	if [[ $INT -lt $MIN_VAL || $INT -gt $MAX_VAL ]]; then
+#		echo "$INT is smaller than the minimal value of $MIN_VAL or greater than max value of $MAX_VAL"
+#	fi
+	# Same test written in a different way:
+#	if [[ ! ($INT -ge $MIN_VALUE && $INT -le $MAX_VALUE) ]]; then
+#		echo "$INT is smaller than the minimal value of $MIN_VAL or greater than max value of $MAX_VAL"
+#	fi
+else
+	echo "INT is not an integer" >&2
+	exit 1
+fi

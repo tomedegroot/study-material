@@ -1,0 +1,17 @@
+#! /bin/bash
+
+# get file info
+
+PROGNAME=$(basename $0)
+
+if ! [[ -e $1 ]]; then
+	echo "$PROGNAME: usage: $PROGNAME file" >&2
+	exit 1
+fi
+
+echo -e "\n File Type:"
+# file -> display file type
+file $1
+echo -e "\n File Status:"
+# stat -> display file status
+stat $1

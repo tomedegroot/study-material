@@ -1,0 +1,4 @@
+#! /bin/bash
+
+foo=
+echo ${foo:-"substitute if value is empty"}

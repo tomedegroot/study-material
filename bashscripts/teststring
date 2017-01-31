@@ -1,0 +1,19 @@
+#! /bin/bash
+#
+# Script to demonstrate testing of strings in bash
+#
+ANSWER='yes'
+
+if [ -z $ANSWER ]; then
+	echo 'There is no answer.' >&2 # >&2 http://superuser.com/a/436594
+	exit 1 
+fi
+
+# Double brackets to use the || notation for the Boolean OR operator instead of
+# [ $ANSWER == 'yes' -o $ANSWER == 'no' ];
+if [[ $ANSWER == 'yes' || $ANSWER == 'no' ]]; then
+	echo "The answer is ${ANSWER}"
+else
+	echo 'The answer is unknown.'
+fi
+exit

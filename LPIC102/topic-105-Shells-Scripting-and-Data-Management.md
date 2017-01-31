@@ -1,6 +1,6 @@
 #Topic 105: Shells, Scripting and Data Management
 
-##Customize and use the shell environment
+##105.1: Customize and use the shell environment
 
 1. Brunson & Walberg ch. 12
 2. linuxacademy.com: [Customizing the Bash Shell](https://linuxacademy.com/cp/modules/view/id/2)
@@ -311,7 +311,7 @@ To get the timezone in a word, some distros have additional files:
 1. */etc/timezone* (Debian, gives wrong output for me)
 2. */etc/sysconfig/clock* (RedHat, it's not in CentOS 7, it's [replaced with the timedatectl command](http://unix.stackexchange.com/a/213114))
 
-##Character Encoding
+###Character Encoding
 
 ISO-8859 Standards:
 
@@ -325,7 +325,7 @@ Unicode: each char is defined as a code point (a number). The first 127 code poi
 2. UTF-16: 16-bit Unicode Transformation Format. Anything over 16K is represented with a second pair or bytes.
 3. UTF-8: A two bytes minimum of UCS-2 or UTF-16 is not compatible of with existing ASCII files. UTF-8 allows 1 to 6 bytes to be used for the char encoding with the length of the char encoded in the high order bits of the number. So this makes it backwards compatible with ASCII while also being able to store any Unicode code point.
 
-##locales
+###locales
 
 A locales is represented by:
 
@@ -383,3 +383,6 @@ ma jan 30 20:54:46 CET 2017
 3. `-t ENCODING` -> to encoding
 
 `iconv -l` -> get a list of all available encodings
+
+##105.2: Shell Scripting
+

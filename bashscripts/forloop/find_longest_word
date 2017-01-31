@@ -1,0 +1,21 @@
+#! /bin/bash
+
+# find the longest word in a string
+
+if ! [[ -n $1 && -r $1 ]]; then
+	echo "The first option is not a readable file" >&2
+	exit 1
+fi
+
+max_len=0
+max_word=
+
+for i in $(strings $1); do
+	len=$(echo $i | wc -c)
+	if (( len > 0 )); then
+		max_len=$len
+		max_word=$i
+	fi
+done
+
+echo "$1: '$max_word' ($max_len characters)"

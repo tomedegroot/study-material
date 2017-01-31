@@ -1,0 +1,17 @@
+#! /bin/bash
+#
+# Script to display file info
+
+filepath=${HOME}/bashscripts
+
+if [ -e $filepath  ]; then
+	if [ -d $filepath ]; then
+		printf "$filepath is a directory \n"
+	elif [ -f $filepath ]; then
+		printf "$filepath is a regular file \n"
+	fi
+	exit 0
+else 
+	printf "$filepath doesn't exist \n"
+	exit 1
+fi
