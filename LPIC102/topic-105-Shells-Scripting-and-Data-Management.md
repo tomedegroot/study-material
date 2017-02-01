@@ -568,3 +568,139 @@ elif [[ -n $STRING ]]; then
         echo "You said $STRING"
 fi
 ```
+
+####Combining multiple conditions in 1 test
+
+Precedence of operators:
+
+1. Bracketes `()`
+2. AND
+3. OR
+
+Writing of operators
+
+In `[ ]` the only supported ways are:
+
+1. AND -> `-a`
+2. OR -> `-o`
+
+In `[[ ]]` and in ``(( ))`` the only supported ways are:
+
+1. AND -> `&&`
+2. OR -> `||`
+
+Example: `(( 1 == 1 && (2 == 3 || 2 == 2) ))`
+
+####`case` statement
+
+```
+#! /bin/bash
+#
+# Test menu with case
+clear
+echo "
+Please Select: 
+A. Display System Information
+B. Display Disk Space
+C. Display Home Space Utilization
+Q. Quit
+"
+read -p "Enter selection[A, B, C or Q] > "
+
+case $REPLY in
+	q|Q)	echo "Program terminated"
+		exit
+		;;
+	a|A)	echo "Hostname: $HOSTNAME"
+		echo $(uptime | sed "s/\w+//")
+		;;
+	b|B)	df -h
+		;;
+	c|C)	if [[ $(id -u) -eq 0 ]]; then
+			echo "Home Space Utilization (All Users)"
+			du -sh /home/*
+		else
+			echo "Home Space Utilization ($USER)"
+			du -sh $HOME
+		fi
+		;;
+	*)	echo "Invalid entry" >&2
+		exit 1
+		;;
+esac
+```
+
+Structure:
+
+1. Open with `case VARIABLE in`
+2. Write conditional -> Write string(s) to be matched as `STRING)` or `STRING1|STRING2)`
+3. Write zero  or more statements to execute if STRING is matched
+4. Optionally: write default statements after default conditional: `*)`
+5. Close case statement via `esac`
+
+If a condition is matched then those statements will be executed and the case statement terminates.
+
+Extra:
+
+1. With the builtin read, if no names are supplied as in the above statement, the value entered will be assigend to the variable $REPLY by default.
+2. `read -p "PROMPT"` -> will display PROMPT to the user, so our program looks like:
+
+```
+Please Select: 
+A. Display System Information
+B. Display Disk Space
+C. Display Home Space Utilization
+Q. Quit
+
+Enter selection[A, B, C or Q] >
+```
+
+##### `case` globbing on a string
+
+File globbing is specifying filename patterns with wildcards such as `cat list.ou*put` would match *list.output* (**mnemonic** glob is derived from global because you describe a global pattern)
+
+See p. 352: `df -P / | tail -1 | awk '{print $5}' | tr -d '%'` -> this leaves an exact number and then match the string as in file globbing:
+
+```
+DISKSPACE = df -P / | tail -1 | awk '{print $5}' | tr -d '%'
+
+case $DISKSPACE in
+	100)
+		echo "disk full"
+		;;
+	[1-7]*[1-9])
+		echo "lots of space left"
+		;;
+	[8,9]*)
+		echo "At least 80% full"
+		;;
+	*)
+		echo "Not a percentage"
+		;;
+esac
+```
+
+Extra:
+1. `awk` is a great tool to [cut in a line that does not have equally spaced delimeters](http://www.unix.com/linux/51690-how-cut-column-not-equally-spaced-delimeters.html)
+
+####loops
+
+#####`for`
+
+```
+for i in COLLECTION; do
+	echo $i
+done;
+```
+
+COLLECTION can is a bunch of strings generated via. This can be seperated by spaces or newlines. Some examples:
+1. 'Tom Jaimie Esmee Bart Timon'
+2. Generating values which are seperated by spaces:
+  1. brace expansion: {1..10[..incr]}, which generates values seperated by spaces
+  2. file globbing:`*.txt`
+2. `$(seq)` command substition where the values are seperated by newlines:
+  1. `seq LAST` -> starts with 1 and increments with 1
+  2. `seq FIRST LAST`, increments with 1
+  3. `seq FIRST INCREMENT LAST`
+  4. `seq -w` -> pad the output with leading zero's (see p.354)
+  5. `cat /etc/passwd`
