@@ -508,11 +508,29 @@ Get possible test conditions via `help test`
 
 1. `-z STRING` -> true if string is zero (so empty string)
 2. `-n STRING` -> true for non zero string
+3. `'STRING1' = 'STRING2'` -> true if equal
+3. `'STRING1' != 'STRING2'` -> true if not equal (since ! negates everything in the test, this is equal to: [[ ! 'STRING1  ]])
 
-####Artihmetic testing, notation for command and condition
+####Artihmetic testing
 
-4. ((ARITHMETIC CONDITION)) -> exit status 0 if an arithmetic test evaluates to true:
-5. [[ ARITHMETIC CONDITION ]] -> The newer `[[ ]]` keyword [does artihmetic testing](http://serverfault.com/questions/52034/what-is-the-difference-between-double-and-single-square-brackets-in-bash)
+#####Arithmetic condition works within `test`, `[ ]` and `[[ ]]`
+
+1. `X -eq Y` -> equal
+2. `X -ne Y` -> not equal
+3. `X -gt Y` -> greater than
+4. `X -ge Y` -> greater than or requal to
+5. `X -lt Y` -> lower than
+6. `X -le Y` -> lower than or equal to
+
+Examples:
+
+`[ 2 -eq 2 ]` -> $? is 0
+`[ '2' -eq '2' ]` -> $? is 0
+
+#####Arithemtic testing with `[[ ]]` and `(( ))`
+
+1. ((ARITHMETIC CONDITION)) -> exit status 0 if an arithmetic test evaluates to true:
+2. [[ ARITHMETIC CONDITION ]] -> The newer `[[ ]]` keyword [does artihmetic testing](http://serverfault.com/questions/52034/what-is-the-difference-between-double-and-single-square-brackets-in-bash)
 
 Example:
 
@@ -527,7 +545,12 @@ Example:
 [root@t-degroot1 tom]# echo $?
 0
 ```
-**important** To compare equals, use 1 `=` sign!
+**important** 
+`[[ ]]` is purely used for testing, `(( ))` is a broader arithmetic context. This results in:
+
+To compare equals: 
+1. use 1 or 2 `=` signs in `[[ ]]`, example: `[[ 1 = 1 ]]`, `[[ 1 == 1 ]]`, `[[ 1 -eq 1 ]]` and [[ '1' -eq '1' ]] are the same.
+2. always use 2 equal signs in `(( ))`. Using 1 `=` sign in `(( ))` will try to assign a value.
 
 ###`read`
 
