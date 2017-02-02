@@ -824,9 +824,73 @@ Types of databases:
   5. Not good for storing transactions
   6. Examples: MongoDB, ElasticSearch and Couchbase
 
-###SQL 
+###SQLLite
+
+[Resource](https://www.sqlite.org/cli.html)
 
 `sqlite [databasefile]`
 
-1. If the databasefile doesn't exist it will be created.
+####Info on `sqlite`:
 
+1. If the databasefile doesn't exist it will be created.
+2. Dot-commands ([if a command is preceded with a dot, it will be intercepted by the interpreter. You don't need close it with a semicolon](https://www.sqlite.org/cli.html#special_commands_to_sqlite3_dot_commands_)):
+  1. `.help` -> show this help message
+  2. `.tables [TABLENAME]` -> gives you the tables and if TABLENAME is given only of the ones matching the pattern
+  3. `.schema [TABLENAME]` -> gives you the schemas
+  4. `.exit` and `.quit`-> exit sqlite
+4. In sqlite you can run expressions directly: `sqlite> SELECT 1 + 1;`. Other examples:
+
+```
+sqlite> SELECT 1 + 1;
+2
+```
+
+
+####General info on SQL syntax:
+
+1. Comments start with `--` and can appear anywhere on a line
+2. SQL Keywords (SELECT, from) are case-insensitive, but 
+3. User generated data (data structure such as table names and data in the database) is case-sensitive
+
+####Notes on conditional testing:
+
+There are multiple ways where conditional testing can be used:
+
+1. After a `SELECT`: 
+
+```
+sqlite> SELECT 1 = 1;
+1
+```
+
+2. After a `WHERE` to constitute a 'where clause'. After the keyword `WHERE`, the SQL interpreter just looks for a test conditional: `WHERE value1 = x`
+3. After a `JOIN ON`
+
+Notes on  conditional testing:
+
+1. `WHERE last_name = 'de Groot'` means the last name is 'de Groot', but
+2. `WHERE last_name = maiden_name` means where in a row the value of field last_name is the same value as the value of the field maiden_name. **so mind you if there are quotes for literal checking or not to check with the value of another column in**
+3. Not equal to can be expressed as `VALUE1 <> VALUE2`:
+
+```
+sqlite> SELECT 1 <> 2;
+1
+```
+
+4. `value1 BETWEEN value2 AND value3` -> example: `WHERE columnname BETWEEN 2010 AND 2012` -> this is `1` (true) for 2010, 2011 and 2012
+5. `value1 IN (value2,value3)`
+6. `LIKE` -> use like to use wildcards in string comparison:
+  1. `%` -> matches zero or more chards
+  2. `_` -> matches a single char
+
+```
+sqlite> SELECT 'tom' LIKE 't_m';
+1
+sqlite> SELECT 'tom' LIKE '%o%';
+1
+```
+7. User multiple conditions in the clause with `AND` and `OR`. `ADD` has precendence over `OR` and you can use parantheses to: 
+  1. group clauses 
+  2. to make it more clear what the grouping is (so to group and `AND` within parantheses): `sqlite> SELECT (30 > 15 AND 30 < 50);`
+8. `ORDER BY COLUMNUMBER` is possible, so you just state the ordernumber of the column (confusing to me)
+9. `LIMIT N` -> Limit to N columns
