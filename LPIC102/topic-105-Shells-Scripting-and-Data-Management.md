@@ -390,21 +390,13 @@ Most if this is covered in the book [The Linux Command Line](http://linuxcommand
 
 ###Running the script:
 
-1. The shebang: `#! /bin/bash` -> specify bash, because the used might use another shell
+1. The shebang: `#! /bin/bash` -> specify bash, because the user might use another shell. **if there is no shebang, linux will try to execute using the default shell which in most cases is bash**
 2. A file must be executable and have a shebang to run directly,
 3. Or not run directly via: `bash script.sh` (No shebang on +x permission needed on script.sh)
 4. A good place to store the script for more users to use is in */usr/local/bin/*
 
-###Parameters:
-
-1. `$0` -> Holds the invoked command (can be the relative or absolute path)
-2. `$1` - `$N` -> Holds positional parameters
-
 ###Substition:
 1. `$(COMMAND)` or `\`COMMAND\`` -> command substitution. Substitute with the command output (p.345)
-
-* Extra info on why using '[]' in `ps -ef | grep [m]ysqld` doesn't match it's own process:
-
 2. `$((MATHEXPRESSION))` -> arithmetic substitution -> `echo $((2+2))` or:
 
 ```
@@ -417,13 +409,6 @@ echo $(($PROCESSLIST - 1))
 `echo "3.14 * 3 ^ 2" | bc` -> You need to use double quotes to prevent expansion
 
 3. You can substitute within arithmetic substitution: `echo $(( $(ps -ef | wc -l) - 1  ))`
-
-```
-When you run ps -ef | grep string, grep is displayed in the output because string matches [...] grep string.
-
-But, when you run ps -ef | grep [s]tring the line isn't displayed, because grep translates [s]tring to string, while ps outputs [...] grep [s]tring, and that doesn't match string
-```
-[source](http://unix.stackexchange.com/questions/2062/grep-why-do-brackets-in-grep-pattern-remove-the-grep-process-from-ps-results)
 
 ###Conditionals
 
@@ -704,3 +689,144 @@ COLLECTION can is a bunch of strings generated via. This can be seperated by spa
   3. `seq FIRST INCREMENT LAST`
   4. `seq -w` -> pad the output with leading zero's (see p.354)
   5. `cat /etc/passwd`
+
+#####`while` and `until`
+
+`while`: if test is true, execute the loop.
+
+```
+while TEST; do
+	STATEMENTS
+done;
+```
+
+`until` is the opposite of while: if result of the TEST is false, execute the loop. Structure:
+
+```
+until TEST; do
+	STATEMENTS
+done;
+```
+
+Example:
+
+```
+until [[ -f /var/myprocess.output ]]; do
+	echo "Still no output, so my process has not completed a run yet."
+done
+```
+
+You can use `read` in a while loop to read from STDIN. Example:
+
+```
+while read -p 'What is your name? ' NAME; do
+	echo $NAME
+done;
+```
+
+Output:
+
+```
+[root@t-degroot1 tom]# while read -p 'What is your name? ' NAME; do echo $NAME; done;
+What is your name? Tom
+Tom
+What is your name? 
+```
+
+####Special bash variables:
+
+Three types of variables relevant for scripts:
+
+1. `$0` -> holds the command that was used to call the script
+2. `$1`, `$2`, $N -> holds in order the arguments passed on to the script.
+3. `$#` -> holds the number of arguments passed on to the script
+
+`shift` -> helps you dealing with unknown arguments: moves $2 to $1, $3 to $2 etc
+
+```
+#! /bin/env bash
+
+while [[ $# -gt 0 ]]; do
+	echo "Now processing argument: $1"
+	shift
+	echo "There are $# arguments left to process."
+done;
+```
+
+[See an example of how to combine while, case and shift to deal with an unknown number of positional parameters](https://github.com/tomedegroot/study-material/blob/master/bashscripts/positional_parameters/script_incorporation)
+
+####Returning an exit code
+
+`exit CODE` -> returns CODE and the caller sees this code in `$?`
+
+####Using `grep` in scripts
+
+#####Using brace expansion to avoid grepping it's own process
+
+* Extra info on why using '[]' in `ps -ef | grep [m]ysqld` doesn't match it's own process:
+```
+When you run ps -ef | grep string, grep is displayed in the output because string matches [...] grep string.
+
+But, when you run ps -ef | grep [s]tring the line isn't displayed, because grep translates [s]tring to string, while ps outputs [...] grep [s]tring, and that doesn't match string
+```
+[source](http://unix.stackexchange.com/questions/2062/grep-why-do-brackets-in-grep-pattern-remove-the-grep-process-from-ps-results)
+
+#####Use grep to search through binary
+
+In scripts you use commands such as grep. You can:
+
+1. redirect the output of a command
+2. redirect STDERR 
+
+And still use the `$?` variable to check the exit status. Example
+
+`grep -r foo /etc > /dev/null 2>&1` 
+
+####`exec`
+
+Normally when you issue a command from the shell, the shell forks itself: this means a child process is created which is an exact copy of the parent process and the child process replaces itself with the `ls` command. You can use `exec` to [replace your own process with another process](http://man7.org/linux/man-pages/man3/exec.3.html)
+
+
+Example (*./exec.sh*):
+```
+echo "Hi 1"
+exec sleep 1
+echo "Hi 2"
+```
+
+Output:
+
+```
+[root@t-degroot1 tom]# ./exec.sh 
+Hi 1
+[root@t-degroot1 tom]# 
+```
+
+So by using `exec` you specify to **not** create a child process, but to replace the current process directly.
+
+##Basic SQL Management
+
+###Database fundamentals
+
+Random: An index helps to retrieve data fast, but comes with a penalty when data written because the index needs to be updated.
+
+Types of databases:
+1. A key-value database is simple and fast. (Example: Redis)
+2. Relational database stores data and the relationship between data. 
+  1. Almost always uses SQL. (Example: MySQL, Oracle, SQLLite). 
+  2. If there is a many-to-many relationship [junk tables can be used](https://megocode3.wordpress.com/2008/01/04/understanding-a-sql-junction-table/). 
+  3. The structure the data is stored in a schema. If you make a change to the schema, every row needs to be modified (even adding a null value for a new column is a modification) 
+3. Schemaless database:
+  1. Called NoSQL because they don't use SQL
+  2. Does not enforce relationships
+  3. Stores data in documents which are free form
+  4. Good for huge databases
+  5. Not good for storing transactions
+  6. Examples: MongoDB, ElasticSearch and Couchbase
+
+###SQL 
+
+`sqlite [databasefile]`
+
+1. If the databasefile doesn't exist it will be created.
+
