@@ -869,7 +869,7 @@ sqlite> SELECT 1 = 1;
 Notes on  conditional testing:
 
 1. `WHERE last_name = 'de Groot'` means the last name is 'de Groot', but
-2. `WHERE last_name = maiden_name` means where in a row the value of field last_name is the same value as the value of the field maiden_name. **so mind you if there are quotes for literal checking or not to check with the value of another column in**
+2. `WHERE last_name = maiden_name` means where in a row the value of field last_name is the same value as the value of the field maiden_name. **so mind you if there are quotes for literal checking or not to check with the value of another column in** (this way of checking of the value of the column without quotes is also happening in a join claus: `JOIN book ON book.author_id = author.id`)
 3. Not equal to can be expressed as `VALUE1 <> VALUE2`:
 
 ```
@@ -889,8 +889,105 @@ sqlite> SELECT 'tom' LIKE 't_m';
 sqlite> SELECT 'tom' LIKE '%o%';
 1
 ```
+
 7. User multiple conditions in the clause with `AND` and `OR`. `ADD` has precendence over `OR` and you can use parantheses to: 
   1. group clauses 
   2. to make it more clear what the grouping is (so to group and `AND` within parantheses): `sqlite> SELECT (30 > 15 AND 30 < 50);`
+
+####`ORDER BY`, `LIMIT`, `ALIAS`
+
 8. `ORDER BY COLUMNUMBER` is possible, so you just state the ordernumber of the column (confusing to me)
-9. `LIMIT N` -> Limit to N columns
+9. `LIMIT`:
+  1. `LIMIT N` -> Limit to N columns
+  2.`LIMIT N1, N2` or `LIMIT N1 OFFSET N2` -> Skip N1 and then show N2 results. 
+11. Alias table names via `AS` -> `SELECT * FROM author AS a` -> and further simplify notation via: `SELECT * FROM author a` (You don't need to write as)
+
+####`JOIN`
+
+#####Types of joins (p. 382):
+![Image of Joins](https://github.com/tomedegroot/study-material/tree/master/LPIC102/joins.png)  
+
+1. `JOIN [ON...]`:
+  1. Carthesian join (= [cross join](http://www.w3resource.com/sqlite/sqlite-cross-join.php)):
+    1. `SELECT * FROM author JOIN book;` -> will do a carthesian join and join everything because you didn't specfy conditions in the `ON...` clause (see p.380). 
+    2. This is the same as `SELECT * FROM author CROSS JOIN book;`
+  2. `JOIN book ON book.author_id = author.id`
+2. `INNER JOIN` -> only product output if there is a match
+2. `LEFT JOIN` -> join a table on the right to the table on the left if there is a match on the right. If not, insert a null value
+3. `RIGHT JOIN` -> first select from left and only show that if it can be joined with the data on the right, if not: insert a null value. (Note to self: most of the time you do not want to use this, because you are first getting all sorts of data on the left to later decide you don't want it because it doesn't match with a table on the right.)
+
+####NULL
+
+NULL means no value and in SQL you cannot compare with no value. Therefor there are two constructs to compare:
+
+1. `IS NULL`
+2. `IS NOT NULL`
+
+(Extra: [How to deal with NULL in joins](http://stackoverflow.com/a/14366034/1941737))
+
+####subselects `()`
+
+subselects work like command substitution, but then you substitute the table of the result of another query:
+
+```
+sqlite> SELECT * FROM book WHERE author_id IN (SELECT id FROM author WHERE first_name = 'Sean');
+3|Wireless All In One For Dummies|2009|1|2009
+4|Check Point CCSA Exam Cram 2|2005|1|2004
+```
+
+*p. 386: if you use an `IN` claue, the subselect may only return 1 column.
+
+And you can also join the results of a subselect:
+
+```
+sqlite> SELECT * FROM book b INNER JOIN (SELECT * FROM author a) a ON b.author_id = a.id; 
+1|LPIC 1 Exam Cram 2|2004|2|2004|2|Ross|Brunson
+2|Linux and Windows 2000 Integration Toolkit|2001|2|2000|2|Ross|Brunson
+3|Wireless All In One For Dummies|2009|1|2009|1|Sean|Walberg
+4|Check Point CCSA Exam Cram 2|2005|1|2004|1|Sean|Walberg
+```
+
+####Group data
+
+A `GROUP BY` consists of two things:
+
+1. `GROUP BY` clause to specify where to group on
+2. If you are selecting more than what you are grouping: AGGREGATE functions to wrap us the fields you are not GROUPING:
+  1. AVG(column)
+  2. COUNT(column)
+  3. MIN(column)
+  4. MAX(column)
+  5. SUM(column)
+
+Example:
+
+```
+sqlite> SELECT first_name, last_name, COUNT(b.id) FROM author a INNER JOIN book b on b.author_id = a.id GROUP BY first_name, last_name;
+Ross|Brunson|2
+Sean|Walberg|2
+```
+
+####Inserting data
+
+`INSERT INTO table_name(columns) VALUES(values)`
+
+Or another option if you will providing the data for all columns or accept that the data you do not provide will be filled with NULL:
+
+`INSERT INTO table_name VALUES(values)`
+
+####Updating data:
+
+`UPDATE table_name SET column1=value1, column2=value2 [WHERE conditions]` -> **omit the where clause and all rows will be updated**
+
+####Deleting data:
+
+`DELETE FROM table_name [WHERE conditions]` -> **omit the where clause and all rows will be deleted**
+
+####Creating a table:
+
+```
+CREATE TABLE table_name (
+column_name1 datatype [primary key],
+column_name2 datatype
+);
+```
