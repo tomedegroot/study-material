@@ -835,10 +835,12 @@ Types of databases:
 1. If the databasefile doesn't exist it will be created.
 2. Dot-commands ([if a command is preceded with a dot, it will be intercepted by the interpreter. You don't need close it with a semicolon](https://www.sqlite.org/cli.html#special_commands_to_sqlite3_dot_commands_)):
   1. `.help` -> show this help message
-  2. `.tables [TABLENAME]` -> gives you the tables and if TABLENAME is given only of the ones matching the pattern
+  2. `.table(s) [TABLENAME]` -> gives you the tables and if TABLENAME is given only of the ones matching the pattern
   3. `.schema [TABLENAME]` -> gives you the schemas
-  4. `.exit` and `.quit`-> exit sqlite
-4. In sqlite you can run expressions directly: `sqlite> SELECT 1 + 1;`. Other examples:
+  4. `.header(s) ON|OFF` -> toggle column headers in output
+  5. `.mode column` -> set the output mode to left aligned column (typical SQL output)
+  6. `.exit` and `.quit`-> exit sqlite
+4. In sqlite you can run expressions without a FROM clause: `sqlite> SELECT 1 + 1;`. Other examples:
 
 ```
 sqlite> SELECT 1 + 1;
@@ -910,7 +912,8 @@ sqlite> SELECT 'tom' LIKE '%o%';
 1. `JOIN [ON...]`:
   1. Carthesian join (= [cross join](http://www.w3resource.com/sqlite/sqlite-cross-join.php)):
     1. `SELECT * FROM author JOIN book;` -> will do a carthesian join and join everything because you didn't specfy conditions in the `ON...` clause (see p.380). 
-    2. This is the same as `SELECT * FROM author CROSS JOIN book;`
+    2. This is the same as `SELECT * FROM author CROSS JOIN book;` and
+    3. `SELECT * FROM author, book;`
   2. `JOIN book ON book.author_id = author.id`
 2. `INNER JOIN` -> only product output if there is a match
 2. `LEFT JOIN` -> join a table on the right to the table on the left if there is a match on the right. If not, insert a null value
@@ -951,7 +954,7 @@ sqlite> SELECT * FROM book b INNER JOIN (SELECT * FROM author a) a ON b.author_i
 
 A `GROUP BY` consists of two things:
 
-1. `GROUP BY` clause to specify where to group on
+1. `GROUP BY` clause to specify where to group on (can be multiple columns)
 2. If you are selecting more than what you are grouping: AGGREGATE functions to wrap us the fields you are not GROUPING:
   1. AVG(column)
   2. COUNT(column)
@@ -969,7 +972,9 @@ Sean|Walberg|2
 
 ####Inserting data
 
-`INSERT INTO table_name(columns) VALUES(values)`
+`INSERT INTO table_name(columns) VALUES(values) [, VALUES(values)];` -> Add multiple VALUES statements to insert multiple records:
+
+`INSERT INTO employee(name, age) VALUES('Tom', 28), VALUES('Hans', 30);`
 
 Or another option if you will providing the data for all columns or accept that the data you do not provide will be filled with NULL:
 
@@ -977,11 +982,11 @@ Or another option if you will providing the data for all columns or accept that 
 
 ####Updating data:
 
-`UPDATE table_name SET column1=value1, column2=value2 [WHERE conditions]` -> **omit the where clause and all rows will be updated**
+`UPDATE table_name SET column1=value1, column2=value2 [WHERE conditions];` -> **omit the where clause and all rows will be updated**
 
 ####Deleting data:
 
-`DELETE FROM table_name [WHERE conditions]` -> **omit the where clause and all rows will be deleted**
+`DELETE FROM table_name [WHERE conditions];` -> **omit the where clause and all rows will be deleted**
 
 ####Creating a table:
 
