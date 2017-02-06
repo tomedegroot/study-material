@@ -112,8 +112,8 @@ In X server config (such as */usr/lib/X11/xorg.conf.d/*)
 ###Key Options which can be enabled:
 
 1. Sticky Keys: Instead of typing `CRTL + C`, you first type `CRTL` and then `C`
-2. Repeat Keys: Press a key once and a value such as a char will outputted as long as the key is pressed
-3. Slow Keys: Only type when a key is shortly touched (for people with heavy hands)
+2. Repeat Keys: Press a key once and a value such as a char will outputted as long as the key is pressed (this is the default and can be turned of)
+3. Slow Keys: Delay between pressing a key and showing it on the display. 
 4. Bounce Keys: DO not register a second touch of the same key. (for people with shaky hands)
 5. Toggle Keys: Give a sound when a modifer key such as the `SHIFT` key is pressed
 6. Mouse keys: Move the mouse when typing numbers on the num pad
