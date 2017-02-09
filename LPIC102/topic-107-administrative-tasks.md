@@ -3,7 +3,8 @@
 Important for exam:
 
 1. The user commands (not so much the group ones)
-2. */etc/shadow*
+2. Map fields in */etc/shadow* to `chage`, `passwd` and `usermod` options
+3. Map fields in */etc/passwd* to `useradd` and `usermod`
 
 ##Basic User Management For Fresh Images/Server Installs
 
@@ -14,7 +15,7 @@ Info on UID:
 1. **0** is for the root user
 2. **1** is for bin user (system binaries and non-login accounts)
 3. **48** is for the apache user
-4. **99** is the nobody account
+4. **99** is the nobody account (meant for services which needs to run under an account, but it should not be possible to login into the account)
 5. **0 - 499** are system users
 
 ####*/etc/passwd*
@@ -28,8 +29,8 @@ Each field in a passwd entry is separated with ":" colon characters, and are as 
 
 1. Username, up to 8 characters. Case-sensitive, usually all lowercase
 2. An "x" in the password field. Passwords are stored in the */etc/shadow* file.
-3. Numeric UID. This is assigned by the `adduser` script. Unix uses this field, plus the following group field, to identify which files belong to the user.
-4. Numeric GID. Red Hat uses group id's in a fairly unique manner for enhanced file security. Usually the group id will match the user id.
+3. UID. This is assigned by the `adduser` script. Unix uses this field, plus the following group field, to identify which files belong to the user.
+4. GID of primary group. Red Hat uses group id's in a fairly unique manner for enhanced file security. Usually the group id will match the user id.
 5. Comment field, usually the full name of user. This is called the GECOS field 
 6. User's home directory. Usually /home/username (eg. /home/smithj). All user's personal files, web pages, mail forwarding, etc. will be stored here.
 7. User's "shell account". Often set to `/bin/bash` to provide access to the bash shell (my personal favorite shell).
@@ -236,13 +237,13 @@ The permissions difference (**know this for the exam**):
 
 */etc/passwd*:
 
-Red Hat: `-rw-r--r--. 1 root root 1882 Feb  6 20:56 /etc/passwd`
-Debian:  `-rw-r--r-- 1 root root 1719 Jan 17 08:10 /etc/passwd
+1. Red Hat: `-rw-r--r--. 1 root root 1882 Feb  6 20:56 /etc/passwd`
+2. Debian:  `-rw-r--r-- 1 root root 1719 Jan 17 08:10 /etc/passwd
 
 */etc/shadow*:
 
-Red Hat: `----------. 1 root root 1173 Feb  7 07:38 /etc/shadow`
-Debian:  `-rw-r----- 1 root shadow 1116 Jan 17 08:10 /etc/shadow`
+3. Red Hat: `----------. 1 root root 1173 Feb  7 07:38 /etc/shadow`
+4. Debian:  `-rw-r----- 1 root shadow 1116 Jan 17 08:10 /etc/shadow`
 
 ####Aging passwords
 
@@ -283,3 +284,124 @@ This can be done interactively, do I need to know the options?
 8. `-a` -> check All settings
 
 Do I need to know more than just the options?
+
+##Schedule and Automate Tasks
+
+####Cron Jobs
+
+A cron job is a scheduled task. 
+Cron is stateless.
+If a time occurs where a scheduled task should be executed and the computer is shut down, the task will not be executed.
+
+There is a system cron and a user cron
+
+#####Structure of */etc/crontab*
+
+*/etc/crontab* [is the system cron](http://superuser.com/questions/290093/difference-between-etc-crontab-and-crontab-e)
+
+```
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+
+# For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+```
+
+All the 5 places acts like filters! Every minute, cron checks if a command is not filtered OUT.
+
+The 6th column (user-name) is only in the system crontab, since it's not necessary for the user crontab (duh)
+
+**Asterix means  everything**, so the following line:
+
+`* * * * * root echo "hello world" > /tmp/hello.txt`
+Means on every minute, hour, day of the month, month on every day of the week it will execute the command.
+
+#####/ Step values
+`*/5 * * * * root echo "hello world" > /tmp/hello.txt`
+Means divide all the possible 60 minutes by 5, so do it 12 times. (which is every 5 minutes)
+
+`*/2 */2 * * * root echo "hello world" > /tmp/hello.txt`
+*/2 means off all the 60 minutes, do it 30 times, so in intervals of 2 minutes 
+*/2 means off all the 24 hours, do it 12 times, so in intervals of 2 hours
+
+#####Multiple values with range - or explicit stating ,
+
+`*/2 0-3 * * * root echo "hello world" > /tmp/hello.txt`
+*/2 means off all the 60 minutes, do it 30 times, so in intervals of 2 minutes 
+0-3 means between 0 and 3 am
+
+`*/2 1 1,15 * * root echo "hello world" > /tmp/hello.txt` (NO SPACE AFTER THE COMMA)
+*/2 means off all the 60 minutes, do it 30 times, so in intervals of 2 minutes 
+1 every 1 am
+1,15 every 1st and 15th day of the month
+
+Ranges can be combined with explicit stating:
+
+`3-5,7 * * * * root echo "hello, time is: $(date)" >> /test.txt` 
+
+#####Notes on the environment:
+
+`cron` doesn't source *~/.bash_profile* and *~/.bashrc* so the enviroment is scarce. Cron also doesn't load a full $PATH like bash does.
+
+Some variables do have special meaning for cron:
+
+1. `$MAILTO` -> everything a job prints to the screen is mailed to the following address. (default is current user)
+2. `$SHELL` -> run the job with a different shell.
+3. `$CRON_TZ` -> Use alternate timezone for the crontab.
+
+By default everything a job prints is mailed to the current user. To change this:
+
+1. Change `$MAILTO` variable
+2. Within the crontab, redirect STDOUT and STDERR to */dev/null*
+
+#### Simpler way of executing a script time based
+
+Copy the script (or a symlink) in the:
+1. cron.hourly
+2. cron.daily
+3. cron.weekly
+4. cron.monthly
+
+
+####*/etc/cron.d/*
+
+*/etc/cron.d/* follows the same format as */etc/crontab*, BUT:
+1. Files in */etc/cron.d/* do **not** get overwritten on upgrades, */etc/crontab* can be overwritten. Therefor it is better to use */etc/cron.d/*
+2. */etc/cron.d/* does not inherit environment variables from */etc/crontab*, you have to set it manually
+
+####*/var/log/cron*
+
+Holds a log of all the things cron is executing AND edits done via crontab
+
+#### Users cron jobs
+
+Regular users can schedule their own cron jobs as longs as:
+
+#####Manage access to cron
+
+1. Their name is **not** in the */etc/cron.deny* file.
+2. Or if */etc/cron.deny* is removed, the user is in the */etc/cron.allow* 
+
+So by default all users have no acces to cron, unless their name is **in** */etc/cron.allow*
+
+The user's cron is in */var/spool/cron/crontabs*, but they are **not** intended to be edited directly, use:
+
+`crontab` -> bin to edit a user's crontab, for example `crontab FILE` imports the cron task from the file and checks if it is the correct syntax 
+  1. `-l` -> List a user's crontab
+  2. `-e` -> Edit a user's crontab via text editor
+  3. `-r` -> Remove a user's crontab
+  3. `-u USER` -> select the crontab of user to execute the option on. **Handy way** for the root user to delete or modify another user's crontab.
+
+
+#####System cron
+
+**Mind you** root's crontab is, like any other user's cron in */var/spool/cron/crontabs*, the system crontab is used for the whole system.
