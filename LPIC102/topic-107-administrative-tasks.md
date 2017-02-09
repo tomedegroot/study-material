@@ -295,13 +295,17 @@ Do I need to know more than just the options?
 
 ##Schedule and Automate Tasks
 
-####Cron Jobs
+###Cron Jobs
 
 A cron job is a scheduled task. 
 Cron is stateless.
 If a time occurs where a scheduled task should be executed and the computer is shut down, the task will not be executed.
 
 There is a system cron and a user cron
+
+####System cron
+
+Is **not** made via `crontab` command, that one is only for the user crontab.
 
 #####Structure of */etc/crontab*
 
@@ -356,6 +360,32 @@ Ranges can be combined with explicit stating:
 
 `3-5,7 * * * * root echo "hello, time is: $(date)" >> /test.txt` 
 
+#####Nicknames for cron time entry in a crontab
+
+The first 5 columns of a crontab which indicate the time to execute can also be replaced with nicknames (in most distro's):
+
+1. @reboot
+2. @yearly or @annually
+3. @monthly 
+4. @weekly
+5. @daily
+6. @hourly
+
+They always run when a period start, so: 
+
+```
+0 0 * * * command
+```
+
+and
+
+```
+@daily command
+```
+
+are the same.
+
+
 #####Notes on the environment:
 
 `cron` doesn't source *~/.bash_profile* and *~/.bashrc* so the enviroment is scarce. Cron also doesn't load a full $PATH like bash does.
@@ -371,7 +401,21 @@ By default everything a job prints is mailed to the current user. To change this
 1. Change `$MAILTO` variable
 2. Within the crontab, redirect STDOUT and STDERR to */dev/null*
 
-#### Simpler way of executing a script time based
+#####Where is the system cron stored? 
+
+Stored in:
+
+1. */etc/crontab*/
+2. */etc/cron.d*/
+3. */etc/cron.{hourly,daily,weekly,monthly}*
+
+######*/etc/cron.d/*
+
+*/etc/cron.d/* follows the same format as */etc/crontab*, BUT:
+1. Files in */etc/cron.d/* do **not** get overwritten on upgrades, */etc/crontab* can be overwritten. Therefor it is better to use */etc/cron.d/*
+2. */etc/cron.d/* does not inherit environment variables from */etc/crontab*, you have to set it manually
+
+######*/etc/cron.{hourly,daily,weekly,monthly}* -> Simpler way of executing a script time based
 
 Copy the script (or a symlink) in the:
 1. cron.hourly
@@ -379,27 +423,16 @@ Copy the script (or a symlink) in the:
 3. cron.weekly
 4. cron.monthly
 
+####Users cron jobs
 
-####*/etc/cron.d/*
+Works mostly like a system cron, the difference are stated in these notes.
 
-*/etc/cron.d/* follows the same format as */etc/crontab*, BUT:
-1. Files in */etc/cron.d/* do **not** get overwritten on upgrades, */etc/crontab* can be overwritten. Therefor it is better to use */etc/cron.d/*
-2. */etc/cron.d/* does not inherit environment variables from */etc/crontab*, you have to set it manually
-
-####*/var/log/cron*
-
-Holds a log of all the things cron is executing AND edits done via crontab
-
-#### Users cron jobs
+Looks the same as the system cron, but without the user name column, because the user cron is already tied to a user.
 
 Regular users can schedule their own cron jobs as longs as:
 
-#####Manage access to cron
-
 1. Their name is **not** in the */etc/cron.deny* file.
-2. Or if */etc/cron.deny* is removed, the user is in the */etc/cron.allow* 
-
-So by default all users have no acces to cron, unless their name is **in** */etc/cron.allow*
+2. Or if */etc/cron.deny* is removed, the user is in the */etc/cron.allow* (So if */etc/cron.deny* is removed, by default all users have no acces to cron, unless their name is **in** */etc/cron.allow*
 
 The user's cron is in */var/spool/cron/crontabs*, but they are **not** intended to be edited directly, use:
 
@@ -409,7 +442,14 @@ The user's cron is in */var/spool/cron/crontabs*, but they are **not** intended 
   3. `-r` -> Remove a user's crontab
   3. `-u USER` -> select the crontab of user to execute the option on. **Handy way** for the root user to delete or modify another user's crontab.
 
-
-#####System cron
-
 **Mind you** root's crontab is, like any other user's cron in */var/spool/cron/crontabs*, the system crontab is used for the whole system.
+
+#####Where are user crontabs stored?
+
+The ones edited with `crontab` (user cron) are stored in */var/spool/cron/*. Although you can edit the files in */var/spool/cron/* directly, use the `crontab` command so you get syntax checking.
+
+####*/var/log/cron*
+
+Holds a log of all the things cron is executing AND edits done via crontab
+
+
