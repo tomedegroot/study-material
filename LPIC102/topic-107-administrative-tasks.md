@@ -54,8 +54,8 @@ Each field in a passwd entry is separated with ":" colon characters, and are as 
 */etc/default/useradd* -> config defaults for adding a user, but also look at */etc/securetty*
 
 `useradd [OPTIONS] USER` -> add a user
-  1. `-d HOMEDIR` -> set the path for the homedir. The default is to append the LOGIN name to the BASE_DIR
-  2. `-m` -> Create home. useradd will do this automatically, unless CREATE_HOME in */etc/login.defs* is set to no
+  1. `-m` -> Create home. useradd will do this automatically, unless CREATE_HOME in */etc/login.defs* is set to no
+  2. `-d HOMEDIR` -> set the path for the homedir. The default is to append the LOGIN name to the BASE_DIR. If you use this option, it must come after the `-m` option
   3. `-k [SKEL_DIR]` -> Copy the contents of SKEL_DIR (or */etc/skel/* by default) for the home dir. Because you can sepcify the SKEL_DIR, you can create multiple skel templates
   4. `-g GROUPNAME` -> Specify the primary group. By default a new group for the primary group will be created (same as `usermod`)
   5. `-u UID` -> Specify the new UID. By default the next available UID will be given
@@ -68,6 +68,9 @@ Other less important OPTIONS:
   5. `-o` -> create a nonunique UID. Not recommended
   6. `-s FULLPATHTOSHELL` -> set the shell
 
+Example:
+
+`useradd -m -d '/home/fritsie' -k '/home/tom' -s '/bin/bash' fritsie`
 
 Extra notes:
 
@@ -228,10 +231,10 @@ Fields:
 2. Password: The user's encrypted password ($6$5L53yig0$jfErYa7qp0EY0bgZjAWTFDJNqnm4WK7xy6esZJMS6UgYF9/0A9t/Z2sRv3ZhXWIBPmss4.9tvP80mjMJERuHa1)
 3. Last Change: Days since epoch that have elapsed since the password was last changed (17204)
 4. Minimum: The minimum amount of days before a password can be changed again (0)
-5. Maximum: The maximim the days before the password must be changed (no value, so it doesn't need to change)
-6. Warning: The number of days before the password epires (field 5) when the user will be warned (The check is if WARNING_DAYS > (MAX-DAYS-(CURRENT_DAY-LAST_CHANGE)), so greater than)
-7. Inactive: The number of days after the password has expires that the user can still log in and then change the password immediately (no value)
-8. Expiration date: The number of days after the epoch after which the passwold will expire
+5. Maximum: The maximim the days before the password must be changed (no value, so it doesn't need to change). Based on this value, the password expiration date shown with `chage -l USER` will be calculated
+6. Warning: The number of days before the password epires (field 5) when the user will be warned
+7. Inactive: The number of days after the password has expires that the user can still log in and then change the password immediately (no value). Based on this value, the password inactive date shown with `chage -l USER` will be calculated
+8. Expiration date: The number of days after the epoch after which the account will expire
 
 The permissions difference (**know this for the exam**):
 
@@ -240,22 +243,27 @@ The permissions difference (**know this for the exam**):
 1. Red Hat: `-rw-r--r--. 1 root root 1882 Feb  6 20:56 /etc/passwd`
 2. Debian:  `-rw-r--r-- 1 root root 1719 Jan 17 08:10 /etc/passwd
 
+So both 644 (World Readable)
+
 */etc/shadow*:
 
-3. Red Hat: `----------. 1 root root 1173 Feb  7 07:38 /etc/shadow`
-4. Debian:  `-rw-r----- 1 root shadow 1116 Jan 17 08:10 /etc/shadow`
+Red Hat: `----------. 1 root root 1173 Feb  7 07:38 /etc/shadow`, so 000
+Debian:  `-rw-r----- 1 root shadow 1116 Jan 17 08:10 /etc/shadow`, so 640
 
 ####Aging passwords
 
-`chage [OPTIONS]` -> change user password information (**mnemonic**: change age). This command changes the fields in */etc/shadow*
+`chage [OPTIONS] USER` -> change user password information (**mnemonic**: change age). This command changes the fields in */etc/shadow*
 
-1. `-m MIN_DAYS` -> change Min value
-2. `-M MAX_DAYS` -> change Max value 
-3. `-d LAST_DAY` -> change last change value
-4. `-E EXPIRATIONDATEINYYYY-MM-DD` -> change expiration date
-5. `-I INACTIVE_DAYS` -> change the inactive days
-6. `-W WARN_DAYS` -> change the warning days
-7. `-l` -> list info
+1. `-l` -> list info
+2. `-d LAST_DAY` -> change last change value in days (**m**: d for days), LAST_DAYS can be:
+  1. In days since EPOCH
+  2. 'YYYY-MM-DD' (**m**: is in days)
+  3. '0' -> means the user must change his password
+3. `-m MIN_DAYS` -> change Min value (**m**: min is small)
+4. `-M MAX_DAYS` -> change Max value (**m**: max is big)
+5. `-W WARN_DAYS` -> change the warning days
+6. `-I INACTIVE_DAYS` -> change the inactive days
+7. `-E EXPIRATIONDATEINYYYY-MM-DD` -> change expiration date **of the account**
 
 This can be done interactively, do I need to know the options?
 
