@@ -504,3 +504,39 @@ And just as with a crontab, env vars can be specified via key value pairs (`key=
 So in the example, the first line execute a job every day with a delay of five minutes and the job-identifier is cron.daily The command is `nice run-parts /etc/cron.daily`. `nice runs` commands at a lower priority and `run-parts` execute every file in a directory.
 
 So since anacron is responsible for executing the jobs in /etc/cron.daily, those jobs will also run if the system is turned off.
+
+###`at` and `batch`
+
+1. Meant to run a job once. 
+2. Both commands open an interactive console where you can enter command(s) separated with `ENTER` and end with `CRTL+D`
+3. Make sure the `atd` service is running
+
+####`at`
+
+`at TIME` -> run a job at a specific time
+
+Where TIME can be:
+
+1. HH:MM
+2. midnight (12:00 AM)
+3. noon (12:00 PM)
+4. teatime (4:00 PM)
+5. Month, day year format: `January 15 2018`
+6. MMDDYYYY
+7. now + time where time = `N [MINUTES,HOURS,DAYS,WEEKS]` example: `now + 5 minutes`
+
+[See for other ways of entering TIME](http://www.computerhope.com/unix/uat.htm)
+
+####`batch`
+
+`batch` -> run a job [when the load average is below 0.8](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/3/html/System_Administration_Guide/s1-autotasks-at-batch.html)
+
+####`atq`
+
+Use `atq` to view the pending jobs
+
+####`Special options for `at` and `batch`
+
+1. `-f` -> read the commands from a file
+2. `-m` -> send email when the job has executed
+3. `-v` -> display the time a job will be executed
