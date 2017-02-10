@@ -339,7 +339,7 @@ Means on every minute, hour, day of the month, month on every day of the week it
 
 #####/ Step values
 `*/5 * * * * root echo "hello world" > /tmp/hello.txt`
-Means divide all the possible 60 minutes by 5, so do it 12 times. (which is every 5 minutes)
+Step over all the minutes with 5
 
 `*/2 */2 * * * root echo "hello world" > /tmp/hello.txt`
 */2 means off all the 60 minutes, do it 30 times, so in intervals of 2 minutes 
@@ -359,6 +359,10 @@ Means divide all the possible 60 minutes by 5, so do it 12 times. (which is ever
 Ranges can be combined with explicit stating:
 
 `3-5,7 * * * * root echo "hello, time is: $(date)" >> /test.txt` 
+
+And to combine (p.461):
+
+`0 1-23/2 * * *` means between 1-23 hours step with 2.
 
 #####Nicknames for cron time entry in a crontab
 
@@ -429,12 +433,11 @@ Works mostly like a system cron, the difference are stated in these notes.
 
 Looks the same as the system cron, but without the user name column, because the user cron is already tied to a user.
 
-Managing access to cron.
+Managing access to user cron (best practice: only do this via `crontab`)
 
-1. If a username is in the */etc/cron.deny* file, the user cannot create cron jobs
-2. Or if */etc/cron.deny* is removed, the user must be in the */etc/cron.allow* (So if */etc/cron.deny* is removed, by default all users have no acces to cron, unless their name is **in** */etc/cron.allow*
-3. If both */etc/cron.deny* and */etc/cron.allow* are removed, only root has access to cron
-
+1. if */etc/cron.allow* exists and contain user names, only those users can edit their own crontab.
+2. if */etc/cron.allow does not exists and */etc/cron.deny* exists and contain usernames, the users who are in there cannot create their own jobs
+3. if both files are removed, only the root user can create cron jobs
 
 The user's cron is in */var/spool/cron/crontabs*, but they are **not** intended to be edited directly, use:
 
@@ -523,20 +526,31 @@ Where TIME can be:
 4. teatime (4:00 PM)
 5. Month, day year format: `January 15 2018`
 6. MMDDYYYY
-7. now + time where time = `N [MINUTES,HOURS,DAYS,WEEKS]` example: `now + 5 minutes`
+7. 2 pm (= time of day)
+8. now + time where time = `N [MINUTES,HOURS,DAYS,WEEKS]` example: `now + 5 minutes`
 
 [See for other ways of entering TIME](http://www.computerhope.com/unix/uat.htm)
+
+####Special options for `at` and `batch`
+
+1. `-f` -> read the commands from a file
+2. `-m` -> send email when the job has executed
+3. `-v` -> display the time a job will be executed
 
 ####`batch`
 
 `batch` -> run a job [when the load average is below 0.8](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/3/html/System_Administration_Guide/s1-autotasks-at-batch.html)
 
-####`atq`
+####`atq` and `atrm`
 
-Use `atq` to view the pending jobs
+Use `atq` (=atqueue) to view the pending jobs. The pending jobs are stored in */var/spool/at/*
 
-####`Special options for `at` and `batch`
+Extra: 'spool' means a [temporary place to store data](https://techterms.com/definition/spool)
 
-1. `-f` -> read the commands from a file
-2. `-m` -> send email when the job has executed
-3. `-v` -> display the time a job will be executed
+Use `atrm N` where N is the job number found via atq
+
+###Restricting access:
+
+1. if */etc/at.allow* exists and contain user names, only those users can create `at` jobs
+2. if */etc/at.allow* does not exists and */etc/at.deny* exists and contain usernames, the users who are in there cannot create `at` jobs
+3. if both files are removed, only the root user can create `at` jobs
