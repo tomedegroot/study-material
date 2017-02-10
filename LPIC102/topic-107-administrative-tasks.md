@@ -429,10 +429,12 @@ Works mostly like a system cron, the difference are stated in these notes.
 
 Looks the same as the system cron, but without the user name column, because the user cron is already tied to a user.
 
-Regular users can schedule their own cron jobs as longs as:
+Managing access to cron.
 
-1. Their name is **not** in the */etc/cron.deny* file.
-2. Or if */etc/cron.deny* is removed, the user is in the */etc/cron.allow* (So if */etc/cron.deny* is removed, by default all users have no acces to cron, unless their name is **in** */etc/cron.allow*
+1. If a username is in the */etc/cron.deny* file, the user cannot create cron jobs
+2. Or if */etc/cron.deny* is removed, the user must be in the */etc/cron.allow* (So if */etc/cron.deny* is removed, by default all users have no acces to cron, unless their name is **in** */etc/cron.allow*
+3. If both */etc/cron.deny* and */etc/cron.allow* are removed, only root has access to cron
+
 
 The user's cron is in */var/spool/cron/crontabs*, but they are **not** intended to be edited directly, use:
 
@@ -452,4 +454,53 @@ The ones edited with `crontab` (user cron) are stored in */var/spool/cron/*. Alt
 
 Holds a log of all the things cron is executing AND edits done via crontab
 
+###Anacron
 
+Why anacron?
+
+1. Simplify cron
+2. Meant for jobs that run daily or less frequently and the precise time doesn't matter
+3. If the computer was off when the job was s
+
+Differences between cron and anacron:
+
+1. No command, everything is specified in */etc/anacrontab*
+2. Everything is run as root
+3. Max granularity is 1 day instead of 1 minut
+4. Jobs are run consecutively
+
+*Anacron can be run as a daemon, but it's typically run from cron itself.
+
+Example of */etc/anacrontab*:
+
+```
+# /etc/anacrontab: configuration file for anacron
+
+# See anacron(8) and anacrontab(5) for details.
+
+SHELL=/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+# the maximal random delay added to the base delay of the jobs
+RANDOM_DELAY=45
+# the jobs will be started during the following hours only
+START_HOURS_RANGE=3-22
+
+#period in days   delay in minutes   job-identifier   command
+1	5	cron.daily		nice run-parts /etc/cron.daily
+7	25	cron.weekly		nice run-parts /etc/cron.weekly
+@monthly 45	cron.monthly		nice run-parts /etc/cron.monthly
+```
+
+The columns are as follows:
+
+1. Period in days between runs of this jobs (some of the @nicknames can be used).
+2. Delay in minutes before anacron will execute the job.
+3. Job identifier: used by anacron to track the last time the job ran.
+4. The command to run.
+
+And just as with a crontab, env vars can be specified via key value pairs (`key=value`)
+
+So in the example, the first line execute a job every day with a delay of five minutes and the job-identifier is cron.daily The command is `nice run-parts /etc/cron.daily`. `nice runs` commands at a lower priority and `run-parts` execute every file in a directory.
+
+So since anacron is responsible for executing the jobs in /etc/cron.daily, those jobs will also run if the system is turned off.
