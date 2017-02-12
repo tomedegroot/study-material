@@ -539,7 +539,33 @@ Where TIME can be:
 
 ####`batch`
 
+Is an extension of the `at` command
+
 `batch` -> run a job [when the load average is below 0.8](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/3/html/System_Administration_Guide/s1-autotasks-at-batch.html)
+
+#####Change when at runs batch jobs: `atrun -l`
+
+The load average can be seen via `w` (is the who command)(see more on page 458):
+
+```
+[root@t-degroot1 tom]# w
+ 10:29:33 up 17 min,  1 user,  load average: 0.00, 0.01, 0.03
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+tom      pts/0    82.169.16.89     10:28    5.00s  0.02s  0.18s sshd: tom [priv] 
+```
+
+The three numbers show the average number of processes over the past minute, 5 minutes and 15 minutes. 
+
+The load average is a fraction of the number of processors, thus:
+
+1. With one processor a load average of 0.5 means over the past X minutes there was a process waiting to run 50% of the time.
+2. With two processors a load average of 1 means over the past X minutes there was a process waiting to run 50% of the time. 
+
+You can get the number of processors via `nproc` or `cat /proc/cpuinfo`
+
+By default `batch` runs a job when the load average for 1 minute is lower than or equal to 1 minute. To change this:
+
+`atrun -l N` -> change the load average to N and when the load average for 1 minute is equal to or drops below N, `at` will execute the batch job
 
 ####`atq` and `atrm`
 
@@ -551,6 +577,6 @@ Use `atrm N` where N is the job number found via atq
 
 ###Restricting access:
 
-1. if */etc/at.allow* exists and contain user names, only those users can create `at` jobs
+1. if */etc/at.allow* exists and contain user names, only those users can create `at` or `batch` jobs
 2. if */etc/at.allow* does not exists and */etc/at.deny* exists and contain usernames, the users who are in there cannot create `at` jobs
 3. if both files are removed, only the root user can create `at` jobs
