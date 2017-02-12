@@ -435,9 +435,11 @@ Looks the same as the system cron, but without the user name column, because the
 
 Managing access to user cron (best practice: only do this via `crontab`)
 
-1. if */etc/cron.allow* exists and contain user names, only those users can edit their own crontab.
+1. if */etc/cron.allow* exists and contain user names, only those users can edit their own crontab. 
 2. if */etc/cron.allow does not exists and */etc/cron.deny* exists and contain usernames, the users who are in there cannot create their own jobs
 3. if both files are removed, only the root user can create cron jobs
+
+**m***: */etc/cron.allow* has precendence over */etc/cron.deny*
 
 The user's cron is in */var/spool/cron/crontabs*, but they are **not** intended to be edited directly, use:
 
