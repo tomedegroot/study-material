@@ -4,6 +4,8 @@
 
 [spooling is a combination of buffering and queueing](https://en.wikipedia.org/wiki/Spooling). The spooler maintains an orderly sequence of jobs and feeds it to another entity (such as peripheal as a printer) and this acts as a mediator. The term originates from the spool, a [cylindrical device on which magnetic tape or rope is round](http://www.dictionary.com/browse/spool) and thus also works as a mediator.
 
+So just know that a printer and it's queue are two different things
+
 ###Background
 
 2 older, but still available systems:
@@ -26,12 +28,12 @@ Communication with the CUPS daemon is done via Internet Printing Protocol, which
 Config file: */etc/cups/cups-pdf.conf*
 
 ####CUPS web interface
-
+ 
 See p. 477 the exam only has questions on the CLI tools, BUT the web interface gives you a good overview of possible statusses of printers and job options
 
 Listens by default to port 631.
 
-[In order to let CUPS bind its socket to a port, SELinux should be configured properly, or be disabled temporarily](http://stackoverflow.com/a/34875267/1941737)
+[In order to let CUPS bind its socket to a port, SELinux should be configured properly, or be disabled temporarily](http://stackoverflow.com/a/34875267/1941737) and check [for the right Cups config](http://thismightbehelpful.blogspot.nl/2008/09/remote-access-to-cups-web-interface.html)
 
 ####Printers
 
@@ -54,11 +56,9 @@ Jobs have three options:
 
 ##m##: `lp` uses the Unix thinking term DESTINATION, thus -d. The more modern `lpr` uses the more modern term PRINTER, thus -p
 
-Unlike the CUPS command, the lp commands are printer-orientated, with CUPS its more orientated to all the jobs and all the printers.
-
 ####`lp` and `lpr` -> print files
 
-`lp|lpr OPTIONS`
+`lp|lpr [OPTIONS] [FILES]`
 
 1. How to select the printer (default is the env variable `$PRINTER`):
   1. `lp` : `-d DESTINATION` : `echo "Printed via lp" | lp -d Cups-PDF`
@@ -66,6 +66,8 @@ Unlike the CUPS command, the lp commands are printer-orientated, with CUPS its m
 2. How to print multiple copies(but all in 1 job, so just N times the pages in one job)? 
   1. `lp` -> `-n N`, so `-n 2` prints 2 copies
   2. `lpr` -> `-# N`, so `-# 3` prints 3 copies #m#: the dash options is more modern, thus `lpr`
+
+Read from STDIN or FILES
 
 ####`lpstat` -> provide info on printer config
 
@@ -99,6 +101,40 @@ Alternative is `cancel [DESITNATION]- [JOBNUMBER]`
 1. JOBNUMBER -> remove JOBNUMBER (prints nothing on success) example: `cancel 3` 
 2. DESTINATION` -> specify queue of destination
 
-##CUPS command line tools
+###CUPS command line tools
+
+####Accept/Reject jobs for a printer queue
+
+`cupsaccept|cupsreject DESTINATION`
+
+Accept/Reject all jobs for a destination queue, thus generating an error when printing to it
+
+####Enable/disable the printer itself
+
+`cupsenable|cupsdisable DESTINATION` -> enable or disable the printer itself (use `lpstat -t` to see the status)
+
+####Control the CUPS daemon: `cupsctl`
+
+`cupsctl [OPTIONS]` -> without opions it give you a list of config options
+
+1. The web interface only allow local administration by default. To change this:
+  1. To allow remote administration: `cupsctl --remote-admin`
+  2. And to revert: `cupsctl --no-remote-admin`
+2. Allow connecting to the daemon from outside the local network:
+  1. `cupsctl --remote-any`
+  2. `cupsctl --no-remote-any` to revert
+3. To allow any user to cancel any jobs (for more smaller informal networks): `cupsctl --user-cancel-any`
+
+All these configs edit the */etc/cups/cupsd.conf*
+
+####Config files for cupsd
+
+The most important config files for cupsd (all in */etc/cups/*)
+
+1. *classes.conf* -> holds the classes (groups) of printers. If you print to a class, you print to the first available printer in that class.
+2. *cupsd.conf* -> main config file. Editable via the web 
+3. *cupsd.conf.default* -> if you mess up *cupsd.conf* use this one to restore
+4. *printers.conf*-> conf file for each printer on the system
+5. *ppd/* -> a dir with all the postscript description files 
 
 
