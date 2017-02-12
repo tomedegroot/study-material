@@ -582,3 +582,9 @@ Use `atrm N` where N is the job number found via atq
 1. if */etc/at.allow* exists and contain user names, only those users can create `at` or `batch` jobs
 2. if */etc/at.allow* does not exists and */etc/at.deny* exists and contain usernames, the users who are in there cannot create `at` jobs
 3. if both files are removed, only the root user can create `at` jobs
+
+##Mail Transfer Agent
+
+Even though some enitities in a mail chain are combined nowadays, the officel entities in the mail chain are:
+
+1.Mail User Agent (MUA), is the client for receiving and sending mail. Sending mail to:
