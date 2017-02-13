@@ -1,6 +1,101 @@
 #Topic 108: Essential System Services
 
-##Managing Printers
+##108.1:Maintaining Time
+
+Time is very important: some protocols will no longer work if the clock is even a few seconds off.
+
+Linux has two clocks: 
+
+1. The **system clock** is part of the Linux kernel
+2. The hardware clock, called the **real-time clock (rtc)**
+
+###system clock
+
+####Get the system clock time via `date`
+
+`date [OPTIONS]`
+
+1. By default gets the clock in your default time zone
+
+Example of setting the Timezone for the child process date and then getting the date:
+
+```
+[root@t-degroot1 tom]# TZ="Europe/Amsterdam" date
+Mon Feb 13 09:26:25 CET 2017
+```
+
+##108.3:Mail
+
+Even though some enitities in a mail chain are combined nowadays, the officel entities in the mail chain are:
+
+1.Mail User Agent (MUA), is the client for receiving and sending mail. Sending mail to: 
+
+2.Mail Transfer Agent (MTA), forwards mails to other MTA's via SMTP. 
+
+Some MTA's:
+
+  1. Sendmail (monolithic)
+  2. Postfix (compartments, so multiple daemons)
+  3. Qmail (compartments, so multiple daemons)
+  4. Exim (monolithic)
+
+MTA uses DNS to look up the Mail Exchange records via: `host -t mx DOMAINNAME`
+
+3.A Mail Delivery Agent (MDA) receives a mail from an MTA via SMTP and delivers it to a local mailbox.(usually a server)
+
+  1. MTA and MDA are usually combined
+  2. At the MDA there can be aliases so sales@example.com is forwarded to multiple e-mail addresses.
+  3. The MDA must write the e-mail to some place where the mail server can access it.
+
+4.A Mail User Agent(MUA) reads the mail server. 
+  1. In practice this is the same MUA as is used for sending mails
+  2. A MUA cannot use SMTP to get message, since SMTP is only for sending e-mails. POP and IMAP are used by the MUA to read the mail server
+ 
+So what happens in practice is that an MTA receives a mail, passes it on to an MDA which passes it on to a mail server and a MUA connects to a mail server to get the e-mails.
+
+To send a simple mail `echo "Hello" | sendmail tom`
+
+###Aliases for forwarding
+
+####Normal aliases
+
+In */etc/aliases*, aliases can be configured as ` alias: recipient1, recipient2`
+
+```
+security:	root
+```
+
+After this file has saved, run `newaliases` to update the */etc/aliases.db* file which is compiled and used for speed advantages
+
+####Other alias
+
+You can place an e-mailaddress to forward to an e-mail address, file or script (with `|`)
+
+```
+tom: t.degroot@example.com
+issues: /var/log/issues.log
+support: /usr/local/bin/new_ticket.sh
+```
+
+And always run `newaliases`
+
+####User defined forwarding
+
+If a user places *.forward* in there $HOME it can containing forwarding rules. Similar to */etc/aliases* but it ommits the alias part since a *.forward* is already tied to one user:
+
+```
+tom@example.com
+```
+
+####Managing the mailque `mailq`
+
+`mailq` -> look at the mail queue in */var/spool/mqueue*
+
+####Mail log
+
+The mail log is in */var/log/maillog*
+
+##108.4: Managing Printers
 
 [spooling is a combination of buffering and queueing](https://en.wikipedia.org/wiki/Spooling). The spooler maintains an orderly sequence of jobs and feeds it to another entity (such as peripheal as a printer) and this acts as a mediator. The term originates from the spool, a [cylindrical device on which magnetic tape or rope is round](http://www.dictionary.com/browse/spool) and thus also works as a mediator.
 
@@ -131,79 +226,10 @@ All these configs edit the */etc/cups/cupsd.conf*
 
 The most important config files for cupsd (all in */etc/cups/*)
 
-1. *classes.conf* -> holds the classes (groups) of printers. If you print to a class, you print to the first available printer in that class.
+1. *classes.conf* -> holds the classes (groups) of printers. [Jobs send to a class are forwarded to the first available printer in that class.](https://opensource.apple.com/source/cups/cups-23/doc/sam.shtml#PRINTER_CLASSES)
 2. *cupsd.conf* -> main config file. Editable via the web 
 3. *cupsd.conf.default* -> if you mess up *cupsd.conf* use this one to restore
 4. *printers.conf*-> conf file for each printer on the system
 5. *ppd/* -> a dir with all the postscript description files 
 
-##Mail Transfer Agent
 
-Even though some enitities in a mail chain are combined nowadays, the officel entities in the mail chain are:
-
-1.Mail User Agent (MUA), is the client for receiving and sending mail. Sending mail to: 
-
-2.Mail Transfer Agent (MTA), forwards mails to other MTA's via SMTP. 
-
-Some MTA's:
-
-  1. Sendmail (monolithic)
-  2. Postfix (compartments, so multiple daemons)
-  3. Qmail (compartments, so multiple daemons)
-  4. Exim (monolithic)
-
-MTA uses DNS to look up the Mail Exchange records via: `host -t mx DOMAINNAME`
-
-3.A Mail Delivery Agent (MDA) receives a mail from an MTA via SMTP and delivers it to a local mailbox.(usually a server)
-
-  1. MTA and MDA are usually combined
-  2. At the MDA there can be aliases so sales@example.com is forwarded to multiple e-mail addresses.
-  3. The MDA must write the e-mail to some place where the mail server can access it.
-
-4.A Mail User Agent(MUA) reads the mail server. 
-  1. In practice this is the same MUA as is used for sending mails
-  2. A MUA cannot use SMTP to get message, since SMTP is only for sending e-mails. POP and IMAP are used by the MUA to read the mail server
- 
-So what happens in practice is that an MTA receives a mail, passes it on to an MDA which passes it on to a mail server and a MUA connects to a mail server to get the e-mails.
-
-To send a simple mail `echo "Hello" | sendmail tom`
-
-###Aliases for forwarding
-
-####Normal aliases
-
-In */etc/aliases*, aliases can be configured as ` alias: recipient1, recipient2`
-
-```
-security:	root
-```
-
-After this file has saved, run `newaliases` to update the */etc/aliases.db* file which is compiled and used for speed advantages
-
-####Other alias
-
-You can place an e-mailaddress to forward to an e-mail address, file or script (with `|`)
-
-```
-tom: t.degroot@example.com
-issues: /var/log/issues.log
-support: /usr/local/bin/new_ticket.sh
-```
-
-And always run `newaliases`
-
-####User defined forwarding
-
-If a user places *.forward* in there $HOME it can containing forwarding rules. Similar to */etc/aliases* but it ommits the alias part since a *.forward* is already tied to one user:
-
-```
-tom@example.com
-```
-
-####Managing the mailque `mailq`
-
-`mailq` -> look at the mail queue in */var/spool/mqueue*
-
-####Mail log
-
-The mail log is in */var/log/maillog*
