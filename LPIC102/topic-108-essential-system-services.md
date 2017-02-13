@@ -4,25 +4,82 @@
 
 Time is very important: some protocols will no longer work if the clock is even a few seconds off.
 
+###clocks
+
 Linux has two clocks: 
 
 1. The **system clock** is part of the Linux kernel
 2. The hardware clock, called the **real-time clock (rtc)**
 
-###system clock
+These two times differ because of a phenomenom that is called **drift**. A clock drifts because it runs slightly slower or faster than the real time.
 
-####Get the system clock time via `date`
+####system clock
 
-`date [OPTIONS]`
+#####Get the system clock time via `date`
+
+`date `[OPTIONS] ['+FORMAT']`
 
 1. By default gets the clock in your default time zone
-
-Example of setting the Timezone for the child process date and then getting the date:
+  1. Extra: from the other lesson: set the $TZ variable to control the timezone for 1 command: `[root@t-degroot1 tom]# TZ="Europe/Amsterdam" date`
+2. How to get the time zone in UTC (Universal Coordinated Time): `date -u`
+3. Specifying formats with `'+FORMAT'` where `FORMAT` is a literal and interpreted % symbols:
+  1. `%y` -> two digit years
+  2. `%Y` -> four digit years
+  3. `%C` -> century in 2 digits (so like '%Y', but without the last 2 digits)
+  3. `%m` -> two digit month
+  4. `%d` -> two digit day
+  5. `%H` -> current time in 24 hours
+  6. `%M` -> current minute such as 09
+  7. `%S` -> current second such as 59
+  8. `%s` -> The current time since epoch in Seconds, so to get a timestamp in a script: `NOW=$(date '+%s')`. 
+  9. `%%` -> literal percentage
+  
+Example:
 
 ```
-[root@t-degroot1 tom]# TZ="Europe/Amsterdam" date
-Mon Feb 13 09:26:25 CET 2017
+[tom@t-degroot1 ~]$ date '+This year is: %Y'
+This year is: 2017
 ```
+
+#####Set the system clock time
+
+`date MMDDhhmm[[CC]YY][.ss]` which means:
+
+1. So minimum amount is 'month, day, hour, minute'.
+2. Optional: the year without or without century (= in 2 or 4 digits)
+3. Optional: the seconds in 2 digits 
+
+####hardware clock
+
+`hwclock` -> get the time of the hardware clock and after it the difference with the system clock:
+
+```
+[root@t-degroot1 tom]# hwclock
+Mon 13 Feb 2017 09:57:03 PM CET  -0.551346 seconds
+```
+
+The hardware clock doesn't know timezones. On installing you can choose to run the hardware clock in UTC or Localtime. This is stored in */etc/adjtime*:
+
+```
+0.0 0 0.0
+0
+UTC
+```
+
+The last line is either `LOCAL` or `UTC` to see to which time it is set. If the hardware clock uses UTC, you check it via `hwclock -u`
+
+####Sync between system time clcok and hardware clock
+
+1. Write the system clock to the hardware clock: `hwclock -w` or `hwclock --systohc` **most important**
+2. Write the hardware clock to the system clock: `hwclock -s` or `hwclock --hctosys`
+
+Usually you want to use the system clock as the canonical for consistency.
+
+If you are using NTP, it will write the system clock to the hardware clock every 11 minutes.
+
+###Network Time Protocol (NTP)
+
+
 
 ##108.3:Mail
 
