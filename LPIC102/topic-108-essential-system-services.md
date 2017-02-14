@@ -128,13 +128,15 @@ server 0.centos.pool.ntp.org iburst
 1. The older syslog
 2. The newser systemd's journal
 
-##syslog
+###syslog
 
 3 ways of logging to syslog:
 
 1. within an application via the `syslog` library call
 2. use the `logger` command
 3. over the network via a syslog server
+
+####syslog severities and facilities
 
 Syslog severities (level: tag: meaning), (**know the level and their meaning**), (p.509):
 
@@ -160,18 +162,115 @@ Syslog facilities(tag:type):
 9. authpriv: security log **which is private**
 10. local0-7: eigth differnt user-definable facilities
 
-See the schame on p.511 to see how `syslogd` distributes messages. Important:
+See the schame on p.511 to see how `syslogd` distributes messages. Messages go to destinations based on the facility and severity of the message.
 
-1. Emergencies -> broadcasted
-2. Mail messages -> */var/log/maillog
-3. All messages except mail -> */var/log/messages*
+1. broadcasted (emergencies)
+2. files
+3. forwarded to another server
 
-And all 3 possible forwarded to another server
+####`logger` command
+
+`logger [OPTIONS] message`
+
+So `logger 'Hey!'` genereates the following line:
+
+```
+Feb 14 20:49:10 t-degroot1 tom: Hey!
+```
+
+So you have 'timestamp hostname username: message'
+
+Possible options:
+
+1. `-i` -> send the pid
+2. `-p FACILITY.SEVERITY` -> send the facility and the severity
+
+####configuring `syslogd`
+
+p.512: The syslogd package is part of sysklogd, which is an amalgation of the two components in the package:
+
+1. syslogd -> handles logging as described
+2. klogd -> listens to kernel messages and forwards it tot syslogd
+
+Config of syslogd: */etc/syslog.conf*. Example:
+
+```
+A configuration file might appear as follows:
+
+# Log all kernel messages, authentication messages of
+# level notice or higher and anything of level err or
+# higher to the console.
+# Don't log private authentication messages!
+*.err;kern.*;auth.notice;authpriv.none /dev/console
+
+# Log anything (except mail) of level info or higher.
+# Don't log private authentication messages!
+*.info;mail.none;authpriv.none         /var/log/messages
+
+# The authpriv file has restricted access.
+authpriv.*                             /var/log/secure
+
+# Log all the mail messages in one place.
+mail.*                                 /var/log/maillog
+
+# Everybody gets emergency messages, plus log them on
+# another machine.
+*.emerg                    *
+*.emerg                    @arpa.berkeley.edu
+
+# Root and Eric get alert and higher messages.
+*.alert                    root,eric
+
+# Save mail and news errors of level err and higher in a
+# special file.
+uucp,news.crit             /var/log/spoolerr
+```
+
+So the some rules:
+
+1. structure is: `FACILITY.SEVERITY [-]DESTINATION[; [-]DESTINATION...]`
+2. wildcards can be used to match any FACILITY or SEVERITY
+3. a wildcard on the DESTINATION means every logged in users sees the message
+4. a dash before destination means the it shouldn't write the log entry to disk, but should the kernel write the message to disk when it has time (to improve performance)
+5. an '@' symbol means it should be forwarded to another server. For example: `*.info @logserver@example.com`
+
+In order to let syslog accept message over the network, start it with: `syslog -r`
+
+####Common log and their location:
+
+1. */var/log/messages* -> general purpose messages that do no belong anywhere else 
+2. */var/log/maillog* -> mail
+3. */var/log/secure* -> security logs (login attempts etc.)
+4. */var/log/cron* -> logs of cron
+5. */var/log/xferlog* -> ftp log
+
+####other syslog implementations (so other packages)
+
+1. rsyslogd -> very fast, support for plugins and store in a database
+2. syslog-ng -> same as rsyslogd but the configuration syntax is reworked
 
 ###systemd's journal
 
 1. Backwards compatible with syslog, so if an application can log to syslog, it can also log to journal
 2. Log additional metadata, such as the name of a method and the line number of a file
+3. Logs to a binary file. This has some implications:
+  1. [Everything is logged to one file](https://www.loggly.com/blog/why-journald/)
+4. journal doesn't have the ability to forward to a remote server, [but you can forward a log message to sys which forward it to a remote server as described above](https://www.loggly.com/blog/why-journald/)
+
+####journald config 
+
+The config file is in */etc/systemd/journald.conf*
+
+Here is an example line:
+
+```
+[Journal]
+#Storage=auto
+```
+
+See [where the log is with this setting](https://www.loggly.com/ultimate-guide/linux-logging-with-systemd/)
+
+
 
 ##108.3:Mail
 
