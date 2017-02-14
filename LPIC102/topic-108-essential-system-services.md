@@ -75,11 +75,103 @@ The last line is either `LOCAL` or `UTC` to see to which time it is set. If the 
 
 Usually you want to use the system clock as the canonical for consistency.
 
-If you are using NTP, it will write the system clock to the hardware clock every 11 minutes.
-
 ###Network Time Protocol (NTP)
 
+NTP: use remote server to set the correct time on a computer.
 
+reference clocks are official clocks with the correct time (usually from the government or agency etc.)
+
+Hierarchy of clocks:
+
+1. stratum 1 server (gets time **directlu** from reference clock)
+2. stratum 2 server (gets time from stratum 1)
+3. stratum 3 gets from stratum 2 etc. (p. 505)
+
+####set the ntp time manually
+
+`ntpdate SERVER` -> updates the time 1 time
+
+You can use the pool.ntp.org which is a pool of ntp servers behind a DNS alias: `ntpdate pool.ntp.org`
+
+[More info on pool.ntp.org](http://www.pool.ntp.org/en/)
+
+####`ntpd`
+
+`ntpd` continually adjusts the time.
+
+Config file: */etc/ntp.conf*
+
+Parts of the config:
+
+```
+driftfile /var/lib/ntp/drift
+...
+server 0.centos.pool.ntp.org iburst
+```
+
+1. driftfile tracks local clock drift over time, which allows ntpd to compensate
+2. server line gives a possible server to get the time from. More server is good, because of redundancy.
+
+`ntpd` has a mode where it can sync to the hardware clock every 11 minutes, but don't need to know for the exam how to do this
+
+#####Monitoring `ntpd`
+
+`ntpq` -> query ntp interactively, 2 commands:
+
+1. `peers` -> give meta details on the servers defined in */etc/ntp.conf*
+2. `association` -> give details of the servers defined in */etc/ntp.conf*
+
+##108.2: System Logging
+
+2 log systems:
+
+1. The older syslog
+2. The newser systemd's journal
+
+##syslog
+
+3 ways of logging to syslog:
+
+1. within an application via the `syslog` library call
+2. use the `logger` command
+3. over the network via a syslog server
+
+Syslog severities (level: tag: meaning), (**know the level and their meaning**), (p.509):
+
+0: emerg: emergency
+1: alert: alert
+2: crit: critical
+3: err: error
+4: warn: warning
+5: notice: notice
+6: info: informational
+7: debug: debug 
+
+Syslog facilities(tag:type):
+
+1. kern: kernel message
+2. user: random user level message
+3. mail: Email server
+4. daemon: daemons
+5. auth: security log **which is public**
+6. syslog: internal messages for syslog
+7. lpr: printing
+8. cron: scheduled jobs
+9. authpriv: security log **which is private**
+10. local0-7: eigth differnt user-definable facilities
+
+See the schame on p.511 to see how `syslogd` distributes messages. Important:
+
+1. Emergencies -> broadcasted
+2. Mail messages -> */var/log/maillog
+3. All messages except mail -> */var/log/messages*
+
+And all 3 possible forwarded to another server
+
+###systemd's journal
+
+1. Backwards compatible with syslog, so if an application can log to syslog, it can also log to journal
+2. Log additional metadata, such as the name of a method and the line number of a file
 
 ##108.3:Mail
 
