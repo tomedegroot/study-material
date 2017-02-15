@@ -266,7 +266,7 @@ CentOS7 uses `journald` to log and forwards some messages to `rsyslogd` and the 
 
 ####journald config 
 
-The config file is in */etc/systemd/journald.conf*
+The config file is in */etc/systemd/journald.conf* (or in */etc/journald.conf*)
 
 Here is an example line:
 
@@ -278,7 +278,11 @@ Here is an example line:
 #SystemMaxFileSize=200M
 ```
 
+By default, all the lines are uncommented, because they are the default value anyway.
+
 See [log and settings in the log info](https://www.loggly.com/ultimate-guide/linux-logging-with-systemd/)
+
+In order to persist the journald log, set `Storage=persist` and uncomment the line
 
 After making changes, restart journald via: `systemctl restart systemd-journald`
 
@@ -320,8 +324,6 @@ OPTIONS:
   2. `-o json` -> get the output in JSON with all the variables in it such as SYSLOG_IDENTIFIER and SYSLOG_FACILITY
 
 Example of combination: `journalctl SYSLOG_IDENTIFIER=tom MESSAGE=hello -n 1 -o verbose`
-
-
 
 ##108.3:Mail
 
