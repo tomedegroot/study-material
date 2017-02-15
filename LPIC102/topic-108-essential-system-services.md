@@ -162,7 +162,11 @@ Syslog facilities(tag:type):
 9. authpriv: security log **which is private**
 10. local0-7: eigth differnt user-definable facilities
 
-See the schame on p.511 to see how `syslogd` distributes messages. Messages go to destinations based on the facility and severity of the message.
+[each facility has it's own facility code](https://en.wikipedia.org/wiki/Syslog#Facility) which is used by systemd's journal to as value in the SYSLOG_FACILITY field of an entry
+
+####syslog message distribution
+
+See the scheme on p.511 to see how `syslogd` distributes messages. Messages go to destinations based on the facility and severity of the message. Messages can be:
 
 1. broadcasted (emergencies)
 2. files
@@ -246,16 +250,19 @@ In order to let syslog accept message over the network, start it with: `syslog -
 
 ####other syslog implementations (so other packages)
 
-1. rsyslogd -> very fast, support for plugins and store in a database
+1. rsyslogd -> very fast, support for plugins and store in a database (is running in CentOS)
 2. syslog-ng -> same as rsyslogd but the configuration syntax is reworked
+
+CentOS7 uses `journald` to log and forwards some messages to `rsyslogd` and the config file of `rsyslogd` is in */etc/rsyslog.conf*
 
 ###systemd's journal
 
-1. Backwards compatible with syslog, so if an application can log to syslog, it can also log to journal
+1. Logs everything to 1 binary file.
 2. Log additional metadata, such as the name of a method and the line number of a file
-3. Logs to a binary file. This has some implications:
-  1. [Everything is logged to one file](https://www.loggly.com/blog/why-journald/)
-4. journal doesn't have the ability to forward to a remote server, [but you can forward a log message to sys which forward it to a remote server as described above](https://www.loggly.com/blog/why-journald/)
+3. journal doesn't have the ability to forward to a remote server, [but you can forward a log message to sys which forward it to a remote server as described above](https://www.loggly.com/blog/why-journald/)
+4. Backwards compatible with syslog, so if an application can log to syslog, it can also log to journal
+
+
 
 ####journald config 
 
@@ -266,9 +273,53 @@ Here is an example line:
 ```
 [Journal]
 #Storage=auto
+...
+#ForwardToSyslog=yes
+#SystemMaxFileSize=200M
 ```
 
-See [where the log is with this setting](https://www.loggly.com/ultimate-guide/linux-logging-with-systemd/)
+See [log and settings in the log info](https://www.loggly.com/ultimate-guide/linux-logging-with-systemd/)
+
+After making changes, restart journald via: `systemctl restart systemd-journald`
+
+####the log
+
+#####log location
+
+journald stores everything in 1 files. The location of this file is:
+
+1. By default: */var/log/journal/*
+2. If in the settings the storage is set to auto and */var/log/journal* doesn't exists, then [the log is in](https://loggingguide.wpengine.com/linux-logging-with-systemd/) */run/log/journal*
+
+#####rolling log
+
+`journalctl` keeps a rolling log. This means that expires old entries as the log hits it's limit. By default the limit is 10% of the file system. Set this is in the confi with ``SystemMaxFileSize`
+
+#####querying the journal
+
+To query the journal: `journalctl [FIELD=VALUE] [OPTIONS]`
+
+In `journalctl` you can filter on any of the FIELDS. Some common FIELDS:
+
+1. MESSAGE=STRING -> message of the log entry
+2. SYSLOG_IDENTIFIER=STRING -> identifier of the program or user who logged the entry
+3. SYSLOG_FACILITY=NUMBER -> the facility number of the message
+4. PRIORITY=NUMBER|STRING -> the priority is the severity of the message
+
+Example: You can use the SYSLOG_IDENTIFIER to only search for the output of a certain application or user. Example: `journalctl SYSLOG_IDENTIFIER=sshd`
+
+OPTIONS:
+
+1. `-r` -> see the log in reverse order
+2. `-e` -> see only the end of the log
+3. `-f` -> follow, just like `tail -f`
+4. `-n N` -> get only N entries
+4. `-u` -> specify the systemd unit who wrote the log, example `-u sshd`
+5. `-o` -> specify the output
+  1. `-o verbose` -> get verbose output with all the log fields
+  2. `-o json` -> get the output in JSON with all the variables in it such as SYSLOG_IDENTIFIER and SYSLOG_FACILITY
+
+Example of combination: `journalctl SYSLOG_IDENTIFIER=tom MESSAGE=hello -n 1 -o verbose`
 
 
 
