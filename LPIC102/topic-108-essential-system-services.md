@@ -237,7 +237,9 @@ So the some rules:
 3. a wildcard on the DESTINATION means every logged in users sees the message
 4. a dash before destination means the it shouldn't write the log entry to disk, but should the kernel write the message to disk when it has time (to improve performance)
 5. an '@' symbol means it should be forwarded to another server. For example: `*.info @logserver@example.com`
-
+6. specify multiple facilities with `;` (see `*.info;mail.none;authpriv.none         /var/log/messages` in the config)
+7. specify mutliple destinations with `,` (see `*.alert                    root,eric` in the config)
+8. specify to ignore everything for a facility with `FACILITY.none` (see `*.info;mail.none;authpriv.none         /var/log/messages` in the config)
 In order to let syslog accept message over the network, start it with: `syslog -r`
 
 ####Common log and their location:
@@ -324,6 +326,63 @@ OPTIONS:
   2. `-o json` -> get the output in JSON with all the variables in it such as SYSLOG_IDENTIFIER and SYSLOG_FACILITY
 
 Example of combination: `journalctl SYSLOG_IDENTIFIER=tom MESSAGE=hello -n 1 -o verbose`
+
+###Rotating Log
+
+Log files that grow indefenitely have a problem:
+
+1. They can fill up the disk
+2. Hard to search a large log file
+3. Hard to copy
+4. You can't compress an active log file
+
+Log rotation is periodically archiving the current log file and starting a new one. Possibilities with log rotation:
+
+1. Scheduling starting of new log file
+2. Compress log
+3. Prune old archives
+4. Name the log with a date stamp (easy to search)
+5. Run command before or after a set of logs is rotated
+
+####logrotate
+
+Executable: */usr/sbin/logrotate* is started because of the script */etc/cron.daily/logrotate*. How it is called:
+
+`/usr/sbin/logrotate -s /var/lib/logrotate/logrotate.status /etc/logrotate.conf`
+
+So the second argument is (*/etc/logrotate.conf*) which in turn checks */etc/logrotate.d* for extra config files. **If in the special config file some entries are missing, it will look at the default values of (*etc/logrotate.conf*)** Example logration file:
+
+```
+/var/log/httpd/*log {
+    weekly
+    rotate 4
+    missingok
+    notifempty
+    sharedscripts
+    delaycompress
+    postrotate
+        /bin/systemctl reload httpd.service > /dev/null 2>/dev/null || true
+    endscript
+}
+``
+
+The config file start with a file glob to match certain log files. For these log files are the following settings:
+
+1. `weekly` -> rotate once a week
+2. `rotate 4` -> rotate a log four time and then delete it, so four weeks of rotation are being saved
+3. `missingok` -> no error if a lok is missing 
+4. `notifempty` -> don't rotate if the log is empty (logical)
+5. `sharedscripts` -> if the file glob matches several files, runy any scripts (pre- or postrotate) only one time for all the files
+6. `delaycompress` -> don't compress a file until it has already been rotated
+7. `postrotate` -> run these commands after logs have been rotated
+
+####Dealing with Open Files
+
+Problem: if an application opens */tmp/log* and logrotate moves this file to */tmp/logXXXX* where XXXX is timestamp while the application still has the file open, the application will then continu writing to */tmp/logXXXX*, 3 solutions where the 1st is the most desireable:
+
+1. Send **signal** to application to reopen log, but application must support this
+2. **Restart** the application (you can set `create` keyword in the conf file of logrotation ot make sure it creates a new log file to prevent file perm issues)
+3. **Copy the log file** and then truncate the old file, with the `copytruncate` keyword in conf file. This requires way more disk IO
 
 ##108.3:Mail
 
