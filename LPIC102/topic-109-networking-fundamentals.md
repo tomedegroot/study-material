@@ -68,3 +68,41 @@ A network masks sets where the network bits of the IP address ends and the host 
 
 The '/N' notation sets the number of bits that represent the network part. This form of notation is referred to as Classless Inter-Domain Routing (CIDR). It's called classless because one can determine the network and host part of an address not on the first 3 bits, but on the subnet mask.
 
+So an IP address of 192.168.10.0 and a subnetmask of 255.255.255.0 (or /24) means 192.168.10 is the network address and the last octet is used for the host address.
+
+###Gateway Address
+
+p. 537: in this book the term gateway means router (Some in the IT use the term gateway to determine the 'default gateway', that is the router wher your computer send packages to if it is on more than one network)
+
+If a host wants to communicate with another host on the same network **it doesn't need a router**, but if the host is on another network it needs a router to get to that network
+
+###Broadcast Address
+
+A broadcast address is used to send traffic to all hosts on the network. This is an address that is not assignable to any hosts. In case of a class C network, the last octect for the host becomes 255. So 192.168.10.255 is a broadcast address. To see an example of how this works:
+
+```
+Toms-MacBook-Pro-2:study-material Tom$ ping 192.168.0.255
+PING 192.168.0.255 (192.168.0.255): 56 data bytes
+64 bytes from 192.168.0.106: icmp_seq=0 ttl=64 time=0.133 ms
+64 bytes from 192.168.0.100: icmp_seq=0 ttl=64 time=3.297 ms
+64 bytes from 192.168.0.102: icmp_seq=0 ttl=64 time=117.463 ms
+```
+
+###Custom network masks
+
+You can use custom network masks for subnetting. Why know subnetting?
+
+1. Determine whether a hosts has a bad gateway address
+2. Detect how many hosts are possible on a particular network
+
+[Subnetting is used for speeding up the network and for security purposes](http://yourbusiness.azcentral.com/importance-subnetting-20038.html)
+
+For subnetting, part of the host address are stolen (so for a class C address the host address is the last octect) and from the highest bit in that octect on (128) are used to create a subnet and the subnet mask is altered based on how many of those bits are stolen. The new network mask deviates from the default subnet mask and could become something like 255.255.255.224 or /27 (you added 3 bits to the default subnet mask of /24 that you stole from the network part)
+
+See p. 539 for subnetting. Study this as the last part, because it's difficult and not the only part on the exam. Just know how to solve scenario 1 (p.538) and scenario 2 (p.540)
+
+###Additional protocols
+
+1. IP focusses on addressing, TCP on how the packets should be send (reliable with error checking)
+2. IP focusses on addressing, UDP on how the packets should be send (unreliable without error checking)
+3. ICMP (Internet Control Message Protocol) allow network devices to send error messages and do queries such as the `ping` command. [ICMP doesn't use port system](https://www.google.nl/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=ICMP+port)
