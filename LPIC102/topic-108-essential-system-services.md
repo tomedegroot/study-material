@@ -364,7 +364,7 @@ So the second argument is (*/etc/logrotate.conf*) which in turn checks */etc/log
         /bin/systemctl reload httpd.service > /dev/null 2>/dev/null || true
     endscript
 }
-``
+```
 
 The config file start with a file glob to match certain log files. For these log files are the following settings:
 
