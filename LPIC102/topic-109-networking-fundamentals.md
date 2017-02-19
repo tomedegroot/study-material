@@ -266,12 +266,91 @@ If on the exam you this screen output, you **must** use it.
 OPTIONS:
   1. `-a` -> show all interfaces, also the not active ones
 
+####`ifup`
+
+Brings an interface up. Execute scripts in */etc/sysconfig/network-scripts/ifup-*
+
 ####`route`
 
 Use `route` to defend against DDoS: `route add ATTACKERSIP lo`. No packets are send across the network because the
 
 Alternative: `ip addr show`
 
-###DHCP Client Tools
+####DHCP Client Tools
+
+3 dhcp tools, one or more are used depending on the distribution:
+
+1. `dhpcd`
+2. `dhclient` -> ask a new lease via this command
+3. `pump` -> ask a new lease via this command
+
+####`host`, `getent`, `dig`
+
+Used for name lookups. You must know all the tools
+
+1. `host HOST` -> Do a DNS lookup (so this ignores files on the system as */etc/hosts*)
+2. `getent` -> uses */etc/nsswitch.conf* to determine the search order.
+3. `dig` -> use this to **only do a dns query**
+
+#####`dig`
+
+`dig hostname [OPTIONS]`
+
+1. `[-t] MX` -> specify which servers to query. MX are mail server records. [The full list is way too big to learn them all for the exam](https://en.wikipedia.org/wiki/List_of_DNS_record_types)
+
+Output:
 
 
+1. HEADER -> info on dig environmnet
+2. QUESTION -> echos back the query
+3. ANSWER -> reply to query
+4. AUTHORITY -> show the servers that are authorative for the targeted server
+5. ADDITIONAL -> catch all section
+6. STATISTICS how much time the query took
+
+####`netstat`
+
+Get network statistics on both incoming and outgoing socket connections
+
+`netstat [OPTIONS]`
+
+1. `-t` -> show TCP stats
+2. `-r` -> routing table
+3. `-a` -> show all sockets on functioning interfaces (this will be in the exam) (shows nice formatting)
+4. `-c` -> refresh every second
+5. `-p` -> show the name and PID related to each socket. [A socket is a combination of IP Address and Port Number](https://en.wikipedia.org/wiki/Network_socket#Socket_addresses)
+6. `-s` -> see interface usage stats
+
+Typical `netstat` output:
+
+```
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 0.0.0.0:5901            0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:sunrpc          0.0.0.0:*               LISTEN 
+```
+
+Notes: 
+
+1. [0.0.0.0 means all IP addresses on the local machine](http://serverfault.com/a/78058)
+2. An asterisk on the foreign address means that the connection is not yet established
+3. `netstat -anp`, `-a` is for nice formatting, `-n` is to show numerical port numbers instead of resolving the port number to an interface and `p` is to show the PID
+
+Based on a line of output you need to be able to determine what is the local address and what is the foreign address (without the column headers off course)
+
+####ping
+
+Know `ping6 HOST` which is just like ping, but then voor IPv6.
+
+####traceroute
+
+`traceroute -n HOSTNAME` -> get the hops between you and another computer. `-n` is to show numerical IP addresses not mapped to a host name
+
+1. If you get `*` in the response it means the router is down or configured to not return ECHO_REQUEST headers
+2. `tracepath` is the same command as `traceroute`, but only root can use `traceroute` while everyone can use `tracepath`
+3. `traceroute6` and `tracepath6` exist for IPv6
+
+####tcpdump
+
+You can do a lot with tcpdump. For the exam know `tcpdump -w FILENAME` to capture all data on a local network and write it to a file
+
+#### 
