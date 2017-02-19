@@ -149,7 +149,7 @@ You must know some IPv6 commands and the 4 big differences between IPv4 and IPv6
 
 For the exam, you must be able to configure interfaces from the command line.
 
-`l0`means loopback 0, a way to bound an IP(127.0.0.1) to an interface
+`lo` means loopback, a way to bound an IP(127.0.0.1) to an interface
 
 Many of the commands we will take a look at have an equivalent form in the `ip` command
 
@@ -157,7 +157,7 @@ Many of the commands we will take a look at have an equivalent form in the `ip` 
 
 `ifconfig [OPTIONS]`
 
-By default ifconfig shows you all the active interfaces (**including l0**)). What is in the output:
+By default ifconfig shows you all the active interfaces (**including lo**)). What is in the output:
 
 1. ether (Mac address)
 2. inet (IPv4 address)
@@ -208,7 +208,70 @@ Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
 This is saying that for each of the network destinations (192.168.1.0 or 169.254.0.0) that the default gateway is the 0.0.0.0 destination, if a packet is NOT destined for any address within that particular network. For the 0.0.0.0 destination, use the IP address 192.168.1.254.
 ```
 
-1. `0.0.0.0` in the Gateway column means there is none, (because directly connected)
-2. `0.0.0.0` in the Destination column means it is the default
+1. `0.0.0.0` or `*` in the Destination column means it is the default
+2. `0.0.0.0` or `*` in the Gateway column means there is none, (because it is in the same network, no gateway is needed to reach outside the network)
 
 [See what 0.0.0.0 means in the output](http://unix.stackexchange.com/questions/94018/what-is-the-meaning-of-0-0-0-0-as-a-gateway) and [here](http://superuser.com/questions/872479/what-does-0-0-0-0-gateway-mean-in-routing-table)
+
+Extra:
+
+1. [What does link mean in routing table](http://superuser.com/questions/1067732/whats-the-meaning-of-link4-in-macs-route-table)
+2. See line `0.0.0.0         192.168.1.254   0.0.0.0         UG        0 0          0 eth0`, in order to reach the gateway `192.168.1.254` the line `192.168.1.0     0.0.0.0         255.255.255.0   U         0 0          0 eth0` must be there (the static route) to know how the gateway can be reached within the local network
+
+####Adding a default gateway
+
+`route add default gw 10.0.0.1`
+
+Meaning:
+
+1. `route` -> route command
+2. `add` -> add a route
+3. `default` -> indicate it is a default route for if no other route matches
+4. `gw` -> note this is a gateway
+5. `10.0.0.1` -> the address of the gateway 
+
+###Local Name Configuration
+
+See p.552 for a diagram how hostname resolving works. In short:
+
+1. check */etc/nsswitch.conf* [is Name Service Switch (NSS) configuration file, is used to determine the sources from which to obtain name services info](http://man7.org/linux/man-pages/man5/nsswitch.conf.5.html). Look in the hosts category: `hosts:      files dns nis`. This means:
+  1. First look at local files
+  2. Then dns
+  3. The nis
+2. The file you need to know for local resolving is: */etc/hosts*
+3. If there is no entry in */etc/hosts*, dns will be used (see step 1). For dns, the file */etc/resolvconf* to find dns servers and queries the first server
+4. If that fails a NIS server will be queried (this last step seems inlikely, you don't need to know what nis server is)
+
+**Note fo exam**: if a resolution is nmade, the host does not query further. So a usual question is troubleshooting after switching to DNS for name resolution
+
+###Network Config Utilities
+
+There are a lot of utilities. Study the [topics of the exam](https://www.lpi.org/our-certifications/exam-102-objectives#networking-fundamentals) to know which ones to learn.
+
+#####`ifconfig`
+
+`ifconfig [OPTIONS]`
+
+By default ifconfig shows you all the active interfaces (**including lo**)). What is in the output:
+
+1. ether (Mac address)
+2. inet (IPv4 address)
+3. broadcast address
+4. netmask
+5. RX is received
+6. TX is transmitted
+
+If on the exam you this screen output, you **must** use it.
+
+OPTIONS:
+  1. `-a` -> show all interfaces, also the not active ones
+
+####`route`
+
+Use `route` to defend against DDoS: `route add ATTACKERSIP lo`. No packets are send across the network because the
+
+Alternative: `ip addr show`
+
+###DHCP Client Tools
+
+
