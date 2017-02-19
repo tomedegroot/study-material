@@ -2,7 +2,7 @@
 
 ##109.1: Fundamentals of Internet Protocols
 
-###Introduction
+###Introduction on IP
 
 Hosts are the smallest unit on a network: one single entity that can respond to a ping.
 
@@ -16,13 +16,13 @@ Great analogy:
 2. A network is the street.
 3. A gateway is where two streets intersect. (a gateway is a router)
 
-###Necessary config to operate in a network:
+####Necessary config to operate in a network:
 
 1. An IP Address
 2. A Network Mask
 3. A Gateway Address
 
-###Networks and host relationship in the IP address
+####Networks and host relationship in the IP address
 
 An IP addres (of 198.168.1.200) is broken up into two parts:
 
@@ -31,7 +31,7 @@ An IP addres (of 198.168.1.200) is broken up into two parts:
 
 What determines the network part of the IP address is determined by subnetting
 
-###IP Address Classes (Key Topic) & private network ranges:
+####IP Address Classes (Key Topic) & private network ranges:
 
 The first three bits of the first octet determine what class the IP address is and are confusingly also a part of the network address itself
 
@@ -58,7 +58,7 @@ More info on classes:
 1. https://docs.oracle.com/cd/E19455-01/806-0916/6ja85399v/index.html
 2. https://technet.microsoft.com/en-us/library/cc940018.aspx
 
-###Network Masks
+####Network Masks
 
 A network masks sets where the network bits of the IP address ends and the host bits begins. Each class comes with a default network mask:
 
@@ -70,13 +70,13 @@ The '/N' notation sets the number of bits that represent the network part. This 
 
 So an IP address of 192.168.10.0 and a subnetmask of 255.255.255.0 (or /24) means 192.168.10 is the network address and the last octet is used for the host address.
 
-###Gateway Address
+####Gateway Address
 
 p. 537: in this book the term gateway means router (Some in the IT use the term gateway to determine the 'default gateway', that is the router wher your computer send packages to if it is on more than one network)
 
 If a host wants to communicate with another host on the same network **it doesn't need a router**, but if the host is on another network it needs a router to get to that network
 
-###Broadcast Address
+####Broadcast Address
 
 A broadcast address is used to send traffic to all hosts on the network. This is an address that is not assignable to any hosts. In case of a class C network, the last octect for the host becomes 255. So 192.168.10.255 is a broadcast address. To see an example of how this works:
 
@@ -88,7 +88,7 @@ PING 192.168.0.255 (192.168.0.255): 56 data bytes
 64 bytes from 192.168.0.102: icmp_seq=0 ttl=64 time=117.463 ms
 ```
 
-###Custom network masks
+####Custom network masks
 
 You can use custom network masks for subnetting. Why know subnetting?
 
@@ -101,8 +101,114 @@ For subnetting, part of the host address are stolen (so for a class C address th
 
 See p. 539 for subnetting. Study this as the last part, because it's difficult and not the only part on the exam. Just know how to solve scenario 1 (p.538) and scenario 2 (p.540)
 
-###Additional protocols
+####Additional protocols
 
 1. IP focusses on addressing, TCP on how the packets should be send (reliable with error checking)
 2. IP focusses on addressing, UDP on how the packets should be send (unreliable without error checking)
 3. ICMP (Internet Control Message Protocol) allow network devices to send error messages and do queries such as the `ping` command. [ICMP doesn't use port system](https://www.google.nl/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=ICMP+port)
+
+####Ports
+
+A port is numeric value assigned to a service. 
+
+How do services determine to which port to listen? It just to be in */etc/services*, however nowadays most services have this in their configuration file. Most defaults in the config files match the entry in */etc/services*
+
+1. ports 0-1023 are designated well known ports (know these ports):
+  1. **20 & 21**: FTP
+  2. **22**: SSH
+  3. **23**: Telnet
+  4. **25**: SMTP
+  5. **53**: DNS
+  6. **80**: HTTP
+  7. **110**: POP3
+  8. **123**: NTP
+  9. **139**: NETNIOS
+  10. **143**: IMAP
+  11. **161 & 162**: [SNMP](https://www.google.nl/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=SNMP)
+  12. **389**: LDAP
+  13. **443**: HTTPS
+  14. **465**: SMTPS
+  15. **514**: SYSLOG
+  16. **636**: LDAPS
+  17. **993**: IMAPS
+  18. **995**: POP3S
+2. ports 1024 - 49151 registered ports
+3. ports 49152 - 65535: dynamic ports (free to use)
+
+####IPv6
+
+You must know some IPv6 commands and the 4 big differences between IPv4 and IPv6:
+
+1. Address scheme. IPv6 uses a 128-bit number in hex notation. This allows for more numbers (biggest reason for IPv6, however due to NAT the number of effective computers connected to the internet via IPv4 is increased)
+2. Routing is more efficient
+3. Security builtin and not an afterthought
+4. Autoconfigure for IP address assigning
+5. The beginning of a packet is a header and for IPv6 this is way more robust
+
+###Managing Interfaces
+
+For the exam, you must be able to configure interfaces from the command line.
+
+`l0`means loopback 0, a way to bound an IP(127.0.0.1) to an interface
+
+Many of the commands we will take a look at have an equivalent form in the `ip` command
+
+#####`ifconfig`
+
+`ifconfig [OPTIONS]`
+
+By default ifconfig shows you all the active interfaces (**including l0**)). What is in the output:
+
+1. ether (Mac address)
+2. inet (IPv4 address)
+3. broadcast address
+4. netmask
+5. RX is received
+6. TX is transmitted
+
+If on the exam you this screen output, you **must** use it.
+
+Alternative: `ip addr show`
+
+####Red Hat Config (not in exam, study as last)
+
+*/etc/sysconfig/network-scripts/ifcfg-eth0* is a startup script for an interface. Example:
+
+```
+DEVICE="eth0"
+BOOTPROTO="dhcp"
+ONBOOT="yes"
+TYPE="Ethernet"
+USERCTL="yes"
+PEERDNS="yes"
+IPV6INIT="no"
+PERSISTENT_DHCLIENT="1"
+```
+
+Run `service network restart` to load the changes
+
+####Debian Interface Configuration
+
+*/etc/network/interfaces* holds the config file for the interfaces for Debian. Note however that some Debian-based distro's also have files in */etc/sysconfig/network-scripts/ifcfg-eth0 and per distro it differs which one should be altered.
+
+###Viewing and Configuring Gateway Addresses
+
+####Viewing Gateway Addresses
+
+`route` or `netstat -r`
+
+```
+$ netstat -rn
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+192.168.1.0     0.0.0.0         255.255.255.0   U         0 0          0 eth0
+169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0
+0.0.0.0         192.168.1.254   0.0.0.0         UG        0 0          0 eth0
+
+This is saying that for each of the network destinations (192.168.1.0 or 169.254.0.0) that the default gateway is the 0.0.0.0 destination, if a packet is NOT destined for any address within that particular network. For the 0.0.0.0 destination, use the IP address 192.168.1.254.
+```
+
+1. `0.0.0.0` in the Gateway column means there is none, (because directly connected)
+2. `0.0.0.0` in the Destination column means it is the default
+
+[See what 0.0.0.0 means in the output](http://unix.stackexchange.com/questions/94018/what-is-the-meaning-of-0-0-0-0-as-a-gateway) and [here](http://superuser.com/questions/872479/what-does-0-0-0-0-gateway-mean-in-routing-table)
