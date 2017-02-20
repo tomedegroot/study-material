@@ -114,3 +114,33 @@ Using this library is the new way, using `tcpd` is the old way (p.581)
 1. Deny by default: add `ALL: ALL` in */etc/hosts.deny* and only allow access from some hosts in */etc/hosts.allow*
 2. Allow all: don't make a */etc/hosts.allow* file
 
+See p.584 for diagrams on security
+
+####Using Rule Options
+
+On the end of the line you can place options. 3 point out:
+
+1. `severity auth.info` -> log the blocked host
+2. `twist COMMAND` -> boobytrap the service by outputting the result of a different command. Example `twist echo "je moeder"`
+3. `spawn COMMAND` -> do allow access, but execute a command (such as emailing info)
+
+###Understanding Permission Problems
+
+[Full info](https://github.com/tomedegroot/study-material/blob/d3a578dcf62640c07b03e4314886a552c2b394f2/LPIC101/managingFilesInLinux.md)
+
+
+The setuid, setgid, and sticky bit can be set using chmod where:
+
+```
+1 = sticky bit, files in folder with this bit can only by deleted by its owner
+2 = SGID, execute program as the group or if on dir, new files in that dir inherit ownership
+4 = SUID, execute program as the owner
+```
+For example to set the setuid bit along with permissions 766:
+
+`chmod 4766 filename`
+
+And to search:
+
+`find -perm +7000` to find files where all of perm bit set and use `find -perm /7000` to find files where any of the named perm bits are set.
+
