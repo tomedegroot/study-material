@@ -200,3 +200,8 @@ To login: `ssh -l tom REMOTEHOST`
 See p. 596 for notes on how to log in without a password
 
 To generate a key: `ssh-keygen -b 1024 -t rsa`
+
+##Special Commands
+
+1. See which users are using a file: `fuser FILEORSOCKER`
+2. List open files: `lsof`
