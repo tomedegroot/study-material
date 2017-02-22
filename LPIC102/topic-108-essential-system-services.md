@@ -186,8 +186,8 @@ So you have 'timestamp hostname username: message'
 
 Possible options:
 
-1. `-i` -> send the pid
-2. `-p FACILITY.SEVERITY` -> send the facility and the severity
+1. `-i` -> send the pid **m** pId
+2. `-p FACILITY.SEVERITY` -> send the facility and the severity **m**: Priority
 
 ####configuring `syslogd`
 
