@@ -140,14 +140,14 @@ server 0.centos.pool.ntp.org iburst
 
 Syslog severities (level. tag: meaning), (**know the level and their meaning**), (p.509):
 
-0. emerg: emergency
-1. alert: alert
-2. crit: critical
-3. err: error
-4. warn: warning
-5. notice: notice
-6. info: informational
-7. debug: debug 
+- 0: emerg: emergency
+- 1: alert: alert
+- 2: crit: critical
+- 3: err: error
+- 4: warn: warning
+- 5: notice: notice
+- 6: info: informational
+- 7: debug: debug 
 
 Syslog facilities(tag:type):
 
