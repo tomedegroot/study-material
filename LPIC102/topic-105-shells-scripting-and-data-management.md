@@ -86,7 +86,8 @@ Sourcing a files executes it in the current environment and doesn't create a sep
 $ echo $1
 a
 $ echo ${10}
-j```
+j
+```
 
 Why `${10}`? -> so the shell doesn't expand $1 to 'a' so you would get 'a0'. 2 takeaways:
 
@@ -303,7 +304,7 @@ Users get the system timezone by default. They can override it by setting the $T
 ####Other tools for setting the timezone
 
 1. `tzselect`
-2. `tzconfig` -> set */etc/localtime* for you
+2. `tzconfig` -> **GUI** to set */etc/localtime* for you
 3. `dpkf-reconfigure tzdata` -> set */etc/localtime* for you
 
 To get the timezone in a word, some distros have additional files:
