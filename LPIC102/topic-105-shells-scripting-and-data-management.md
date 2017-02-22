@@ -82,7 +82,8 @@ Sourcing a files executes it in the current environment and doesn't create a sep
   2. `set -C or `set -o noclobber` don't overwrite existing files with redirects To revert: `set +o noclobber`
 3. Assign positional parameters: 
 
-```$ set a b c d e f g h i j k l m
+```
+$ set a b c d e f g h i j k l m
 $ echo $1
 a
 $ echo ${10}
