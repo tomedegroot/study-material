@@ -239,7 +239,7 @@ See p.552 for a diagram how hostname resolving works. In short:
   2. Then dns
   3. The nis
 2. The file you need to know for local resolving is: */etc/hosts*
-3. If there is no entry in */etc/hosts*, dns will be used (see step 1). For dns, the file */etc/resolvconf* to find dns servers and queries the first server
+3. If there is no entry in */etc/hosts*, dns will be used (see step 1). For dns, the file */etc/resolv.conf* to find dns servers and queries the first server (structure of lines in the file: `nameserver ipaddress`)
 4. If that fails a NIS server will be queried (this last step seems inlikely, you don't need to know what nis server is)
 
 **Note fo exam**: if a resolution is nmade, the host does not query further. So a usual question is troubleshooting after switching to DNS for name resolution
@@ -288,9 +288,10 @@ Alternative: `ip addr show`
 
 Used for name lookups. You must know all the tools
 
-1. `host HOST` -> Do a DNS lookup (so this ignores files on the system as */etc/hosts*)
+1. `host HOST [SERVER]` -> Do a DNS lookup (so this ignores files on the system as */etc/hosts*). If `[SERVER]` is omitted, it will use the server from */etc/resolv.conf*
 2. `getent` -> uses */etc/nsswitch.conf* to determine the search order.
-3. `dig` -> use this to **only do a dns query**
+3. `dig` -> use this to **only do a dns query** and you can specify the server
+  1. `dig [@server] name [type]` and the type can be anywhere after the `dig` command
 
 #####`dig`
 
