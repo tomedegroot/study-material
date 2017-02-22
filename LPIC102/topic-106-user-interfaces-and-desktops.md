@@ -138,6 +138,8 @@ Is monitor that provides Braille output
 
 ###Screen Magnifier
 
+`kmag`
+
 ###Onscreen Keyboard
 
 Example: GNONE's GOK
