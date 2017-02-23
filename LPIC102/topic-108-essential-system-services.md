@@ -586,10 +586,10 @@ All these configs edit the */etc/cups/cupsd.conf*
 
 The most important config files for cupsd (all in */etc/cups/*)
 
-1. *classes.conf* -> holds the classes (groups) of printers. [Jobs send to a class are forwarded to the first available printer in that class.](https://opensource.apple.com/source/cups/cups-23/doc/sam.shtml#PRINTER_CLASSES)
-2. *cupsd.conf* -> main config file. Editable via the web 
-3. *cupsd.conf.default* -> if you mess up *cupsd.conf* use this one to restore
-4. *printers.conf*-> conf file for each printer on the system
-5. *ppd/* -> a dir with all the postscript description files 
+1. *cupsd.conf* -> main config file. Editable via the web
+2. *cupsd.conf.default* -> if you mess up *cupsd.conf* use this one to restore
+3. *printers.conf*-> conf file for each printer on the system
+4. *classes.conf* -> holds the classes (groups) of printers. [Jobs send to a class are forwarded to the first available printer in that class.](https://opensource.apple.com/source/cups/cups-23/doc/sam.shtml#PRINTER_CLASSES)
+5. *ppd/* -> a dir with all the postscript description files
 
 
