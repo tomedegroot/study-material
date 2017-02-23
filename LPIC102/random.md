@@ -4,7 +4,20 @@
   1. Who logged in
   2. Host of the logged in users
   3. Reboot
-2. 
+2. The `last` command uses the */var/log/wtmp* file for getting the data
+3. */etc/issue* -> show this message when a user logs in
+4. `who` -> only show who is logged in
+5. `w` -> show:
+  1. who is logged
+  2. what they are doing
+  3. the session time
+
+##DNS
+
+1. `getent` -> uses */etc/nsswitch.conf* to determine the search order. (so if can use */etc/hosts*)
+2. `host HOST [SERVER]` -> Do a DNS lookup (so this ignores files on the system as */etc/hosts*). If `[SERVER]` is omitted, it will use the server from */etc/resolv.conf*
+3. `dig` -> use this to **only do a dns query** and you can specify the server
+  1. `dig [@server] name [type]` and the type can be anywhere after the `dig` command
 
 ##Configs
 
