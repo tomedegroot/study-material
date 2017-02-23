@@ -47,6 +47,10 @@
 
 1. */etc/ntp.conf*
 
+###login
+
+1. */etc/nologin* -> if exist, no one but the root can login
+
 ###logging
 
 1. */etc/[r]syslog.conf*
