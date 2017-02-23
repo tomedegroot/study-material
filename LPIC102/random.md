@@ -18,6 +18,14 @@
 2. `host HOST [SERVER]` -> Do a DNS lookup (so this ignores files on the system as */etc/hosts*). If `[SERVER]` is omitted, it will use the server from */etc/resolv.conf*
 3. `dig` -> use this to **only do a dns query** and you can specify the server
   1. `dig [@server] name [type]` and the type can be anywhere after the `dig` command
+
+Structure of */etc/hosts*:
+
+```
+192.168.0.1 www.coolblue.nl
+```
+
+So first IP, then domain name
   
 ##anacron
 
