@@ -11,6 +11,7 @@
   1. who is logged
   2. what they are doing
   3. the session time
+6. Query the local user database: `getent passwd student`
 
 ##DNS
 
