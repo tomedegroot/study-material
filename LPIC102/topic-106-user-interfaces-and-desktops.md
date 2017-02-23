@@ -54,7 +54,9 @@ So in short, if you are in X you need to add `CRTL` to switch between
 
 ###X Server Config
 
-1. */etc/X11/xorg.conf*, however This is old, [nowadays X will load the files in */usr/lib/X11/xorg.conf.d/*](https://wiki.ubuntu.com/X/Config). Use `X -configure` to make a config files:
+1. */etc/X11/xorg.conf.d*
+2. */usr/share/X11/xorg.conf.d*
+3. Use `X -configure` to make a config files:
 
 Sections in a X config files: (see p. 403)
 
@@ -74,7 +76,7 @@ You can uset a system font server for fonts called `xfs`. The benefit of this se
 FontPath "unix/:7100" [or "unix:/:-1"]
 ```
 
-In X server config (such as */usr/lib/X11/xorg.conf.d/*)
+In X server config (such as */usr/share/X11/xorg.conf.d/*)
 
 ###xhost
 
