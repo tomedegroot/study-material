@@ -238,7 +238,7 @@ See p.552 for a diagram how hostname resolving works. In short:
   1. First look at local files
   2. Then dns
   3. The nis
-2. The file you need to know for local resolving is: */etc/hosts*
+2. The file you need to know for local resolving is: */etc/hosts* (structure: `IPADDRESS HOST`, so: `192.168.0.1 www.coolblue.nl`)
 3. If there is no entry in */etc/hosts*, dns will be used (see step 1). For dns, the file */etc/resolv.conf* to find dns servers and queries the first server (structure of lines in the file: `nameserver ipaddress`)
 4. If that fails a NIS server will be queried (this last step seems inlikely, you don't need to know what nis server is)
 
