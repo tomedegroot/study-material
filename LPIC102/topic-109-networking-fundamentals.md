@@ -340,7 +340,11 @@ Based on a line of output you need to be able to determine what is the local add
 
 ####ping
 
-Know `ping6 HOST` which is just like ping, but then voor IPv6.
+Know `ping6 HOST` which is just like ping, but then voor IPv6. And from the ping manual:
+
+```
+ping uses the ICMP protocol's mandatory ECHO_REQUEST
+```
 
 ####traceroute
 
