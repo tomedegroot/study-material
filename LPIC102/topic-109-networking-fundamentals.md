@@ -288,8 +288,8 @@ Alternative: `ip addr show`
 
 Used for name lookups. You must know all the tools
 
-1. `host HOST [SERVER]` -> Do a DNS lookup (so this ignores files on the system as */etc/hosts*). If `[SERVER]` is omitted, it will use the server from */etc/resolv.conf*
-2. `getent` -> uses */etc/nsswitch.conf* to determine the search order.
+1. `getent` -> uses */etc/nsswitch.conf* to determine the search order. (so if can use */etc/hosts*)
+2. `host HOST [SERVER]` -> Do a DNS lookup (so this ignores files on the system as */etc/hosts*). If `[SERVER]` is omitted, it will use the server from */etc/resolv.conf*
 3. `dig` -> use this to **only do a dns query** and you can specify the server
   1. `dig [@server] name [type]` and the type can be anywhere after the `dig` command
 
