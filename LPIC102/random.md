@@ -5,12 +5,12 @@
   2. Host of the logged in users
   3. Reboot
 2. The `last` command uses the */var/log/wtmp* file for getting the data
-3. */etc/issue* -> show this message when a user logs in
-4. `who` -> only show who is logged in
-5. `w` -> show:
+3. `who` -> only show who is logged in
+4. `w` -> show:
   1. who is logged
   2. what they are doing
   3. the session time
+5. */etc/issue* -> show this message when a user logs in  
 6. Query the local user database: `getent passwd student`
 7. `nmap -p20 localhost` -> see what service is running on port 20
 
