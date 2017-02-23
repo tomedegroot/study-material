@@ -471,6 +471,8 @@ Later, some companies came up with the Internet Printing Protocol (IPP)
 
 ###CUPS
 
+[Only do what is in the objectives](https://www.lpi.org/our-certifications/exam-102-objectives)
+
 The Common Unix Printing System (CUPS) is built around a daemon and has 2 responsibilities:
 
 1. Listen to print requests (coming in via LPR or IPP. LPR is translated to an IPP request) [Request come in on the line printer daemon and are send via lpr](http://www.computerhope.com/unix/ulpr.htm)
