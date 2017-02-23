@@ -471,7 +471,7 @@ Why anacron?
 
 Differences between cron and anacron:
 
-1. No command, everything is specified in */etc/anacrontab*
+1. Everything is specified in */etc/anacrontab*
 2. Everything is run as root
 3. Max granularity is 1 day instead of 1 minut
 4. Jobs are run consecutively
@@ -511,6 +511,12 @@ And just as with a crontab, env vars can be specified via key value pairs (`key=
 So in the example, the first line execute a job every day with a delay of five minutes and the job-identifier is cron.daily The command is `nice run-parts /etc/cron.daily`. `nice runs` commands at a lower priority and `run-parts` execute every file in a directory.
 
 So since anacron is responsible for executing the jobs in /etc/cron.daily, those jobs will also run if the system is turned off.
+
+####anacron command
+
+`anacron [OPTIONS]`
+1. `-u` -> don't do anything, but update the timestamps
+2. `-f` -> force execution and ignore the timestamps
 
 ###`at` and `batch`
 
