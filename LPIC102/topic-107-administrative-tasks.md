@@ -47,6 +47,8 @@ Each field in a passwd entry is separated with ":" colon characters, and are as 
 6. */etc/securetty* -> Specifies from which ttys the root user can login. If it does not exist, the root user can login from anywhere
 7. */etc/usertty* -> If a system doesn't have PAM (Pluggable Authentication Modules) this file is used to determine location, time, days and system users can login from.
 
+1. */etc/issue* -> show this message when a user logs in
+
 **Important** know what happens if these files are here or not and what kind of message the user sees when he logs in (p. 425)
 
 ####`useradd`
