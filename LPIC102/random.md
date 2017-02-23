@@ -12,6 +12,7 @@
   2. what they are doing
   3. the session time
 6. Query the local user database: `getent passwd student`
+7. `nmap -p20 localhost` -> see what service is running on port 20
 
 ##DNS
 
