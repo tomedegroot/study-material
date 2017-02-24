@@ -21,7 +21,7 @@
 1. `getent` -> uses */etc/nsswitch.conf* to determine the search order, this is the regular way. (so if can use */etc/hosts*)
 2. `host HOST [SERVER]` -> Do a DNS lookup(so this ignores files on the system as */etc/hosts*). If `[SERVER]` is omitted, it will use the server from */etc/resolv.conf* and it produces user friendly output.
 3. `dig` -> Same as `host`, but with more raw output.
-  1. `dig [@server] name [type]` and the type can be anywhere after the `dig` command
+  1. `dig [@server] name [type]` and the type can be anywhere after the `dig` command.
   
 ###Structure of */etc/hosts*:
 
@@ -42,7 +42,14 @@ nameserver 192.168.137.2
 ```
 
 The last directive has precendence
-  
+
+##getent
+
+1. `getent` -> Displays entries from databases
+2. `getent passwd username` -> Shows/etc/passwdentry
+3. `getent hosts` ->  Shows all hosts con gured
+4. `getent hosts localhost` -> Shows con guration for requested host
+
 ##anacron
 
 `anacron [OPTIONS]`
