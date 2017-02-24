@@ -14,6 +14,7 @@
 6. Query the local user database: `getent passwd student`
 7. `nmap -p20 localhost` -> see what service is running on port 20
 8. Default location of `journald` -> */run/log/journal*
+9. The command `mailq` looks at the queue in */var/spool/mqueue*
 
 ##DNS
 
