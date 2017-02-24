@@ -66,7 +66,7 @@ The last directive has precendence
 
 1. XDM, */usr/bin/xdm/*, */etc/X11/xdm/*
 2. KDM, */usr/bin/kdm/*, */etc/kde/kdm/*
-3. GDM, */usr/sbin/gdm/*, */etc/gdm/*
+3. GDM, */usr/sbin/gdm/*, */etc/gdm/custom.conf *
 
 ###Timezones
 
