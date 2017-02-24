@@ -13,21 +13,34 @@
 5. */etc/issue* -> show this message when a user logs in  
 6. Query the local user database: `getent passwd student`
 7. `nmap -p20 localhost` -> see what service is running on port 20
+8. Default location of `journald` -> */run/log/journal*
 
 ##DNS
 
-1. `getent` -> uses */etc/nsswitch.conf* to determine the search order. (so if can use */etc/hosts*)
-2. `host HOST [SERVER]` -> Do a DNS lookup (so this ignores files on the system as */etc/hosts*). If `[SERVER]` is omitted, it will use the server from */etc/resolv.conf*
-3. `dig` -> use this to **only do a dns query** and you can specify the server
+1. `getent` -> uses */etc/nsswitch.conf* to determine the search order, this is the regular way. (so if can use */etc/hosts*)
+2. `host HOST [SERVER]` -> Do a DNS lookup(so this ignores files on the system as */etc/hosts*). If `[SERVER]` is omitted, it will use the server from */etc/resolv.conf* and it produces user friendly output.
+3. `dig` -> Same as `host`, but with more raw output.
   1. `dig [@server] name [type]` and the type can be anywhere after the `dig` command
-
-Structure of */etc/hosts*:
+  
+###Structure of */etc/hosts*:
 
 ```
 192.168.0.1 www.coolblue.nl
 ```
 
 So first IP, then domain name
+  
+###Structue or */etc/resolv.conf*
+
+```
+search example.com local.lan
+nameserver 127.0.0.1
+nameserver 172.16.1.254
+nameserver 172.16.2.254
+nameserver 192.168.137.2
+```
+
+The last directive has precendence
   
 ##anacron
 
